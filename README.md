@@ -1,3 +1,3 @@
 # PlannerRoom
-Le deuxième projet de formation avec fonctionnalité Trello like
+Le deuxième projet de formation avec la fonctionnalité de Trello like
 
