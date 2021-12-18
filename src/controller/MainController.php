@@ -4,14 +4,14 @@
     use App\Core\Session;
     use App\Core\AbstractController as AC;
 
-    class HomeController extends AC
+    class MainController extends AC
     {
         public function __construct(){
         }
 
         public function index()
         {
-            return $this->render("home/dashboard.php", [
+            return $this->render("main/dashboard.php", [
                 "title" => "Dashboard"
             ]);
         }
