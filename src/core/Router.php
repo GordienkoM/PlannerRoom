@@ -3,7 +3,7 @@
 
     abstract class Router 
     {
-        private static $defaultCtrl = "home";
+        private static $defaultCtrl = "main";
 
         public static function CSRFProtection($token){
             if(!empty($_POST)){
