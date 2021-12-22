@@ -16,6 +16,11 @@
             parent::hydrate($data, $this);
         }
 
+        public function __toString()
+        {
+            return $this->nickname;
+        }
+
         /**
          * Get the value of id
          */ 

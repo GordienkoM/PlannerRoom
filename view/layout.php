@@ -28,7 +28,7 @@
                 <?php
                     if(Session::get("user")){
                         ?>
-                            <a href='?ctrl=security&action=profile'><?= Session::get("user")->getEmail() ?></a>
+                            <a href='?ctrl=security&action=profile&id=<?= Session::get("user")->getId() ?>'> Bonjour  <?= Session::get("user") ?></a>
                             <a href='?ctrl=security&action=logout'>Déconnexion</a>
                         <?php
                     }
@@ -49,7 +49,6 @@
             <?= $page //ici s'intègrera la page que le contrôleur aura renvoyé !!?> 
         </div>
     </main>
-
 
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit.min.js"></script>

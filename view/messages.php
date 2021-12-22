@@ -18,6 +18,22 @@
         
             <?php
         }
+
+        if($noticeMsgs = Session::getFlashes("notice")){
+            ?>
+            
+            <div class="uk-alert-warning" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <?php
+                    foreach($noticeMsgs as $msg){
+                        echo "<h4 class='uk-text-italic'>",$msg,"</h4>";
+                    }
+                ?>
+            </div>
+        
+            <?php
+        }
+
         if($errorMsgs = Session::getFlashes("error")){
             ?>
             

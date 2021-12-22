@@ -88,11 +88,101 @@
             return $this->render("user/register.php");
         }
 
-        public function profile(){
+        public function profile($id){
             if(Session::get("user")){
-                return $this->render("user/profile.php");
+                $user = $this->manager->getOneById($id);
+                return $this->render("user/profile.php", [
+                    "user" => $user,
+                    "title"    => $user
+                ]);
             }
             Session::addFlash('error', 'Access denied !');
             return $this->redirectToRoute("main");
         }
+
+        public function changePassword($id)
+        {
+            if(Session::get("user")){
+
+                Session::set("editPassword", 1);
+                return $this->profile($id);
+            }  
+            else return $this->render("user/login.php", [
+                "title"    => "Connextion"
+            ]);
+        }
+
+
+        public function editPassword($id){
+
+            if(Session::get("user")){
+                if(Session::get("editPassword")){
+                    Session::remove("editPassword");
+                    if(isset($_POST["submit"])){
+
+                        $new_password = filter_input(INPUT_POST, "new_password", FILTER_VALIDATE_REGEXP, [
+                            "options" => [
+                                "regexp" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/"
+                                //au moins 6 caractères, MAJ, min et chiffre obligatoires
+                            ]
+                        ]);
+                        $old_password = filter_input(INPUT_POST, "old_password", FILTER_SANITIZE_STRING);
+
+                        if(password_verify($old_password, $this->manager->getPasswordById($id))){
+                            if($id && $new_password){ 
+                            $hash = password_hash($new_password, PASSWORD_ARGON2I);   
+                                if( $this->manager->upDatePassword($id, $hash) ){
+                                    Session::addFlash('success', "Le mot de pass était édité");
+                                }
+                                else{
+                                    Session::addFlash('error', "Une erreur est survenue, contactez l'administrateur...");
+                                }
+                            }
+                            else Session::addFlash('error', "Tous les champs doivent être remplis et respecter leur format...");
+                        }
+                        else Session::addFlash('error', "Le mot de passe est erroné");
+                    }
+                    else Session::addFlash('error', "Une erreur est survenue!");
+                }
+
+                return $this->profile($id);   
+            }  
+            else return $this->render("user/login.php", [
+                "title"    => "Connextion"
+            ]);
+        }
+
+
+        public function cancelPassword($id)
+        {
+            if(Session::get("user")){
+
+                Session::remove("editPassword");
+                return $this->profile($id);
+            }  
+            else return $this->render("user/login.php", [
+                "title"    => "Connextion"
+            ]);
+        }
+
+        public function editNickname($id)
+        {
+            if(Session::get("user")){
+                return $this->profile($id);
+            }  
+            else return $this->render("user/login.php", [
+                "title"    => "Connextion"
+            ]);
+        }
+
+        public function editEmail($id)
+        {
+            if(Session::get("user")){
+                return $this->profile($id);
+            }  
+            else return $this->render("user/login.php", [
+                "title"    => "Connextion"
+            ]);
+        }
+        
     }

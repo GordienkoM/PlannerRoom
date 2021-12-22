@@ -10,12 +10,22 @@ class UserAppManager extends AM implements ManagerInterface
         parent::connect();
     }
 
+
     public function getAll(){
-        return;
+        return $this->getResults(
+            "App\Model\Entity\UserApp",
+            "SELECT * FROM userApp"
+        );
     }
 
     public function getOneById($id){
-        return;
+        return $this->getOneOrNullResult(
+            "App\Model\Entity\UserApp",
+            "SELECT * FROM userApp WHERE id = :num", 
+            [
+                "num" => $id
+            ]
+        );
     }
 
     public function insertUser($nickname, $mail, $pass){
@@ -44,6 +54,38 @@ class UserAppManager extends AM implements ManagerInterface
             "SELECT password FROM userApp WHERE email = :mail",
             [
                 "mail" => $mail
+            ]
+        );
+    }
+
+    function getPasswordById($id){
+        return $this->getOneValue(
+            "SELECT password FROM userApp WHERE id = :id",
+            [
+                "id" => $id
+            ]
+        );
+    }
+
+
+    public function deleteUser($id){
+        return $this->executeQuery( 
+            "DELETE FROM userApp WHERE id = :id",
+            [
+                "id" => $id 
+            ]
+        );
+    }
+
+    public function updatePassword($id, $new_password){
+        
+        return $this->executeQuery( 
+            "UPDATE userApp
+            SET password = :password
+            WHERE id = :id",
+            [
+                "password" => $new_password,
+                "id" => $id
             ]
         );
     }
