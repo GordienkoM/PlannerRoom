@@ -80,11 +80,31 @@ class UserAppManager extends AM implements ManagerInterface
     public function updatePassword($id, $new_password){
         
         return $this->executeQuery( 
-            "UPDATE userApp
-            SET password = :password
-            WHERE id = :id",
+            "UPDATE userApp SET password = :password WHERE id = :id",
             [
                 "password" => $new_password,
+                "id" => $id
+            ]
+        );
+    }
+
+    public function updateNickname($id, $nickname){
+        
+        return $this->executeQuery( 
+            "UPDATE userApp SET nickname = :nickname WHERE id = :id",
+            [
+                "nickname" => $nickname,
+                "id" => $id
+            ]
+        );
+    }
+
+    public function updateEmail($id, $email){
+        
+        return $this->executeQuery( 
+            "UPDATE userApp SET email = :email WHERE id = :id",
+            [
+                "email" => $email,
                 "id" => $id
             ]
         );

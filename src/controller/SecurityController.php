@@ -37,7 +37,7 @@
                     }
                     else Session::addFlash('error', "E-mail inconnu !");
                 }
-                else Session::addFlash('error', "Tous les champs sont obligatoires et doivent respecter...");
+                else Session::addFlash('error', "Tous les champs sont obligatoires et doivent respecter");
 
             }
 
@@ -56,8 +56,8 @@
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
                 $password = filter_input(INPUT_POST, "password", FILTER_VALIDATE_REGEXP, [
                     "options" => [
-                        "regexp" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/"
-                        //au moins 6 caractères, MAJ, min et chiffre obligatoires
+                        "regexp" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/"
+                        //au moins 8 caractères, MAJ, min et chiffre obligatoires
                     ]
                 ]);
                 $password_repeat = filter_input(INPUT_POST, "password_repeat", FILTER_DEFAULT);
@@ -69,18 +69,18 @@
                             $hash = password_hash($password, PASSWORD_ARGON2I);
 
                             if($this->manager->insertUser($nickname, $email, $hash)){
-                                Session::addFlash('success', "Inscription réussie, connectez-vous !");
+                                Session::addFlash('success', "Inscription réussie, connectez-vous");
                                 
                                 return $this->redirectToRoute("security", "login");
                             }
-                            else Session::addFlash('error', "Une erreur est survenue...");
+                            else Session::addFlash('error', "Une erreur est survenue");
                         }
                         else{
                             Session::addFlash('error', "Les mots de passe ne correspondent pas !");
                             Session::addFlash('notice', "Tapez les mêmes mots de passe dans les deux champs !");
                         }
                     }
-                    else Session::addFlash('error', "Cette adresse mail est déjà liée à un compte...");
+                    else Session::addFlash('error', "Cette adresse mail est déjà liée à un compte");
                 }
                 else Session::addFlash('notice', "Les champs saisis ne respectent pas les valeurs attendues !");
             }
@@ -91,27 +91,17 @@
         public function profile($id){
             if(Session::get("user")){
                 $user = $this->manager->getOneById($id);
-                return $this->render("user/profile.php", [
-                    "user" => $user,
-                    "title"    => $user
-                ]);
+                //vérification que l'utilisateur en session est le proproétaire de page
+                if(Session::get("user")->getId() == $user->getId()){
+                    return $this->render("user/profile.php", [
+                        "user" => $user,
+                        "title"    => $user
+                    ]);
+                }
             }
             Session::addFlash('error', 'Access denied !');
             return $this->redirectToRoute("main");
         }
-
-        public function changePassword($id)
-        {
-            if(Session::get("user")){
-
-                Session::set("editPassword", 1);
-                return $this->profile($id);
-            }  
-            else return $this->render("user/login.php", [
-                "title"    => "Connextion"
-            ]);
-        }
-
 
         public function editPassword($id){
 
@@ -122,8 +112,8 @@
 
                         $new_password = filter_input(INPUT_POST, "new_password", FILTER_VALIDATE_REGEXP, [
                             "options" => [
-                                "regexp" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/"
-                                //au moins 6 caractères, MAJ, min et chiffre obligatoires
+                                "regexp" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/"
+                                //au moins 8 caractères, MAJ, min et chiffre obligatoires
                             ]
                         ]);
                         $old_password = filter_input(INPUT_POST, "old_password", FILTER_SANITIZE_STRING);
@@ -135,16 +125,18 @@
                                     Session::addFlash('success', "Le mot de pass était édité");
                                 }
                                 else{
-                                    Session::addFlash('error', "Une erreur est survenue, contactez l'administrateur...");
+                                    Session::addFlash('error', "Une erreur est survenue");
                                 }
                             }
-                            else Session::addFlash('error', "Tous les champs doivent être remplis et respecter leur format...");
+                            else Session::addFlash('error', "Tous les champs doivent être remplis et respecter leur format");
                         }
                         else Session::addFlash('error', "Le mot de passe est erroné");
                     }
-                    else Session::addFlash('error', "Une erreur est survenue!");
+                    else Session::addFlash('error', "Une erreur est survenue");
+                }else{
+                    Session::set("editPassword", 1);
+                    return $this->profile($id);
                 }
-
                 return $this->profile($id);   
             }  
             else return $this->render("user/login.php", [
@@ -168,6 +160,40 @@
         public function editNickname($id)
         {
             if(Session::get("user")){
+                if(Session::get("editNickname")){
+                    Session::remove("editNickname");
+                    if(isset($_POST["submit"])){
+                        $nickname = filter_input(INPUT_POST, "nickname", FILTER_SANITIZE_STRING);
+                        
+                        if($id && $nickname){ 
+                            
+                            if($this->manager->updateNickname($id, $nickname)){
+                                Session::addFlash('success', "Le pseudo était édité");
+                            }
+                            else{
+                                Session::addFlash('error', "Une erreur est survenue");
+                            }
+                        }
+                        else Session::addFlash('error', "Le champ doit être rempli et respecter son format");
+                        
+                    }
+                    else Session::addFlash('error', "Une erreur est survenue");
+                }else{
+                    Session::set("editNickname", 1);
+                    return $this->profile($id);
+                }
+                return $this->profile($id);   
+            }  
+            else return $this->render("user/login.php", [
+                "title"    => "Connextion"
+            ]);
+        }
+
+        public function cancelNickname($id)
+        {
+            if(Session::get("user")){
+
+                Session::remove("editNickname");
                 return $this->profile($id);
             }  
             else return $this->render("user/login.php", [
@@ -178,11 +204,46 @@
         public function editEmail($id)
         {
             if(Session::get("user")){
-                return $this->profile($id);
+                if(Session::get("editEmail")){
+                    Session::remove("editEmail");
+                    if(isset($_POST["submit"])){
+                        $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
+                        
+                        if($id && $email){ 
+                            if(!$this->manager->getUserByEmail($email)){
+                                if($this->manager->updateEmail($id, $email)){
+                                    Session::addFlash('success', "L'email était édité");
+                                }
+                                else{
+                                    Session::addFlash('error', "Une erreur est survenue");
+                                }
+                            }
+                            else Session::addFlash('error', "Cette adresse mail est déjà liée à un compte");    
+                        }
+                        else Session::addFlash('error', "Le champ doit être rempli et respecter son format");
+                        
+                    }
+                    else Session::addFlash('error', "Une erreur est survenue");
+                }else{
+                    Session::set("editEmail", 1);
+                    return $this->profile($id);
+                }
+                return $this->profile($id);   
             }  
             else return $this->render("user/login.php", [
                 "title"    => "Connextion"
             ]);
         }
         
+        public function cancelEmail($id)
+        {
+            if(Session::get("user")){
+
+                Session::remove("editEmail");
+                return $this->profile($id);
+            }  
+            else return $this->render("user/login.php", [
+                "title"    => "Connextion"
+            ]);
+        }
     }
