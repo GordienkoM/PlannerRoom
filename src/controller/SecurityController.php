@@ -15,7 +15,8 @@
          * 
          * @return mixed the render of the login view or a Router redirect (if login action succeeded)
          */
-        public function login(){
+        // login
+        public function index(){
             if(isset($_POST["submit"])){
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
                 $password = filter_input(INPUT_POST, "password", FILTER_VALIDATE_REGEXP, [
@@ -47,7 +48,7 @@
         public function logout(){
             Session::remove("user");
             Session::addFlash('success', "Déconnexion réussie, à bientôt !");
-            return $this->redirectToRoute("main");
+            return $this->redirectToRoute("security");
         }
 
         public function register(){
@@ -100,7 +101,7 @@
                 }
             }
             Session::addFlash('error', 'Access denied !');
-            return $this->redirectToRoute("main");
+            return $this->redirectToRoute("security");
         }
 
         public function editPassword($id){
@@ -139,9 +140,7 @@
                 }
                 return $this->profile($id);   
             }  
-            else return $this->render("user/login.php", [
-                "title"    => "Connextion"
-            ]);
+            return $this->redirectToRoute("security");
         }
 
 
@@ -152,9 +151,7 @@
                 Session::remove("editPassword");
                 return $this->profile($id);
             }  
-            else return $this->render("user/login.php", [
-                "title"    => "Connextion"
-            ]);
+            return $this->redirectToRoute("security");
         }
 
         public function editNickname($id)
@@ -184,9 +181,7 @@
                 }
                 return $this->profile($id);   
             }  
-            else return $this->render("user/login.php", [
-                "title"    => "Connextion"
-            ]);
+            return $this->redirectToRoute("security");
         }
 
         public function cancelNickname($id)
@@ -196,9 +191,7 @@
                 Session::remove("editNickname");
                 return $this->profile($id);
             }  
-            else return $this->render("user/login.php", [
-                "title"    => "Connextion"
-            ]);
+            return $this->redirectToRoute("security");
         }
 
         public function editEmail($id)
@@ -230,9 +223,7 @@
                 }
                 return $this->profile($id);   
             }  
-            else return $this->render("user/login.php", [
-                "title"    => "Connextion"
-            ]);
+            return $this->redirectToRoute("security");
         }
         
         public function cancelEmail($id)
@@ -242,8 +233,6 @@
                 Session::remove("editEmail");
                 return $this->profile($id);
             }  
-            else return $this->render("user/login.php", [
-                "title"    => "Connextion"
-            ]);
+            return $this->redirectToRoute("security");
         }
     }

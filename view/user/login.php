@@ -2,7 +2,7 @@
     Connectez-vous
 </h1>
 
-<form action="?ctrl=security&action=login" method="post">
+<form action="?ctrl=security" method="post">
     <div class="uk-margin">
         <label for="mail">Votre email : </label><br>
         <input  class="uk-input uk-form-width-large"type="email" name="email" id="mail" required>

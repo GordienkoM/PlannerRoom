@@ -2,7 +2,7 @@
 <h1>
     Inscrivez-vous
 </h1>
-<form id = "inscriptionForm" action="?ctrl=security&action=register" method="post">
+<form action="?ctrl=security&action=register" method="post">
     <div class="uk-margin">
         <label for="nickname">Votre pseudo : </label><br>
         <input class="uk-input uk-form-width-large" type="text" name="nickname" id="nickname" required>
