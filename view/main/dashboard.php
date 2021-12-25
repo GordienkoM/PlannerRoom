@@ -1,10 +1,9 @@
 <?php
 use App\Core\Session;
 
-$user = $data['user'];
-// $table = $data['table'];
-
+// $tables = $data['tables'];
 ?>
+
 <div class="uk-flex uk-flex-between uk-padding uk-padding-remove-horizontal">
     <h1>Liste des tableaux</h1>
     <div> 
@@ -17,7 +16,7 @@ $user = $data['user'];
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <h2 class="uk-modal-title">Nouveau tableau</h2>
-            <form action="?ctrl=main&action=addTable&id=<?= $user->getId() ?>" method="post">
+            <form action="?ctrl=main&action=addTable" method="post">
                 <div class="uk-margin">
                     <label for="title">Titre de tableau : </label><br>
                     <input class="uk-input" type="text" name="title" id="title" required>
