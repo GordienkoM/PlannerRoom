@@ -20,9 +20,34 @@ class TableAppManager extends AM implements ManagerInterface
     public function getOneById($id){
         return $this->getOneOrNullResult(
             "App\Model\Entity\TableApp",
-            "SELECT * FROM tableApp WHERE id = :num", 
+            "SELECT * FROM tableApp WHERE id = :id", 
             [
-                "num" => $id
+                "id" => $id
+            ]
+        );
+    }
+
+    public function getTableIdsByUser($id){
+        return $this->getValues(
+            "SELECT tableApp_id FROM tableApp t, userApp u, participation p WHERE u.id = p.userApp_id AND t.id = p.tableApp_id AND p.userApp_id = :id",
+            [
+                "id" => $id 
+            ]
+        );
+    }
+
+    public function getParticipantsByTable($table_id){
+        return $this->getResults(
+            "App\Model\Entity\UserApp",
+            "SELECT * FROM userApp 
+            WHERE id IN
+            (SELECT p.userApp_id 
+            FROM tableApp t, userApp u, participation p
+            WHERE u.id = p.userApp_id
+            AND t.id = p.tableApp_id
+            AND p.tableApp_id = :table_id)", 
+            [
+                "table_id" => $table_id
             ]
         );
     }

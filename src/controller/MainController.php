@@ -17,9 +17,19 @@
         {
             if(Session::get("user")){
                 $user_id =  Session::get("user")->getId();
-                $user = $this->userManager->getOneById($user_id);
+                $tables = [];
+                $table_ids = $this->tableManager->getTableIdsByUser($user_id);
+                if($table_ids){
+                    foreach($table_ids as $table_id){
+                        $table_id = $table_id['tableApp_id'];
+                        $table = $this->tableManager->getOneById($table_id);                   
+                        $participants = $this->tableManager->getParticipantsByTable($table_id);
+                        $table->setParticipants($participants);
+                        $tables[] = $table;
+                    }
+                }    
                 return $this->render("main/dashboard.php", [
-                    "user" => $user,
+                    "tables" => $tables,
                     "title" => "Dashboard"
                 ]);
             }

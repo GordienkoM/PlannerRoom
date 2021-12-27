@@ -100,6 +100,11 @@
             return $stmt->fetchColumn();
         }
 
+        protected function getValues($query, $params = null){
+            $stmt = self::makeQuery($query, $params);
+            return $stmt->fetchAll();
+        }
+
         protected function getLastInsertId(){
             return self::$bdd->lastInsertId();
         }

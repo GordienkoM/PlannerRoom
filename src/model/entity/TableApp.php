@@ -10,6 +10,7 @@
         private $title;
         private $description;
         private $userApp;
+        private $participants;
 
         public function __construct($data){
             parent::hydrate($data, $this);
@@ -100,4 +101,24 @@
                 return $this;
         }
 
+
+        /**
+         * Get the value of participants
+         */ 
+        public function getParticipants()
+        {
+                return $this->participants;
+        }
+
+        /**
+         * Set the value of participants
+         *
+         * @return  self
+         */ 
+        public function setParticipants($participants)
+        {
+                $this->participants = $participants;
+
+                return $this;
+        }
     }

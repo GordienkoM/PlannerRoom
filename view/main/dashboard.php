@@ -1,7 +1,7 @@
 <?php
 use App\Core\Session;
 
-// $tables = $data['tables'];
+$tables = $data['tables'];
 ?>
 
 <div class="uk-flex uk-flex-between uk-padding uk-padding-remove-horizontal">
@@ -33,5 +33,51 @@ use App\Core\Session;
             </form>
         </div>
     </div>
-
 </div>
+
+<table class='uk-table uk-table-hover uk-table-divider'>
+    <thead>
+        <tr>
+            <th>Nom de tableau</th>
+            <th>Description</th>
+            <th>Gestionnaire</th>
+            <th>Participants</th>
+            <th>Je souhaite..</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            foreach($tables as $table){
+        ?>       
+        <tr>
+            <td><?=  $table->getTitle() ?></td>
+            <td><?=  $table->getDescription() ?></td>
+            <td><?=  $table->getUserApp() ?></td>
+            <td>
+            <?php
+                foreach($table->getParticipants() as $participant){
+            ?> 
+                <div><?=  $participant ?></div>
+            <?php
+            }
+            ?>
+            </td>
+            <td>
+            <?php
+                if(Session::get("user")->getId() == $table->getUserApp()->getId()){
+                ?>
+                    <a href="">Supprimer le tableau</a>
+                <?php
+                } else { 
+                ?>  
+                    <a href="">Quitter le tableau</a>
+                <?php
+                }
+                ?> 
+            </td>
+        </tr>
+        <?php
+        }
+        ?>
+    </tbody>
+</table>
