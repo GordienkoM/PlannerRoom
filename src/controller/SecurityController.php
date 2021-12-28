@@ -10,24 +10,21 @@
         public function __construct(){
             $this->manager = new UserAppManager();
         }
-        /**
-         * display the login form or compute the login action with post data
-         * 
-         * @return mixed the render of the login view or a Router redirect (if login action succeeded)
-         */
-        // login
+
+        // display the login form or compute the login action with post data
         public function index(){
             if(isset($_POST["submit"])){
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
                 $password = filter_input(INPUT_POST, "password", FILTER_VALIDATE_REGEXP, [
                     "options" => [
+                        // at least 8 characters, SHIFT, min and number obligatory
                         "regexp" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/"
-                        //au moins 8 caractères, MAJ, min et chiffre obligatoires
                     ]
                 ]);
 
                 if($email && $password){
-                    if($user = $this->manager->getUserByEmail($email)){//on récupère l'user si l'email saisi correspond en BDD
+                    // get the user if the entered email corresponds the database
+                    if($user = $this->manager->getUserByEmail($email)){
                         if(password_verify($password, $this->manager->getPasswordByEmail($email))){
                             Session::set("user", $user);
                             Session::addFlash('success', "Bienvenue !");
@@ -39,9 +36,7 @@
                     else Session::addFlash('error', "E-mail inconnu !");
                 }
                 else Session::addFlash('error', "Tous les champs sont obligatoires et doivent respecter");
-
             }
-
             return $this->render("user/login.php");
         }
 
@@ -57,8 +52,8 @@
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
                 $password = filter_input(INPUT_POST, "password", FILTER_VALIDATE_REGEXP, [
                     "options" => [
+                        // at least 8 characters, SHIFT, min and number obligatory
                         "regexp" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/"
-                        //au moins 8 caractères, MAJ, min et chiffre obligatoires
                     ]
                 ]);
                 $password_repeat = filter_input(INPUT_POST, "password_repeat", FILTER_DEFAULT);
@@ -72,7 +67,7 @@
                             if($this->manager->insertUser($nickname, $email, $hash)){
                                 Session::addFlash('success', "Inscription réussie, connectez-vous");
                                 
-                                return $this->redirectToRoute("security", "login");
+                                return $this->redirectToRoute("security");
                             }
                             else Session::addFlash('error', "Une erreur est survenue");
                         }
@@ -92,7 +87,7 @@
         public function profile($id){
             if(Session::get("user")){
                 $user = $this->manager->getOneById($id);
-                //vérification que l'utilisateur en session est le proproétaire de page
+                // check that the user in session is the page owner
                 if(Session::get("user")->getId() == $user->getId()){
                     return $this->render("user/profile.php", [
                         "user" => $user,
@@ -134,10 +129,8 @@
                         else Session::addFlash('error', "Le mot de passe est erroné");
                     }
                     else Session::addFlash('error', "Une erreur est survenue");
-                }else{
-                    Session::set("editPassword", 1);
-                    return $this->profile($id);
                 }
+                else Session::set("editPassword", 1);
                 return $this->profile($id);   
             }  
             return $this->redirectToRoute("security");
@@ -171,14 +164,11 @@
                                 Session::addFlash('error', "Une erreur est survenue");
                             }
                         }
-                        else Session::addFlash('error', "Le champ doit être rempli et respecter son format");
-                        
+                        else Session::addFlash('error', "Le champ doit être rempli et respecter son format");                       
                     }
                     else Session::addFlash('error', "Une erreur est survenue");
-                }else{
-                    Session::set("editNickname", 1);
-                    return $this->profile($id);
                 }
+                else Session::set("editNickname", 1);
                 return $this->profile($id);   
             }  
             return $this->redirectToRoute("security");
@@ -201,7 +191,7 @@
                     Session::remove("editEmail");
                     if(isset($_POST["submit"])){
                         $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
-                        
+             
                         if($id && $email){ 
                             if(!$this->manager->getUserByEmail($email)){
                                 if($this->manager->updateEmail($id, $email)){
@@ -213,14 +203,11 @@
                             }
                             else Session::addFlash('error', "Cette adresse mail est déjà liée à un compte");    
                         }
-                        else Session::addFlash('error', "Le champ doit être rempli et respecter son format");
-                        
+                        else Session::addFlash('error', "Le champ doit être rempli et respecter son format");                        
                     }
                     else Session::addFlash('error', "Une erreur est survenue");
-                }else{
-                    Session::set("editEmail", 1);
-                    return $this->profile($id);
                 }
+                else Session::set("editEmail", 1);
                 return $this->profile($id);   
             }  
             return $this->redirectToRoute("security");

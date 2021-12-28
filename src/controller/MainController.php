@@ -15,16 +15,24 @@
 
         public function index()
         {
+            // check if user is logged in
             if(Session::get("user")){
                 $user_id =  Session::get("user")->getId();
+                // array of tables
                 $tables = [];
+                // get table ids where user is a participant
                 $table_ids = $this->tableManager->getTableIdsByUser($user_id);
                 if($table_ids){
+                    // for each id
                     foreach($table_ids as $table_id){
                         $table_id = $table_id['tableApp_id'];
-                        $table = $this->tableManager->getOneById($table_id);                   
+                        // get table as an object
+                        $table = $this->tableManager->getOneById($table_id);
+                        // get array of participants for a table                   
                         $participants = $this->tableManager->getParticipantsByTable($table_id);
+                        // add array of participants in a table
                         $table->setParticipants($participants);
+                        // add a table in array of tables
                         $tables[] = $table;
                     }
                 }    
