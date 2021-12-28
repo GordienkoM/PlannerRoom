@@ -73,4 +73,13 @@ class TableAppManager extends AM implements ManagerInterface
             ]
         );
     }
+
+    public function deleteTable($id){
+        return $this->executeQuery( 
+            "DELETE FROM tableApp WHERE id = :id",
+            [
+                "id" => $id 
+            ]
+        );
+    }
 }

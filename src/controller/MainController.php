@@ -63,4 +63,23 @@
             }
             return $this->redirectToRoute("security");                           
         }
+
+        public function delTable($id){
+            
+            if(Session::get("user")){
+
+                $table = $this->tableManager->getOneById($id); 
+                if($table){
+                    if(Session::get("user")->getId() == $table->getUserApp()->getId()){  
+                        if($this->tableManager->deleteTable($id)){
+                            Session::addFlash('success', "Le tableau est suprimé");
+                        }
+                        else{
+                            Session::addFlash('error', "Une erreur est survenue");
+                        }                       
+                    }
+                }return $this->redirectToRoute("main");    
+            }           
+            return $this->redirectToRoute("security");
+        }
     }

@@ -66,11 +66,11 @@ $tables = $data['tables'];
             <?php
                 if(Session::get("user")->getId() == $table->getUserApp()->getId()){
                 ?>
-                    <a href="">Supprimer le tableau</a>
+                    <a href="?ctrl=forum&action=delTable&id=<?=  $table->getId() ?>">Supprimer le tableau</a>
                 <?php
                 } else { 
                 ?>  
-                    <a href="">Quitter le tableau</a>
+                    <a href="?ctrl=forum&action=delParticipant&id=<?=  $table->getId() ?>">Quitter le tableau</a>
                 <?php
                 }
                 ?> 
