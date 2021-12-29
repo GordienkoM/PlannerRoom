@@ -13,8 +13,7 @@
             $this->tableManager = new TableAppManager();
         }
 
-        public function index()
-        {
+        public function index(){
             // check if user is logged in
             if(Session::get("user")){
                 $user_id =  Session::get("user")->getId();
@@ -41,7 +40,6 @@
                     "title" => "Dashboard"
                 ]);
             }
-            Session::addFlash('error', 'Access denied !');
             return $this->redirectToRoute("security");
         }
 
@@ -55,6 +53,7 @@
                     $description = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
                     
                     if($title && $description){
+
                         $table_id = $this->tableManager->insertTable($title, $description, $user_id);                    
                         if($table_id && $this->tableManager->insertParticipation($table_id, $user_id)){
                             Session::addFlash('success', "Le tableau est ajouté");
@@ -90,4 +89,36 @@
             }           
             return $this->redirectToRoute("security");
         }
+
+        public function showTable($id){
+            if(Session::get("user")){
+                // get table as an object
+                $table = $this->tableManager->getOneById($id);
+                // get array of participants for a table                   
+                $participants = $this->tableManager->getParticipantsByTable($id);
+                
+                //check if the logged in user is one of the table participants
+                $isParticipant = false;
+                foreach($participants as $participant){
+                    if ($participant->getId() ==  Session::get("user")->getId()){
+                        $isParticipant = true;
+                    } 
+                }
+
+                if ($isParticipant){
+                    // add array of participants in a table
+                    $table->setParticipants($participants);    
+                    return $this->render("main/table.php", [
+                        "table" => $table,
+                        "title" => $table
+                    ]);
+                }else{
+                    Session::addFlash('error', 'Accès refusé !');
+                    redirectToRoute("security", );
+                }   
+            }          
+            return $this->redirectToRoute("security");
+        }
+
+
     }

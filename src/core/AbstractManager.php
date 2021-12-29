@@ -7,6 +7,7 @@
 
         protected function connect(){
             //se connecter à MySQL
+            
             self::$bdd = new \PDO(
                 DB_HOST,
                 DB_USER,
@@ -54,7 +55,6 @@
             foreach($stmt->fetchAll() as $data){
                 $results[] = new $classname($data);
             }
-
             return $results;
         }
 

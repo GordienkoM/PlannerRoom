@@ -95,7 +95,6 @@
                     ]);
                 }
             }
-            Session::addFlash('error', 'Access denied !');
             return $this->redirectToRoute("security");
         }
 

@@ -50,7 +50,9 @@ $tables = $data['tables'];
             foreach($tables as $table){
         ?>       
         <tr>
-            <td><?=  $table->getTitle() ?></td>
+            <td>
+                <a href="?ctrl=forum&action=showTable&id=<?=  $table->getId() ?>"><?=  $table ?></a>
+            </td>
             <td><?=  $table->getDescription() ?></td>
             <td><?=  $table->getUserApp() ?></td>
             <td>
@@ -59,7 +61,7 @@ $tables = $data['tables'];
             ?> 
                 <div><?=  $participant ?></div>
             <?php
-            }
+                }
             ?>
             </td>
             <td>
@@ -77,7 +79,7 @@ $tables = $data['tables'];
             </td>
         </tr>
         <?php
-        }
+            }
         ?>
     </tbody>
 </table>

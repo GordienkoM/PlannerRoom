@@ -21,6 +21,11 @@
             return $this->nickname;
         }
 
+        public function getFirstLetter()
+        {
+            return substr($this->nickname, 0, 1);
+        }
+
         /**
          * Get the value of id
          */ 
