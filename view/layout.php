@@ -50,7 +50,7 @@
     <div class="uk-margin-small-top"><?php include("messages.php"); ?></div>
 
     <!-- Integration of the page that the controller sends -->
-    <div class="uk-container">
+    <div>
         <?= $page ?> 
     </div>
 
