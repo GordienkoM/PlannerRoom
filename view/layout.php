@@ -17,6 +17,8 @@
     <title>Planner room<?= $title ? " - ".$title : "" ?></title>
 </head>
 <body> 
+
+    <!-- Navigation -->
     <nav class="uk-navbar-container" uk-navbar>
         <a class="uk-navbar-item uk-logo" href="?ctrl=home">Planner Room</a>
         <div class="uk-navbar-right">
@@ -43,12 +45,14 @@
             </ul>
         </div>  
     </nav>
+
+    <!-- Display of error, success and notice messages -->
     <div class="uk-margin-small-top"><?php include("messages.php"); ?></div>
-    <main class="uk-container" >
-        <div>
-            <?= $page //ici s'intègrera la page que le contrôleur aura renvoyé !!?> 
-        </div>
-    </main>
+
+    <!-- Integration of the page that the controller sends -->
+    <div class="uk-container">
+        <?= $page ?> 
+    </div>
 
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit.min.js"></script>
