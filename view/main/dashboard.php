@@ -1,6 +1,7 @@
 <?php
 use App\Core\Session;
 
+$invitations = $data['invitations'];
 $tables = $data['tables'];
 ?>
 
@@ -9,7 +10,7 @@ $tables = $data['tables'];
     <!-- creation of a table  -->
 
     <div class="uk-flex uk-flex-between uk-padding uk-padding-remove-horizontal">
-        <h1>Liste des tableaux</h1>
+        <h1>Dashboard</h1>
         <div> 
             <!-- table creation  button with an anchor toggling the modal -->            
             <a class="uk-button uk-button-secondary" href="#modal-create-table" uk-toggle>Créer un tableau</a>           
@@ -39,55 +40,76 @@ $tables = $data['tables'];
         </div>
     </div>
 
-    <!-- Table of tables where user participates -->
+    <!-- Display invitations -->
 
-    <table class='uk-table uk-table-hover uk-table-divider'>
-        <thead>
-            <tr>
-                <th>Nom de tableau</th>
-                <th>Description</th>
-                <th>Gestionnaire</th>
-                <th>Participants</th>
-                <th>Je souhaite..</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-                foreach($tables as $table){
-            ?>       
-            <tr>
-                <td>
-                    <a href="?ctrl=forum&action=showTable&id=<?=  $table->getId() ?>"><?=  $table ?></a>
-                </td>
-                <td><?=  $table->getDescription() ?></td>
-                <td><?=  $table->getUserApp() ?></td>
-                <td>
+    <?php
+        if($invitations){
+            foreach($invitations as $invitation){
+    ?>
+            <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-margin-bottom">
+                <h2 class="uk-card-title">invitation</h2>
+                <p><?=  $invitation->getTableApp()->getUserApp() ?> vous invite à participer au tableau "<?=  $invitation->getTableApp() ?>"</p>
+            </div>
+    <?php
+            }
+        } 
+    ?> 
+
+    <!-- Table of tables where user participates -->
+    <?php
+        if( !empty($tables) ){
+    ?>
+        <h2>Liste des tableaux</h2>
+        <table class='uk-table uk-table-hover uk-table-divider'>
+            <thead>
+                <tr>
+                    <th>Nom de tableau</th>
+                    <th>Description</th>
+                    <th>Gestionnaire</th>
+                    <th>Participants</th>
+                    <th>Je souhaite..</th>
+                </tr>
+            </thead>
+            <tbody>
                 <?php
-                    foreach($table->getParticipants() as $participant){
-                ?> 
-                    <div><?=  $participant ?></div>
+                    foreach($tables as $table){
+                ?>       
+                <tr>
+                    <td>
+                        <a href="?ctrl=forum&action=showTable&id=<?=  $table->getId() ?>"><?=  $table ?></a>
+                    </td>
+                    <td><?=  $table->getDescription() ?></td>
+                    <td><?=  $table->getUserApp() ?></td>
+                    <td>
+                    <?php
+                        foreach($table->getParticipants() as $participant){
+                    ?> 
+                        <div><?=  $participant ?></div>
+                    <?php
+                        }
+                    ?>
+                    </td>
+                    <td>
+                    <?php
+                        //check if logged in user is table admin
+                        if(Session::get("user")->getId() == $table->getUserApp()->getId()){
+                    ?>
+                        <a href="?ctrl=forum&action=delTable&id=<?=  $table->getId() ?>">Supprimer le tableau</a>
+                    <?php
+                        } else { 
+                    ?>  
+                        <a href="?ctrl=forum&action=delParticipant&id=<?=  $table->getId() ?>">Quitter le tableau</a>
+                    <?php
+                        }
+                    ?> 
+                    </td>
+                </tr>
                 <?php
                     }
                 ?>
-                </td>
-                <td>
-                <?php
-                    //check if logged in user is table admin
-                    if(Session::get("user")->getId() == $table->getUserApp()->getId()){
-                ?>
-                    <a href="?ctrl=forum&action=delTable&id=<?=  $table->getId() ?>">Supprimer le tableau</a>
-                <?php
-                    } else { 
-                ?>  
-                    <a href="?ctrl=forum&action=delParticipant&id=<?=  $table->getId() ?>">Quitter le tableau</a>
-                <?php
-                    }
-                ?> 
-                </td>
-            </tr>
-            <?php
-                }
-            ?>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    <?php
+        } 
+    ?> 
 </div>

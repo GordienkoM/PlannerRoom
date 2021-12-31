@@ -88,6 +88,17 @@ class TableAppManager extends AM implements ManagerInterface
             ]
         );
     }
+
+    public function getInvitationsByUser($user_id){
+        return $this->getResults(
+            "App\Model\Entity\Invitation",
+            "SELECT * FROM invitation  WHERE userApp_id = :user_id", 
+            [
+                "user_id" => $user_id
+            ]
+        );
+    }
+
     public function deleteTable($id){
         return $this->executeQuery( 
             "DELETE FROM tableApp WHERE id = :id",

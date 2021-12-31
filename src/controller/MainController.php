@@ -17,6 +17,8 @@
             // check if user is logged in
             if(Session::get("user")){
                 $user_id =  Session::get("user")->getId();
+                // array of invitations
+                $invitations = $this->tableManager->getInvitationsByUser($user_id);
                 // array of tables
                 $tables = [];
                 // get table ids where user is a participant
@@ -36,6 +38,7 @@
                     }
                 }    
                 return $this->render("main/dashboard.php", [
+                    "invitations" => $invitations,
                     "tables" => $tables,
                     "title" => "Dashboard"
                 ]);
