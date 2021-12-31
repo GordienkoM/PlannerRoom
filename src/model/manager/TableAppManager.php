@@ -39,13 +39,7 @@ class TableAppManager extends AM implements ManagerInterface
     public function getParticipantsByTable($table_id){
         return $this->getResults(
             "App\Model\Entity\UserApp",
-            "SELECT * FROM userApp 
-            WHERE id IN
-            (SELECT p.userApp_id 
-            FROM tableApp t, userApp u, participation p
-            WHERE u.id = p.userApp_id
-            AND t.id = p.tableApp_id
-            AND p.tableApp_id = :table_id)", 
+            "SELECT * FROM userApp WHERE id IN (SELECT p.userApp_id FROM tableApp t, userApp u, participation p WHERE u.id = p.userApp_id AND t.id = p.tableApp_id AND p.tableApp_id = :table_id)", 
             [
                 "table_id" => $table_id
             ]
@@ -74,6 +68,26 @@ class TableAppManager extends AM implements ManagerInterface
         );
     }
 
+
+    public function insertInvitation($table_id, $user_id){
+        return $this->executeQuery( 
+            "INSERT INTO invitation (tableApp_id, userApp_id) VALUES (:tableApp_id, :userApp_id)",
+            [
+                "tableApp_id"  => $table_id,
+                "userApp_id" => $user_id
+            ]
+        );
+    }
+
+    public function isInvitation($table_id, $user_id){
+        return $this->getOneValue( 
+            "SELECT 1 FROM invitation WHERE tableApp_id = :tableApp_id AND userApp_id = :userApp_id",
+            [
+                "tableApp_id"  => $table_id,
+                "userApp_id" => $user_id
+            ]
+        );
+    }
     public function deleteTable($id){
         return $this->executeQuery( 
             "DELETE FROM tableApp WHERE id = :id",

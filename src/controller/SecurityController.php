@@ -25,6 +25,7 @@
                 if($email && $password){
                     // get the user if the entered email corresponds the database
                     if($user = $this->manager->getUserByEmail($email)){
+                        // verify that the password is correct (password_verify — verifies that a password matches a hash)
                         if(password_verify($password, $this->manager->getPasswordByEmail($email))){
                             Session::set("user", $user);
                             Session::addFlash('success', "Bienvenue !");

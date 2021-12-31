@@ -77,6 +77,7 @@
 
                 $table = $this->tableManager->getOneById($id); 
                 if($table){
+                    //check that the logged in user is the table admin
                     if(Session::get("user")->getId() == $table->getUserApp()->getId()){  
                         if($this->tableManager->deleteTable($id)){
                             Session::addFlash('success', "Le tableau est suprimé");
@@ -114,9 +115,43 @@
                     ]);
                 }else{
                     Session::addFlash('error', 'Accès refusé !');
-                    redirectToRoute("security", );
+                    redirectToRoute("security", "logout");
                 }   
             }          
+            return $this->redirectToRoute("security");
+        }
+
+        public function createInvitation(){
+            if(isset($_POST["submit"])){
+                $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+                $table_id = filter_input(INPUT_POST, "table_id", FILTER_SANITIZE_STRING);
+                if($email && $table_id){
+                    // get the user if the entered email corresponds the database
+                    $user = $this->userManager->getUserByEmail($email);
+                    $table = $this->tableManager->getOneById($table_id);
+                    if($user){
+                        $user_id = $user->getId();
+                        //check that the logged in user is the table admin
+                        if(Session::get("user")->getId() == $table->getUserApp()->getId()){
+                            if(!$this->tableManager->isInvitation($table_id, $user_id)){
+                                if($this->tableManager->insertInvitation($table_id, $user_id)){
+                                    Session::addFlash('success', "L'utilisateur est invité");
+                                }
+                                else{
+                                    Session::addFlash('error', "Une erreur est survenue");
+                                }
+                            }
+                            else Session::addFlash('error', "L'utilisateur était déjà invité et il n'est pas encore repondu");     
+                        }
+                        else Session::addFlash('error', "Le mot de passe est erroné");
+                    }
+                    else Session::addFlash('error', "Il n'y a pas d'utilisateur avec cet email");
+                }
+                else Session::addFlash('error', "Le champ doit être remplis correctement");
+
+                $params = ['id' => $table_id];
+                return $this->redirectToRoute("main", "showTable", $params);
+            }
             return $this->redirectToRoute("security");
         }
 

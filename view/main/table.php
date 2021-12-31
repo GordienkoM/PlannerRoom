@@ -41,21 +41,22 @@ $table = $data['table'];
         ?>
         </div>
         <div> 
-        <!-- This is an anchor toggling the modal -->            
+        <!-- invitation button with an anchor toggling the modal -->            
             <a class="uk-button uk-button-default uk-margin-right" href="#modal-invite-participant" uk-toggle>Inviter un participant</a>           
         </div>
 
-        <!-- This is the modal -->
+        <!-- invitation form (modal) -->
         <div id="modal-invite-participant" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
                 <button class="uk-modal-close-default" type="button" uk-close></button>
-                <h2 class="uk-modal-title">Invitation d'un participant</h2>
+                <h2 class="uk-modal-title uk-text-center">Invitation d'un participant dans le tableau "<?= $table->getTitle() ?>"</h2>
                 <form action="?ctrl=main&action=createInvitation" method="post">
                     <div>
                         <label for="mail">Email : </label><br>
                         <input class="uk-input uk-form-width-large" type="email" name="email" id="mail" placeholder="Entrez l'email d'utilisateur à inviter" required>
                     </div>
                     <div class="uk-margin-top">
+                        <input type="hidden" name="table_id" value="<?= $table->getId() ?>">
                         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                         <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
                         <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
@@ -69,11 +70,11 @@ $table = $data['table'];
 <div class="uk-flex uk-flex-between uk-padding uk-padding-remove-horizontal">
     <div></div>
     <div> 
-        <!-- This is an anchor toggling the modal -->            
-        <a class="uk-button uk-button-secondary" href="#modal-create-list" uk-toggle>Créer une liste</a>           
+        <!-- list create button with an anchor toggling the modal -->            
+        <a class="uk-button uk-button-secondary uk-margin-right" href="#modal-create-list" uk-toggle>Créer une liste</a>           
     </div>
 
-    <!-- This is the modal -->
+    <!-- list create form (modal) -->
     <div id="modal-create-list" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" type="button" uk-close></button>
