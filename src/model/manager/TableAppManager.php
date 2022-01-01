@@ -62,7 +62,7 @@ class TableAppManager extends AM implements ManagerInterface
         return $this->executeQuery( 
             "INSERT INTO participation (tableApp_id, userApp_id) VALUES (:tableApp_id, :userApp_id)",
             [
-                "tableApp_id"  => $table_id,
+                "tableApp_id" => $table_id,
                 "userApp_id" => $user_id
             ]
         );
@@ -73,7 +73,7 @@ class TableAppManager extends AM implements ManagerInterface
         return $this->executeQuery( 
             "INSERT INTO invitation (tableApp_id, userApp_id) VALUES (:tableApp_id, :userApp_id)",
             [
-                "tableApp_id"  => $table_id,
+                "tableApp_id" => $table_id,
                 "userApp_id" => $user_id
             ]
         );
@@ -83,7 +83,7 @@ class TableAppManager extends AM implements ManagerInterface
         return $this->getOneValue( 
             "SELECT 1 FROM invitation WHERE tableApp_id = :tableApp_id AND userApp_id = :userApp_id",
             [
-                "tableApp_id"  => $table_id,
+                "tableApp_id" => $table_id,
                 "userApp_id" => $user_id
             ]
         );
@@ -104,6 +104,16 @@ class TableAppManager extends AM implements ManagerInterface
             "DELETE FROM tableApp WHERE id = :id",
             [
                 "id" => $id 
+            ]
+        );
+    }
+
+    public function deleteInvitation($table_id, $user_id){
+        return $this->executeQuery( 
+            "DELETE FROM invitation WHERE tableApp_id = :tableApp_id AND userApp_id = :userApp_id",
+            [
+                "tableApp_id" => $table_id,
+                "userApp_id" => $user_id
             ]
         );
     }

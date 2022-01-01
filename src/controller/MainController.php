@@ -95,6 +95,7 @@
         }
 
         public function showTable($id){
+
             if(Session::get("user")){
                 // get table as an object
                 $table = $this->tableManager->getOneById($id);
@@ -125,6 +126,7 @@
         }
 
         public function createInvitation(){
+
             if(isset($_POST["submit"])){
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
                 $table_id = filter_input(INPUT_POST, "table_id", FILTER_SANITIZE_STRING);
@@ -158,5 +160,18 @@
             return $this->redirectToRoute("security");
         }
 
-
+        public function delInvitation($id){ 
+                       
+            if(Session::get("user")){
+                $user_id = Session::get("user")->getId();
+                if($this->tableManager->deleteInvitation($id, $user_id)){
+                    Session::addFlash('success', "L'invitation est suprimé");
+                }
+                else{
+                    Session::addFlash('error', "Une erreur est survenue");
+                }
+                return $this->redirectToRoute("main");    
+            }           
+            return $this->redirectToRoute("security");
+        }
     }

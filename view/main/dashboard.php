@@ -47,8 +47,12 @@ $tables = $data['tables'];
             foreach($invitations as $invitation){
     ?>
             <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-margin-bottom">
-                <h2 class="uk-card-title">invitation</h2>
+                <h2 class="uk-card-title">Invitation</h2>
                 <p><?=  $invitation->getTableApp()->getUserApp() ?> vous invite à participer au tableau "<?=  $invitation->getTableApp() ?>"</p>
+                <div class="uk-flex uk-margin">
+                    <div><a class="uk-button uk-button-default uk-margin-right" href="?ctrl=main&action=delInvitation&id=<?= $invitation->getTableApp()->getId() ?>">Refuser</a></div>
+                    <div><a class="uk-button uk-button-secondary" href="?ctrl=main&action=acceptInvitation&id=<?= $invitation->getTableApp()->getId() ?>">Accepter</a></div>
+                </div>
             </div>
     <?php
             }
@@ -78,8 +82,8 @@ $tables = $data['tables'];
                     <td>
                         <a href="?ctrl=forum&action=showTable&id=<?=  $table->getId() ?>"><?=  $table ?></a>
                     </td>
-                    <td><?=  $table->getDescription() ?></td>
-                    <td><?=  $table->getUserApp() ?></td>
+                    <td><?= $table->getDescription() ?></td>
+                    <td><?= $table->getUserApp() ?></td>
                     <td>
                     <?php
                         foreach($table->getParticipants() as $participant){
@@ -94,11 +98,11 @@ $tables = $data['tables'];
                         //check if logged in user is table admin
                         if(Session::get("user")->getId() == $table->getUserApp()->getId()){
                     ?>
-                        <a href="?ctrl=forum&action=delTable&id=<?=  $table->getId() ?>">Supprimer le tableau</a>
+                        <a href="?ctrl=forum&action=delTable&id=<?= $table->getId() ?>">Supprimer le tableau</a>
                     <?php
                         } else { 
                     ?>  
-                        <a href="?ctrl=forum&action=delParticipant&id=<?=  $table->getId() ?>">Quitter le tableau</a>
+                        <a href="?ctrl=forum&action=delParticipant&id=<?= $table->getId() ?>">Quitter le tableau</a>
                     <?php
                         }
                     ?> 
