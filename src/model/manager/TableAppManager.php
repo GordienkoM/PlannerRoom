@@ -120,7 +120,7 @@ class TableAppManager extends AM implements ManagerInterface
 
     public function acceptInvitation($table_id, $user_id){     
         try{
-            // Début de la transaction (START)
+            // Start of the transaction  
             self::$db->beginTransaction();
 
             // Insert participation
@@ -141,10 +141,10 @@ class TableAppManager extends AM implements ManagerInterface
                 ]
                 );
                 
-            // Enregistrement (END)    
+            // Record     
             self::$db->commit();                    
         } catch (Exception $e){
-            // Annulation (END)
+            // Cancellation 
             self::$db->rollBack(); 
             return false;       
         }
