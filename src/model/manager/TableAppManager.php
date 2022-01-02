@@ -117,4 +117,38 @@ class TableAppManager extends AM implements ManagerInterface
             ]
         );
     }
+
+    public function acceptInvitation($table_id, $user_id){     
+        try{
+            // Début de la transaction (START)
+            self::$db->beginTransaction();
+
+            // Insert participation
+            $this->executeQuery( 
+                "INSERT INTO participation (tableApp_id, userApp_id) VALUES (:tableApp_id, :userApp_id)",
+                [
+                    "tableApp_id" => $table_id,
+                    "userApp_id" => $user_id
+                ]
+            );
+
+            // Delete invitation
+            $this->executeQuery( 
+                "DELETE FROM invitation WHERE tableApp_id = :tableApp_id AND userApp_id = :userApp_id",
+                [
+                    "tableApp_id" => $table_id,
+                    "userApp_id" => $user_id
+                ]
+                );
+                
+            // Enregistrement (END)    
+            self::$db->commit();                    
+        } catch (Exception $e){
+            // Annulation (END)
+            self::$db->rollBack(); 
+            return false;       
+        }
+        return true;
+
+    }
 }

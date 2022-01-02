@@ -148,7 +148,7 @@
                             }
                             else Session::addFlash('error', "L'utilisateur était déjà invité et il n'est pas encore repondu");     
                         }
-                        else Session::addFlash('error', "Le mot de passe est erroné");
+                        else Session::addFlash('error', "Vous n'avez pas de droit d'inviter dans ce tableau");
                     }
                     else Session::addFlash('error', "Il n'y a pas d'utilisateur avec cet email");
                 }
@@ -160,8 +160,23 @@
             return $this->redirectToRoute("security");
         }
 
-        public function delInvitation($id){ 
+        public function acceptInvitation($id){ 
                        
+            if(Session::get("user")){
+                $user_id = Session::get("user")->getId();
+                if($this->tableManager->acceptInvitation($id, $user_id)){
+                    Session::addFlash('success', "Vous avez accepté l'invitation et vous participez dans un nouveau tableau");
+                }
+                else{
+                    Session::addFlash('error', "Une erreur est survenue");
+                }
+                return $this->redirectToRoute("main");    
+            }           
+            return $this->redirectToRoute("security");
+        }
+
+        public function delInvitation($id){ 
+
             if(Session::get("user")){
                 $user_id = Session::get("user")->getId();
                 if($this->tableManager->deleteInvitation($id, $user_id)){

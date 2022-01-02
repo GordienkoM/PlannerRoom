@@ -3,16 +3,17 @@
 
     abstract class AbstractManager
     {
-        protected static $bdd;
+        protected static $db;
 
         protected function connect(){
             //se connecter à MySQL
             
-            self::$bdd = new \PDO(
+            self::$db = new \PDO(
                 DB_HOST,
                 DB_USER,
                 DB_PASS,
                 [
+                    // PHP will throw a PDOexception if an error occurs
                     \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
                     \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
                     \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
@@ -30,11 +31,11 @@
          */
         private static function makeQuery($query, $params = null){
             if($params){
-                $statement = self::$bdd->prepare($query);
+                $statement = self::$db->prepare($query);
                 $statement->execute($params);
             }
             else{
-                $statement = self::$bdd->query($query);
+                $statement = self::$db->query($query);
             }
 
             return $statement;
@@ -106,6 +107,6 @@
         }
 
         protected function getLastInsertId(){
-            return self::$bdd->lastInsertId();
+            return self::$db->lastInsertId();
         }
     }
