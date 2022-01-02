@@ -40,30 +40,40 @@ $table = $data['table'];
             }
         ?>
         </div>
-        <div> 
-        <!-- invitation button with an anchor toggling the modal -->            
-            <a class="uk-button uk-button-default uk-margin-right" href="#modal-invite-participant" uk-toggle>Inviter un participant</a>           
-        </div>
 
-        <!-- invitation form (modal) -->
-        <div id="modal-invite-participant" uk-modal>
-            <div class="uk-modal-dialog uk-modal-body">
-                <button class="uk-modal-close-default" type="button" uk-close></button>
-                <h2 class="uk-modal-title uk-text-center">Invitation d'un participant dans le tableau "<?= $table->getTitle() ?>"</h2>
-                <form action="?ctrl=main&action=createInvitation" method="post">
-                    <div>
-                        <label for="mail">Email : </label><br>
-                        <input class="uk-input uk-form-width-large" type="email" name="email" id="mail" placeholder="Entrez l'email d'utilisateur à inviter" required>
-                    </div>
-                    <div class="uk-margin-top">
-                        <input type="hidden" name="table_id" value="<?= $table->getId() ?>">
-                        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                        <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
-                        <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
-                    </div>  
-                </form>
+        <!-- invitation  -->
+
+        <?php
+            //check if the logged in user is the table admin
+            if(Session::get("user")->getId() == $table->getUserApp()->getId()){
+        ?>
+            <!-- invitation button with an anchor toggling the modal --> 
+            <div>                
+                <a class="uk-button uk-button-default uk-margin-right" href="#modal-invite-participant" uk-toggle>Inviter un participant</a>           
             </div>
-        </div>
+
+            <!-- invitation form (modal) -->
+            <div id="modal-invite-participant" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                    <h2 class="uk-modal-title uk-text-center">Invitation d'un participant dans le tableau "<?= $table->getTitle() ?>"</h2>
+                    <form action="?ctrl=main&action=createInvitation" method="post">
+                        <div>
+                            <label for="mail">Email : </label><br>
+                            <input class="uk-input uk-form-width-large" type="email" name="email" id="mail" placeholder="Entrez l'email d'utilisateur à inviter" required>
+                        </div>
+                        <div class="uk-margin-top">
+                            <input type="hidden" name="table_id" value="<?= $table->getId() ?>">
+                            <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                            <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
+                            <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                        </div>  
+                    </form>
+                </div>
+            </div>
+        <?php
+            }
+        ?>             
     </div>
 </nav>
 
