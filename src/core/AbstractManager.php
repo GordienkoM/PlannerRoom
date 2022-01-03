@@ -1,24 +1,34 @@
 <?php
     namespace App\Core;
 
-    abstract class AbstractManager
+use Exception;
+use PDOException;
+
+abstract class AbstractManager
     {
         protected static $db;
 
         protected function connect(){
             //se connecter à MySQL
-            
-            self::$db = new \PDO(
-                DB_HOST,
-                DB_USER,
-                DB_PASS,
-                [
-                    // PHP will throw a PDOexception if an error occurs
-                    \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
-                ]
-            );
+            try {
+                self::$db = new \PDO(
+                    DB_HOST,
+                    DB_USER,
+                    DB_PASS,
+                    [
+                        // PHP will throw a PDOexception if an error occurs
+                        \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+                        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+                    ]
+                );
+            } catch (PDOException $e){
+                if ( APP_ENV === "prod"){
+                // Session::addFlash('error', "Une erreur est survenue");
+                echo "Une erreur est survenue";
+                die();
+                };
+            }
         }
 
         /**
@@ -32,7 +42,11 @@
         private static function makeQuery($query, $params = null){
             if($params){
                 $statement = self::$db->prepare($query);
-                $statement->execute($params);
+                $executeResult = $statement->execute($params);
+
+                if(!$executeResult) {
+                    throw new Exception('PDOStatement execute returns null');
+                }
             }
             else{
                 $statement = self::$db->query($query);

@@ -1,17 +1,19 @@
 <?php
-//CLE SECRETE
+// ENVIRONMENT
+    define ("APP_ENV", "prod"); //"dev" and "prod"
+// SECRET KEY
     define("SECRET", "this_is_a_secret");
-//BASE DE DONNEES
-    //hôte de connexion à la base de données
+//DATABASE
+    // database connection host
     define("DB_HOST", "mysql:host=localhost:3306;dbname=planner_room");
-    //nom d'utilisateur du serveur de base de données
+    // username of the database server
     define("DB_USER", "root");
-    //mot de passe de l'utilisateur du serveur de base de données
+    // password of the database server user
     define("DB_PASS", "");
 
 //CHEMINS GLOBAUX//
-    //chemin des fichiers CSS
+    // path of the CSS file
     define("CSS_PATH", "./public/css");
-    //chemin des images
+    // image path
     define("IMG_PATH", "./public/images");
     

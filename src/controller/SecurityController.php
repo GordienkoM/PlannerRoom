@@ -222,4 +222,11 @@
             }  
             return $this->redirectToRoute("security");
         }
+
+        public function getError(){
+
+            return $this->render("user/error.php", [
+                "title"    => "error"
+            ]);
+        }
     }

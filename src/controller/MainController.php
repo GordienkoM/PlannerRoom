@@ -119,7 +119,7 @@
                     ]);
                 }else{
                     Session::addFlash('error', 'Accès refusé !');
-                    redirectToRoute("security", "logout");
+                    $this->redirectToRoute("security", "logout");
                 }   
             }          
             return $this->redirectToRoute("security");

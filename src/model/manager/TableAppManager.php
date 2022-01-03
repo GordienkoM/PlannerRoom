@@ -3,6 +3,7 @@ namespace App\Model\Manager;
 
 use App\Core\AbstractManager as AM;
 use App\Core\ManagerInterface;
+use PDOException;
 
 class TableAppManager extends AM implements ManagerInterface
 {
@@ -110,7 +111,7 @@ class TableAppManager extends AM implements ManagerInterface
 
     public function deleteInvitation($table_id, $user_id){
         return $this->executeQuery( 
-            "DELETE FROM invitation WHERE tableApp_id = :tableApp_id AND userApp_id = :userApp_id",
+            "DELETE FROM invitaton WHERE tableApp_id = :tableApp_id AND userApp_id = :userApp_id",
             [
                 "tableApp_id" => $table_id,
                 "userApp_id" => $user_id
@@ -143,7 +144,7 @@ class TableAppManager extends AM implements ManagerInterface
                 
             // Record     
             self::$db->commit();                    
-        } catch (Exception $e){
+        } catch (\Exception $e){
             // Cancellation 
             self::$db->rollBack(); 
             return false;       
