@@ -11,6 +11,8 @@ class TableAppManager extends AM implements ManagerInterface
         parent::connect();
     }
 
+    // get functions
+
     public function getAll(){
         return $this->getResults(
             "App\Model\Entity\TableApp",
@@ -46,6 +48,18 @@ class TableAppManager extends AM implements ManagerInterface
             ]
         );
     }
+
+    public function getInvitationsByUser($user_id){
+        return $this->getResults(
+            "App\Model\Entity\Invitation",
+            "SELECT * FROM invitation  WHERE userApp_id = :user_id", 
+            [
+                "user_id" => $user_id
+            ]
+        );
+    }
+
+    // insert functions
 
     public function insertTable($title, $description, $user_id){
         $this->executeQuery( 
@@ -90,15 +104,7 @@ class TableAppManager extends AM implements ManagerInterface
         );
     }
 
-    public function getInvitationsByUser($user_id){
-        return $this->getResults(
-            "App\Model\Entity\Invitation",
-            "SELECT * FROM invitation  WHERE userApp_id = :user_id", 
-            [
-                "user_id" => $user_id
-            ]
-        );
-    }
+    // delete functions
 
     public function deleteTable($id){
         return $this->executeQuery( 
@@ -118,6 +124,9 @@ class TableAppManager extends AM implements ManagerInterface
             ]
         );
     }
+
+    // other functions
+
 
     public function acceptInvitation($table_id, $user_id){     
         try{

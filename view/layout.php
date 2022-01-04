@@ -16,43 +16,43 @@
     <link rel="stylesheet" href="<?= CSS_PATH ?>/style.css">
     <title>Planner room<?= $title ? " - ".$title : "" ?></title>
 </head>
-<body> 
+<body>  
 
     <!-- Navigation -->
-    <nav class="uk-navbar-container" uk-navbar>
-        <a class="uk-navbar-item uk-logo" href="?ctrl=home">Planner Room</a>
-        <div class="uk-navbar-right">
-            <ul class="uk-navbar-nav">           
-                <li class="uk-navbar-item">
-                    <a href="?ctrl=home">Dashboard</a>
-                </li>
-                <li class="uk-navbar-item">
-                <?php
-                    if(Session::get("user")){
-                        ?>
-                            <a href='?ctrl=security&action=profile&id=<?= Session::get("user")->getId() ?>'> Bonjour  <?= Session::get("user") ?></a>
-                            <a href='?ctrl=security&action=logout'>Déconnexion</a>
-                        <?php
-                    }
-                    else{
-                        ?>
-                            <a href='?ctrl=security&action=register'>Inscription</a>
-                            <a href='?ctrl=security&action=login'>Connexion</a>
-                        <?php
-                    }
-                ?>
-                </li>
-            </ul>
-        </div>  
-    </nav>
 
-    <!-- Display of error, success and notice messages -->
-    <div class="uk-margin-small-top"><?php include("messages.php"); ?></div>
+    <header>       
+        <nav class="uk-navbar-container" uk-navbar>
+            <a class="uk-navbar-item uk-logo" href="?ctrl=home">Planner Room</a>
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav">           
+                    <li class="uk-navbar-item">
+                    <?php
+                        if(Session::get("user")){
+                            ?>  
+                                <a href="?ctrl=main">Dashboard</a>
+                                <a href='?ctrl=security&action=profile&id=<?= Session::get("user")->getId() ?>'> Bonjour  <?= Session::get("user") ?></a>
+                                <a href='?ctrl=security&action=logout'>Déconnexion</a>
+                            <?php
+                        }
+                        else{
+                            ?>
+                                <a href='?ctrl=security&action=register'>Inscription</a>
+                                <a href='?ctrl=security&action=login'>Connexion</a>
+                            <?php
+                        }
+                    ?>
+                    </li>
+                </ul>
+            </div>  
+        </nav>
+        <!-- Display of error, success and notice messages -->
+        <div class="uk-margin-small-top"><?php include("messages.php"); ?></div>
+    </header>
 
     <!-- Integration of the page that the controller sends -->
-    <div>
+    <main>
         <?= $page ?> 
-    </div>
+    </main>
 
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit.min.js"></script>
