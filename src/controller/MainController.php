@@ -189,4 +189,34 @@
             }           
             return $this->redirectToRoute("security");
         }
+
+        public function leaveTable($id){ 
+
+            if(Session::get("user")){
+                $user_id = Session::get("user")->getId();
+                if($this->tableManager->deleteParticipation($id, $user_id)){
+                    Session::addFlash('success', "Vous avez quitté le tableau");
+                }
+                else{
+                    Session::addFlash('error', "Une erreur est survenue");
+                }
+                return $this->redirectToRoute("main");    
+            }           
+            return $this->redirectToRoute("security");
+        }
+
+        public function delParticipat($id){ 
+
+            if(Session::get("user")){
+                $user_id = Session::get("user")->getId();
+                if($this->tableManager->deleteParticipation($id, $user_id)){
+                    Session::addFlash('success', "Vous avez");
+                }
+                else{
+                    Session::addFlash('error', "Une erreur est survenue");
+                }
+                return $this->redirectToRoute("main");    
+            }           
+            return $this->redirectToRoute("security");
+        }
     }

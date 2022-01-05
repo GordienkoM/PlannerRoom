@@ -94,15 +94,6 @@ class TableAppManager extends AM implements ManagerInterface
         );
     }
 
-    public function isInvitation($table_id, $user_id){
-        return $this->getOneValue( 
-            "SELECT 1 FROM invitation WHERE tableApp_id = :tableApp_id AND userApp_id = :userApp_id",
-            [
-                "tableApp_id" => $table_id,
-                "userApp_id" => $user_id
-            ]
-        );
-    }
 
     // delete functions
 
@@ -125,8 +116,27 @@ class TableAppManager extends AM implements ManagerInterface
         );
     }
 
+    public function deleteParticipation($table_id, $user_id){
+        return $this->executeQuery( 
+            "DELETE FROM participation WHERE tableApp_id = :tableApp_id AND userApp_id = :userApp_id",
+            [
+                "tableApp_id" => $table_id,
+                "userApp_id" => $user_id
+            ]
+        );
+    }
+
     // other functions
 
+    public function isInvitation($table_id, $user_id){
+        return $this->getOneValue( 
+            "SELECT 1 FROM invitation WHERE tableApp_id = :tableApp_id AND userApp_id = :userApp_id",
+            [
+                "tableApp_id" => $table_id,
+                "userApp_id" => $user_id
+            ]
+        );
+    }
 
     public function acceptInvitation($table_id, $user_id){     
         try{
