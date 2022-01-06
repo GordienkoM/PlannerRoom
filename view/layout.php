@@ -3,7 +3,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,17 +28,21 @@
                     <li class="uk-navbar-item">
                     <?php
                         if(Session::get("user")){
-                            ?>  
-                                <a href="?ctrl=main">Dashboard</a>
-                                <a href='?ctrl=security&action=profile&id=<?= Session::get("user")->getId() ?>'> Bonjour  <?= Session::get("user") ?></a>
-                                <a href='?ctrl=security&action=logout'>Déconnexion</a>
-                            <?php
-                        }
-                        else{
-                            ?>
-                                <a href='?ctrl=security&action=register'>Inscription</a>
-                                <a href='?ctrl=security&action=login'>Connexion</a>
-                            <?php
+                            if(Session::get("user")->hasRole("ROLE_ADMIN")){
+                    ?>      
+                            <a href='?ctrl=admin'>Administration</a>
+                        <?php
+                            }
+                        ?>   
+                            <a href="?ctrl=main">Dashboard</a>                                              
+                            <a href='?ctrl=security&action=profile&id=<?= Session::get("user")->getId() ?>'> Bonjour  <?= Session::get("user") ?></a>
+                            <a href='?ctrl=security&action=logout'>Déconnexion</a>
+                    <?php
+                        }else{
+                    ?>
+                            <a href='?ctrl=security&action=register'>Inscription</a>
+                            <a href='?ctrl=security&action=login'>Connexion</a>
+                    <?php
                         }
                     ?>
                     </li>

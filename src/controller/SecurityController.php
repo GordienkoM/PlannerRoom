@@ -29,7 +29,10 @@
                         if(password_verify($password, $this->manager->getPasswordByEmail($email))){
                             Session::set("user", $user);
                             Session::addFlash('success', "Bienvenue !");
-                            
+                            // if logged in user is the application admin
+                            if (Session::get("user")->hasRole("ROLE_ADMIN")){
+                                return $this->redirectToRoute("admin");
+                            }
                             return $this->redirectToRoute("main");
                         }
                         else Session::addFlash('error', "Le mot de passe est erroné");
