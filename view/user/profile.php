@@ -4,6 +4,8 @@
     $user = $data['user'];
 ?>
 
+<h1> Profil</h1>
+
 <!-- table with user data -->
 
 <div class="uk-container">
