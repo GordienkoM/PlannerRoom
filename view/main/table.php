@@ -29,10 +29,49 @@ $table = $data['table'];
                     <?php
                         } else if($participant->getId() == Session::get("user")->getId()) { 
                     ?>  
-                        <a href="?ctrl=forum&action=delParticipant&id=<?=  $table->getId() ?>">Quitter le tableau</a>  
+                        <div> 
+                            <!-- table leave button with an anchor toggling the modal -->            
+                            <a class="uk-button uk-button-default" href="#modal-leave-table" uk-toggle>Quitter le tableau</a>           
+                        </div>
+                        <!-- table leave confirm (modal) -->
+                        <div id="modal-leave-table" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <button class="uk-modal-close-default" type="button" uk-close></button>
+                                <div>Est-ce que vous êtes sûr de vouloir quitter le tableau "<?= $table ?>" ?</div>
+                                <div class="uk-margin-top">
+                                    <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=main&action=leaveTable&id=<?= $table->getId() ?>">Quitter le tableau</a> 
+                                    <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                                </div>  
+                            </div>
+                        </div>  
+                    <?php
+                        }else{
+                    ?>
+                        <div> 
+                            <!-- delete participant button with an anchor toggling the modal -->            
+                            <a class="uk-button uk-button-default" href="#modal-delete-participant" uk-toggle>Supprimer le participant</a>           
+                        </div>
+                        <!-- delete participant confirm (modal) -->
+                        <div id="modal-delete-participant" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <button class="uk-modal-close-default" type="button" uk-close></button>
+                                <div>Est-ce que vous êtes sûr de vouloir quitter le tableau "<?= $table ?>" ?</div>
+                                <div class="uk-margin-top">
+                                    <form action="?ctrl=main&action=delParticipant" method="post">
+                                        <div class="uk-margin-top">
+                                            <input type="hidden" name="table_id" value="<?= $table->getId() ?>">
+                                            <input type="hidden" name="user_id" value="<?= $participant->getId() ?>">
+                                            <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                            <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Supprimer participant">
+                                            <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                                        </div>  
+                                    </form>
+                                </div>  
+                            </div>
+                        </div>  
                     <?php
                         }
-                    ?> 
+                    ?>                    
                     </div>
                 </div>
             </div>

@@ -205,18 +205,35 @@
             return $this->redirectToRoute("security");
         }
 
-        public function delParticipat($id){ 
+        public function delParticipant(){ 
 
             if(Session::get("user")){
-                $user_id = Session::get("user")->getId();
-                if($this->tableManager->deleteParticipation($id, $user_id)){
-                    Session::addFlash('success', "Vous avez");
+                if(isset($_POST["submit"])){
+                    var_dump("salut");
+                    $user_id = filter_input(INPUT_POST, "user_id", FILTER_VALIDATE_INT);
+                    $table_id = filter_input(INPUT_POST, "table_id", FILTER_VALIDATE_INT);
+
+                    if($user_id && $table_id){
+                        $table = $this->tableManager->getOneById($table_id); 
+                        if($table){
+                            //check that the logged in user is the table admin
+                            if(Session::get("user")->getId() == $table->getUserApp()->getId()){
+                                if($this->tableManager->deleteParticipation($table_id, $user_id)){
+                                    Session::addFlash('success', "Vous avez supprimer le participant");
+                                }
+                                else{
+                                    Session::addFlash('error', "Une erreur est survenue");
+                                }   
+                            }
+                            else Session::addFlash('error', "Vous n'avez pas de droit de supprimer l'utilisateur");
+                        }
+                        else Session::addFlash('error', "Une erreur est survenue");
+                    }
+                    else Session::addFlash('error', "Une erreur est survenue");
+    
+                    $params = ['id' => $table_id];
+                    return $this->redirectToRoute("main", "showTable", $params);
                 }
-                else{
-                    Session::addFlash('error', "Une erreur est survenue");
-                }
-                return $this->redirectToRoute("main");    
-            }           
-            return $this->redirectToRoute("security");
+            }return $this->redirectToRoute("security");    
         }
     }

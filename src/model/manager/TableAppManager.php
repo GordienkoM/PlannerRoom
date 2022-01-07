@@ -83,7 +83,6 @@ class TableAppManager extends AM implements ManagerInterface
         );
     }
 
-
     public function insertInvitation($table_id, $user_id){
         return $this->executeQuery( 
             "INSERT INTO invitation (tableApp_id, userApp_id) VALUES (:tableApp_id, :userApp_id)",
@@ -93,7 +92,6 @@ class TableAppManager extends AM implements ManagerInterface
             ]
         );
     }
-
 
     // delete functions
 
