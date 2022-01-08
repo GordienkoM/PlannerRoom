@@ -31,7 +31,21 @@
                     <td><?= $user?></td>
                     <td><?= $user->getEmail()?></td>
                     <td>
-                        <a uk-icon="trash" href="?ctrl=admin&action=delUser&id=<?=  $user->getId() ?>"></a>
+                        <div> 
+                            <!-- delete user button button with an anchor toggling the modal -->            
+                            <a uk-icon="trash" href="#modal-delete-user-<?= $user->getId() ?>" uk-toggle></a>           
+                        </div>
+                        <!-- delete user confirm (modal) -->
+                        <div id="modal-delete-user-<?= $user->getId() ?>" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <button class="uk-modal-close-default" type="button" uk-close></button>
+                                <div>Est-ce que vous êtes sûr de vouloir supprimer utilisateur <?= $user ?> ?</div>
+                                <div class="uk-margin-top">
+                                    <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=admin&action=delUser&id=<?=  $user->getId() ?>">Supprimer</a> 
+                                    <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                                </div>  
+                            </div>
+                        </div>
                     </td>
                 </tr>
             <?php
