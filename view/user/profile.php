@@ -4,11 +4,11 @@
     $user = $data['user'];
 ?>
 
-<h1> Profil</h1>
-
-<!-- table with user data -->
-
 <div class="uk-container">
+    <h1> Profil</h1>
+
+    <!-- table with user data -->
+
     <table class="uk-table uk-margin-medium-top ">
         <tbody>
             <tr>
