@@ -80,7 +80,7 @@ $tables = $data['tables'];
                 ?>       
                 <tr>
                     <td>
-                        <a href="?ctrl=main&action=showTable&id=<?=  $table->getId() ?>"><?=  $table ?></a>
+                        <a href="?ctrl=main&action=showTable&id=<?= $table->getId() ?>"><?=  $table ?></a>
                     </td>
                     <td><?= $table->getDescription() ?></td>
                     <td><?= $table->getUserApp() ?></td>
@@ -100,10 +100,10 @@ $tables = $data['tables'];
                     ?>
                         <div> 
                             <!-- table delete button with an anchor toggling the modal -->            
-                            <a class="uk-button uk-button-default" href="#modal-delete-table" uk-toggle>Supprimer le tableau</a>           
+                            <a class="uk-button uk-button-default" href="#modal-delete-table-<?= $table->getId() ?>" uk-toggle>Supprimer le tableau</a>           
                         </div>
                         <!-- table delete confirm (modal) -->
-                        <div id="modal-delete-table" uk-modal>
+                        <div id="modal-delete-table-<?= $table->getId() ?>" uk-modal>
                             <div class="uk-modal-dialog uk-modal-body">
                                 <button class="uk-modal-close-default" type="button" uk-close></button>
                                 <div>Est-ce que vous êtes sûr de vouloir supprimer le tableau "<?= $table ?>" ?</div>
@@ -118,10 +118,10 @@ $tables = $data['tables'];
                     ?>  
                         <div> 
                             <!-- table leave button with an anchor toggling the modal -->            
-                            <a class="uk-button uk-button-default" href="#modal-leave-table" uk-toggle>Quitter le tableau</a>           
+                            <a class="uk-button uk-button-default" href="#modal-leave-table-<?= $table->getId() ?>" uk-toggle>Quitter le tableau</a>           
                         </div>
                         <!-- table leave confirm (modal) -->
-                        <div id="modal-leave-table" uk-modal>
+                        <div id="modal-leave-table-<?= $table->getId() ?>" uk-modal>
                             <div class="uk-modal-dialog uk-modal-body">
                                 <button class="uk-modal-close-default" type="button" uk-close></button>
                                 <div>Est-ce que vous êtes sûr de vouloir quitter le tableau "<?= $table ?>" ?</div>
