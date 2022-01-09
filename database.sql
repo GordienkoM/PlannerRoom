@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `card` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `list_position` int(11) NOT NULL,
   `content` text COLLATE utf16_bin NOT NULL,
-  `label` varchar(255) COLLATE utf16_bin DEFAULT NULL,
+  `description` text COLLATE utf16_bin,
   `listApp_id` int(11) NOT NULL,
   `color_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
