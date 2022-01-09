@@ -5,12 +5,14 @@
     use App\Core\AbstractController as AC;
     use App\Model\Manager\UserAppManager;
     use App\Model\Manager\TableAppManager;
+    use App\Model\Manager\ListAppManager;
 
     class MainController extends AC
     {
         public function __construct(){
             $this->userManager = new UserAppManager();
             $this->tableManager = new TableAppManager();
+            $this->listManager = new ListAppManager();
         }
 
         public function index(){
@@ -112,9 +114,12 @@
 
                 if ($isParticipant){
                     // add array of participants in a table
-                    $table->setParticipants($participants);    
+                    $table->setParticipants($participants);
+                    $lists = $this->listManager->getListsByTable($id);  
+
                     return $this->render("main/table.php", [
                         "table" => $table,
+                        "lists" => $lists,
                         "title" => $table
                     ]);
                 }else{

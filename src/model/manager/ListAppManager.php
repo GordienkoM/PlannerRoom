@@ -3,9 +3,9 @@ namespace App\Model\Manager;
 
 use App\Core\AbstractManager as AM;
 use App\Core\ManagerInterface;
-use PDOException;
 
-class ListManager extends AM implements ManagerInterface
+
+class ListAppManager extends AM implements ManagerInterface
 {
     public function __construct(){
         parent::connect();
@@ -15,26 +15,36 @@ class ListManager extends AM implements ManagerInterface
 
     public function getAll(){
         return $this->getResults(
-            "App\Model\Entity\List",
-            "SELECT * FROM list"
+            "App\Model\Entity\ListApp",
+            "SELECT * FROM listApp"
         );
     }
 
     public function getOneById($id){
         return $this->getOneOrNullResult(
-            "App\Model\Entity\List",
-            "SELECT * FROM list WHERE id = :id", 
+            "App\Model\Entity\ListApp",
+            "SELECT * FROM listApp WHERE id = :id", 
             [
                 "id" => $id
             ]
         );
     }
 
+    public function getListsByTable($table_id){
+        return $this->getResults(
+            "App\Model\Entity\ListApp",
+            "SELECT * FROM listApp WHERE tableApp_id = :tableApp_id", 
+            [
+                "tableApp_id" => $table_id
+            ]
+        );
+    }
+
     // insert functions
 
-    public function insertList($title, $table_id){
+    public function insertListApp($title, $table_id){
         $this->executeQuery( 
-            "INSERT INTO list (title, tableApp_id) VALUES (:title, :tableApp_id)",
+            "INSERT INTO listApp (title, tableApp_id) VALUES (:title, :tableApp_id)",
             [
                 "title"  => $title,
                 "tableApp_id" => $table_id,
@@ -45,9 +55,9 @@ class ListManager extends AM implements ManagerInterface
     
     // delete functions
 
-    public function deleteList($id){
+    public function deleteListApp($id){
         return $this->executeQuery( 
-            "DELETE FROM list WHERE id = :id",
+            "DELETE FROM listApp WHERE id = :id",
             [
                 "id" => $id 
             ]

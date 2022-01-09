@@ -4,7 +4,7 @@
     use App\Core\AbstractEntity as AE;
     use App\Core\EntityInterface;
 
-    class List extends AE implements EntityInterface
+    class ListApp extends AE implements EntityInterface
     {
         private $id;
         private $title;

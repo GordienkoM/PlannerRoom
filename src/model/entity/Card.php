@@ -10,7 +10,7 @@
         private $list_position;
         private $content;
         private $label;
-        private $list;
+        private $listApp;
         private $color;
 
         public function __construct($data){
@@ -98,21 +98,21 @@
         }
 
         /**
-         * Get the value of list
+         * Get the value of listApp
          */ 
-        public function getList()
+        public function getListApp()
         {
-                return $this->list;
+                return $this->listApp;
         }
 
         /**
-         * Set the value of list
+         * Set the value of listApp
          *
          * @return  self
          */ 
-        public function setList($list)
+        public function setListApp($listApp)
         {
-                $this->list = $list;
+                $this->listApp = $listApp;
 
                 return $this;
         }

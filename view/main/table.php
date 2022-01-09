@@ -2,6 +2,7 @@
 use App\Core\Session;
 
 $table = $data['table'];
+$lists = $data['lists'];
 ?>
 
 <nav class="uk-navbar-container" uk-navbar>
@@ -82,7 +83,7 @@ $table = $data['table'];
         ?>
         </div>
 
-        <!-- invitation  -->
+        <!-- Create invitation  -->
 
         <?php
             //check if the logged in user is the table admin
@@ -119,13 +120,22 @@ $table = $data['table'];
 
 </nav>
 
-<div class="uk-flex uk-flex-between uk-padding uk-padding-remove-horizontal">
+<div class="uk-flex uk-flex-between uk-padding">
     
     <!-- lists -->
 
-    <div>
+    <div class="uk-flex">
+    <?php
+        foreach($lists as $list){
+    ?>   
+        <div class="uk-background-muted uk-padding uk-panel uk-margin-right">
+            <h2 class="uk-h4"><?=  $list ?></h2>
+        </div>
+    <?php
+        }
+    ?>
     </div>
-    
+
     <div> 
         <!-- list create button with an anchor toggling the modal -->            
         <a class="uk-button uk-button-secondary uk-margin-right" href="#modal-create-list" uk-toggle>Créer une liste</a>           
