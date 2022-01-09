@@ -10,24 +10,26 @@ abstract class AbstractManager
 
         protected function connect(){
             //se connecter à MySQL
-            try {
-                self::$db = new \PDO(
-                    DB_HOST,
-                    DB_USER,
-                    DB_PASS,
-                    [
-                        // PHP will throw a PDOexception if an error occurs
-                        \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-                        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
-                    ]
-                );
-            } catch (PDOException $e){
-                if ( APP_ENV === "prod"){
-                // Session::addFlash('error', "Une erreur est survenue");
-                echo "Une erreur est survenue";
-                die();
-                };
+            if (!self::$db){
+                try {
+                    self::$db = new \PDO(
+                        DB_HOST,
+                        DB_USER,
+                        DB_PASS,
+                        [
+                            // PHP will throw a PDOexception if an error occurs
+                            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+                            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+                        ]
+                    );
+                } catch (PDOException $e){
+                    if ( APP_ENV === "prod"){
+                    // Session::addFlash('error', "Une erreur est survenue");
+                    echo "Une erreur est survenue";
+                    die();
+                    };
+                }
             }
         }
 

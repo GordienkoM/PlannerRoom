@@ -9,6 +9,8 @@ $table = $data['table'];
         <h1 class="uk-margin-left"><?=  $table ?></h1>
     </div>
 
+    <!-- Participants -->
+
     <div class="uk-navbar-right">
         <div class="uk-inline">
         <?php
@@ -114,10 +116,16 @@ $table = $data['table'];
             }
         ?>             
     </div>
+
 </nav>
 
 <div class="uk-flex uk-flex-between uk-padding uk-padding-remove-horizontal">
-    <div></div>
+    
+    <!-- lists -->
+
+    <div>
+    </div>
+    
     <div> 
         <!-- list create button with an anchor toggling the modal -->            
         <a class="uk-button uk-button-secondary uk-margin-right" href="#modal-create-list" uk-toggle>Créer une liste</a>           
@@ -128,12 +136,13 @@ $table = $data['table'];
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <h2 class="uk-modal-title">Nouvelle liste</h2>
-            <form action="?ctrl=main&action=addList" method="post">
+            <form action="?ctrl=lists&action=addList" method="post">
                 <div class="uk-margin">
                     <label for="title">Titre de liste : </label><br>
                     <input class="uk-input" type="text" name="title" id="title" required>
                 </div>
                 <div class="uk-margin-top">
+                    <input type="hidden" name="table_id" value="<?= $table->getId() ?>">
                     <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                     <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
                     <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
