@@ -42,7 +42,7 @@ class ListAppManager extends AM implements ManagerInterface
 
     // insert functions
 
-    public function insertListApp($title, $table_id){
+    public function insertList($title, $table_id){
         $this->executeQuery( 
             "INSERT INTO listApp (title, tableApp_id) VALUES (:title, :tableApp_id)",
             [
@@ -55,7 +55,7 @@ class ListAppManager extends AM implements ManagerInterface
     
     // delete functions
 
-    public function deleteListApp($id){
+    public function deleteList($id){
         return $this->executeQuery( 
             "DELETE FROM listApp WHERE id = :id",
             [
