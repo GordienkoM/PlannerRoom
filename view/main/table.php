@@ -118,7 +118,8 @@ $lists = $data['lists'];
             </div>
         <?php
             }
-        ?>             
+        ?> 
+
     </div>
 
 </nav>
@@ -132,13 +133,31 @@ $lists = $data['lists'];
         foreach($lists as $list){
     ?>   
         <div class="uk-background-muted uk-padding uk-panel uk-margin-right">
-            <h2 class="uk-h4"><?=  $list ?></h2>
+            <h2 class="uk-h4 uk-text-center"><?=  $list ?></h2>
+
+            <!-- cards -->
+
+            <?php
+                foreach($list->getCards() as $card){
+            ?>     
+                <div class="uk-card uk-card-default uk-margin">
+                    <div class="uk-card-body">
+                        <p><?=  $card->getContent() ?></p>
+                    </div>
+                    <!-- disctiontion  -->
+                    <!-- <div class="uk-card-footer">                       
+                    </div> -->
+                </div>
+            <?php
+                }
+            ?>
+
+            <!-- card create button -->
 
             <div> 
                 <!-- card create button with an anchor toggling the modal -->            
                 <a class="uk-button uk-button-default uk-margin-right" href="#modal-create-card-<?=  $list->getId() ?>" uk-toggle>Ajouter une carte</a>           
             </div>
-
             <!-- card create form (modal) -->
             <div id="modal-create-card-<?=  $list->getId() ?>" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
@@ -165,6 +184,8 @@ $lists = $data['lists'];
     ?>
     </div>
 
+    <!-- list create button  -->
+
     <div> 
         <!-- list create button with an anchor toggling the modal -->            
         <a class="uk-button uk-button-secondary uk-margin-right" href="#modal-create-list" uk-toggle>Créer une liste</a>           
@@ -189,6 +210,7 @@ $lists = $data['lists'];
             </form>
         </div>
     </div>
+
 </div>
 
 <div>

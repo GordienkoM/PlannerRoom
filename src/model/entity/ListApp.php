@@ -9,6 +9,7 @@
         private $id;
         private $title;
         private $tableApp;
+        private $cards;
 
         public function __construct($data){
             parent::hydrate($data, $this);
@@ -78,4 +79,24 @@
                 return $this;
         }
 
+
+        /**
+         * Get the value of cards
+         */ 
+        public function getCards()
+        {
+                return $this->cards;
+        }
+
+        /**
+         * Set the value of cards
+         *
+         * @return  self
+         */ 
+        public function setCards($cards)
+        {
+                $this->cards = $cards;
+
+                return $this;
+        }
     }

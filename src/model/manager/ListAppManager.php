@@ -40,6 +40,16 @@ class ListAppManager extends AM implements ManagerInterface
         );
     }
 
+    public function getCardsByList($list_id){
+        return $this->getResults(
+            "App\Model\Entity\Card",
+            "SELECT * FROM card WHERE listApp_id = :listApp_id", 
+            [
+                "listApp_id" => $list_id
+            ]
+        );
+    }
+
     // insert functions
 
     public function insertList($title, $table_id){

@@ -115,7 +115,20 @@
                 if ($isParticipant){
                     // add array of participants in a table
                     $table->setParticipants($participants);
-                    $lists = $this->listManager->getListsByTable($id);  
+
+                    $lists = []; 
+                    if($this->listManager->getListsByTable($id)){
+                        // for each list
+                        foreach($this->listManager->getListsByTable($id) as $list){
+                            $list_id = $list->getId();
+                            // get array of cards for a list                   
+                            $cards = $this->listManager->getCardsByList($list_id);
+                            // add array of cards in a list
+                            $list->setCards($cards);
+                            // add a list in array of lists
+                            $lists[] = $list;
+                        }
+                    }     
 
                     return $this->render("main/table.php", [
                         "table" => $table,
