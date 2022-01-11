@@ -4,7 +4,7 @@ namespace App\Model\Manager;
 use App\Core\AbstractManager as AM;
 use App\Core\ManagerInterface;
 
-class UserAppManager extends AM implements ManagerInterface
+class UserManager extends AM implements ManagerInterface
 {
     public function __construct(){
         parent::connect();
@@ -13,24 +13,24 @@ class UserAppManager extends AM implements ManagerInterface
 
     public function getAll(){
         return $this->getResults(
-            "App\Model\Entity\UserApp",
-            "SELECT * FROM userApp"
+            "App\Model\Entity\User",
+            "SELECT * FROM users"
         );
     }
 
     public function getOneById($id){
         return $this->getOneOrNullResult(
-            "App\Model\Entity\UserApp",
-            "SELECT * FROM userApp WHERE id = :num", 
+            "App\Model\Entity\User",
+            "SELECT * FROM users WHERE id = :id", 
             [
-                "num" => $id
+                "id" => $id
             ]
         );
     }
 
     public function insertUser($nickname, $mail, $pass){
         return $this->executeQuery(
-            "INSERT INTO userApp (nickname, email, password, role) VALUES (:nickname, :mail, :pass, 'ROLE_USER')",
+            "INSERT INTO users (nickname, email, password, role) VALUES (:nickname, :mail, :pass, 'ROLE_USER')",
             [
                 "nickname" => $nickname,
                 "mail" => $mail,
@@ -41,8 +41,8 @@ class UserAppManager extends AM implements ManagerInterface
 
     function getUserByEmail($mail){
         return $this->getOneOrNullResult(
-            "App\Model\Entity\UserApp",
-            "SELECT * FROM userApp WHERE email = :mail",
+            "App\Model\Entity\User",
+            "SELECT * FROM users WHERE email = :mail",
             [
                 "mail" => $mail
             ]
@@ -51,7 +51,7 @@ class UserAppManager extends AM implements ManagerInterface
 
     function getPasswordByEmail($mail){
         return $this->getOneValue(
-            "SELECT password FROM userApp WHERE email = :mail",
+            "SELECT password FROM users WHERE email = :mail",
             [
                 "mail" => $mail
             ]
@@ -60,7 +60,7 @@ class UserAppManager extends AM implements ManagerInterface
 
     function getPasswordById($id){
         return $this->getOneValue(
-            "SELECT password FROM userApp WHERE id = :id",
+            "SELECT password FROM users WHERE id = :id",
             [
                 "id" => $id
             ]
@@ -70,7 +70,7 @@ class UserAppManager extends AM implements ManagerInterface
 
     public function deleteUser($id){
         return $this->executeQuery( 
-            "DELETE FROM userApp WHERE id = :id",
+            "DELETE FROM users WHERE id = :id",
             [
                 "id" => $id 
             ]
@@ -80,7 +80,7 @@ class UserAppManager extends AM implements ManagerInterface
     public function updatePassword($id, $new_password){
         
         return $this->executeQuery( 
-            "UPDATE userApp SET password = :password WHERE id = :id",
+            "UPDATE users SET password = :password WHERE id = :id",
             [
                 "password" => $new_password,
                 "id" => $id
@@ -91,7 +91,7 @@ class UserAppManager extends AM implements ManagerInterface
     public function updateNickname($id, $nickname){
         
         return $this->executeQuery( 
-            "UPDATE userApp SET nickname = :nickname WHERE id = :id",
+            "UPDATE users SET nickname = :nickname WHERE id = :id",
             [
                 "nickname" => $nickname,
                 "id" => $id
@@ -102,7 +102,7 @@ class UserAppManager extends AM implements ManagerInterface
     public function updateEmail($id, $email){
         
         return $this->executeQuery( 
-            "UPDATE userApp SET email = :email WHERE id = :id",
+            "UPDATE users SET email = :email WHERE id = :id",
             [
                 "email" => $email,
                 "id" => $id

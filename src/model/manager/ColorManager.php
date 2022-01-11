@@ -16,14 +16,14 @@ class ColorManager extends AM implements ManagerInterface
     public function getAll(){
         return $this->getResults(
             "App\Model\Entity\Color",
-            "SELECT * FROM color"
+            "SELECT * FROM colors"
         );
     }
 
     public function getOneById($id){
         return $this->getOneOrNullResult(
             "App\Model\Entity\Color",
-            "SELECT * FROM color WHERE id = :id", 
+            "SELECT * FROM colors WHERE id = :id", 
             [
                 "id" => $id
             ]

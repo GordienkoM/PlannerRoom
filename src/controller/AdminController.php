@@ -3,12 +3,12 @@
 
     use App\Core\Session;
     use App\Core\AbstractController as AC;
-    use App\Model\Manager\UserAppManager;
+    use App\Model\Manager\UserManager;
 
     class AdminController extends AC
     {
         public function __construct(){
-            $this->userManager = new UserAppManager();
+            $this->userManager = new UserManager();
         }
 
         public function index(){

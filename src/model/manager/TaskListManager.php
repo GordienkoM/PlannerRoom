@@ -5,7 +5,7 @@ use App\Core\AbstractManager as AM;
 use App\Core\ManagerInterface;
 
 
-class ListAppManager extends AM implements ManagerInterface
+class TaskListManager extends AM implements ManagerInterface
 {
     public function __construct(){
         parent::connect();
@@ -15,27 +15,27 @@ class ListAppManager extends AM implements ManagerInterface
 
     public function getAll(){
         return $this->getResults(
-            "App\Model\Entity\ListApp",
-            "SELECT * FROM listApp"
+            "App\Model\Entity\TaskList",
+            "SELECT * FROM tasklists"
         );
     }
 
     public function getOneById($id){
         return $this->getOneOrNullResult(
-            "App\Model\Entity\ListApp",
-            "SELECT * FROM listApp WHERE id = :id", 
+            "App\Model\Entity\TaskList",
+            "SELECT * FROM tasklists WHERE id = :id", 
             [
                 "id" => $id
             ]
         );
     }
 
-    public function getListsByTable($table_id){
+    public function getListsByBoard($board_id){
         return $this->getResults(
-            "App\Model\Entity\ListApp",
-            "SELECT * FROM listApp WHERE tableApp_id = :tableApp_id", 
+            "App\Model\Entity\TaskList",
+            "SELECT * FROM tasklists WHERE board_id = :board_id", 
             [
-                "tableApp_id" => $table_id
+                "board_id" => $board_id
             ]
         );
     }
@@ -43,21 +43,21 @@ class ListAppManager extends AM implements ManagerInterface
     public function getCardsByList($list_id){
         return $this->getResults(
             "App\Model\Entity\Card",
-            "SELECT * FROM card WHERE listApp_id = :listApp_id", 
+            "SELECT * FROM cards WHERE tasklist_id = :tasklist_id", 
             [
-                "listApp_id" => $list_id
+                "tasklist_id" => $list_id
             ]
         );
     }
 
     // insert functions
 
-    public function insertList($title, $table_id){
+    public function insertList($title, $board_id){
         $this->executeQuery( 
-            "INSERT INTO listApp (title, tableApp_id) VALUES (:title, :tableApp_id)",
+            "INSERT INTO tasklists (title, board_id) VALUES (:title, :board_id)",
             [
                 "title"  => $title,
-                "tableApp_id" => $table_id,
+                "board_id" => $board_id,
             ]
         );
         return $this->getLastInsertId();
@@ -67,7 +67,7 @@ class ListAppManager extends AM implements ManagerInterface
 
     public function deleteList($id){
         return $this->executeQuery( 
-            "DELETE FROM listApp WHERE id = :id",
+            "DELETE FROM tasklists WHERE id = :id",
             [
                 "id" => $id 
             ]

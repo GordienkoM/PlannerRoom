@@ -10,7 +10,7 @@
         private $list_position;
         private $content;
         private $label;
-        private $listApp;
+        private $taskList;
         private $color;
 
         public function __construct($data){
@@ -98,21 +98,21 @@
         }
 
         /**
-         * Get the value of listApp
+         * Get the value of taskList
          */ 
-        public function getListApp()
+        public function getTaskList()
         {
-                return $this->listApp;
+                return $this->taskList;
         }
 
         /**
-         * Set the value of listApp
+         * Set the value of TaskList
          *
          * @return  self
          */ 
-        public function setListApp($listApp)
+        public function setTaskList($taskList)
         {
-                $this->listApp = $listApp;
+                $this->taskList = $taskList;
 
                 return $this;
         }

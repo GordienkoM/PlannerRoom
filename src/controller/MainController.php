@@ -3,16 +3,16 @@
 
     use App\Core\Session;
     use App\Core\AbstractController as AC;
-    use App\Model\Manager\UserAppManager;
-    use App\Model\Manager\TableAppManager;
-    use App\Model\Manager\ListAppManager;
+    use App\Model\Manager\UserManager;
+    use App\Model\Manager\BoardManager;
+    use App\Model\Manager\TaskListManager;
 
     class MainController extends AC
     {
         public function __construct(){
-            $this->userManager = new UserAppManager();
-            $this->tableManager = new TableAppManager();
-            $this->listManager = new ListAppManager();
+            $this->userManager = new UserManager();
+            $this->tableManager = new BoardManager();
+            $this->listManager = new TaskListManager();
         }
 
         public function index(){
@@ -28,7 +28,7 @@
                 if($table_ids){
                     // for each id
                     foreach($table_ids as $table_id){
-                        $table_id = $table_id['tableApp_id'];
+                        $table_id = $table_id['Board_id'];
                         // get table as an object
                         $table = $this->tableManager->getOneById($table_id);
                         // get array of participants for a table                   
@@ -83,7 +83,7 @@
                 $table = $this->tableManager->getOneById($id); 
                 if($table){
                     //check that the logged in user is the table admin
-                    if(Session::get("user")->getId() == $table->getUserApp()->getId()){  
+                    if(Session::get("user")->getId() == $table->getUser()->getId()){  
                         if($this->tableManager->deleteTable($id)){
                             Session::addFlash('success', "Le tableau est suprimé");
                         }
@@ -155,7 +155,7 @@
                     if($user){
                         $user_id = $user->getId();
                         //check that the logged in user is the table admin
-                        if(Session::get("user")->getId() == $table->getUserApp()->getId()){
+                        if(Session::get("user")->getId() == $table->getUser()->getId()){
                             if(!$this->tableManager->isInvitation($table_id, $user_id)){
                                 if($this->tableManager->insertInvitation($table_id, $user_id)){
                                     Session::addFlash('success', "L'utilisateur est invité");
@@ -235,7 +235,7 @@
                         $table = $this->tableManager->getOneById($table_id); 
                         if($table){
                             //check that the logged in user is the table admin
-                            if(Session::get("user")->getId() == $table->getUserApp()->getId()){
+                            if(Session::get("user")->getId() == $table->getUser()->getId()){
                                 if($this->tableManager->deleteParticipation($table_id, $user_id)){
                                     Session::addFlash('success', "Vous avez supprimer le participant");
                                 }

@@ -4,13 +4,12 @@
     use App\Core\AbstractEntity as AE;
     use App\Core\EntityInterface;
 
-    class TableApp extends AE implements EntityInterface
+    class TaskList extends AE implements EntityInterface
     {
         private $id;
         private $title;
-        private $description;
-        private $userApp;
-        private $participants;
+        private $board;
+        private $cards;
 
         public function __construct($data){
             parent::hydrate($data, $this);
@@ -20,7 +19,7 @@
         {
             return $this->title;
         }
-        
+
         /**
          * Get the value of id
          */ 
@@ -40,7 +39,6 @@
 
                 return $this;
         }
-
         /**
          * Get the value of title
          */ 
@@ -59,65 +57,45 @@
                 $this->title = $title;
 
                 return $this;
-        }
+        }    
 
         /**
-         * Get the value of description
+         * Get the value of board
          */ 
-        public function getDescription()
+        public function getBoard()
         {
-                return $this->description;
+                return $this->board;
         }
 
         /**
-         * Set the value of description
+         * Set the value of board
          *
          * @return  self
          */ 
-        public function setDescription($description)
+        public function setBoard($board)
         {
-                $this->description = $description;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of userApp
-         */ 
-        public function getUserApp()
-        {
-                return $this->userApp;
-        }
-
-        /**
-         * Set the value of userApp
-         *
-         * @return  self
-         */ 
-        public function setUserApp($userApp)
-        {
-                $this->userApp = $userApp;
+                $this->board = $board;
 
                 return $this;
         }
 
 
         /**
-         * Get the value of participants
+         * Get the value of cards
          */ 
-        public function getParticipants()
+        public function getCards()
         {
-                return $this->participants;
+                return $this->cards;
         }
 
         /**
-         * Set the value of participants
+         * Set the value of cards
          *
          * @return  self
          */ 
-        public function setParticipants($participants)
+        public function setCards($cards)
         {
-                $this->participants = $participants;
+                $this->cards = $cards;
 
                 return $this;
         }

@@ -3,14 +3,14 @@
 
     use App\Core\Session;
     use App\Core\AbstractController as AC;
-    use App\Model\Manager\ListAppManager;
-    use App\Model\Manager\TableAppManager;
+    use App\Model\Manager\TaskListManager;
+    use App\Model\Manager\BoardManager;
 
     class ListsController extends AC
     {
         public function __construct(){
-            $this->listManager = new ListAppManager();
-            $this->tableManager = new TableAppManager();
+            $this->listManager = new TaskListManager();
+            $this->tableManager = new BoardManager();
         }
 
         public function index(){
