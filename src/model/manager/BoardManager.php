@@ -15,14 +15,14 @@ class BoardManager extends AM implements ManagerInterface
 
     public function getAll(){
         return $this->getResults(
-            "App\Model\Entity\board",
+            "App\Model\Entity\Board",
             "SELECT * FROM boards"
         );
     }
 
     public function getOneById($id){
         return $this->getOneOrNullResult(
-            "App\Model\Entity\board",
+            "App\Model\Entity\Board",
             "SELECT * FROM boards WHERE id = :id", 
             [
                 "id" => $id
@@ -42,7 +42,7 @@ class BoardManager extends AM implements ManagerInterface
     public function getParticipantsByBoard($board_id){
         return $this->getResults(
             "App\Model\Entity\User",
-            "SELECT * FROM users WHERE id IN (SELECT p.user_id FROM boards t, users u, user_board_participations p WHERE u.id = p.user_id AND t.id = p.board_id AND p.board_id = :board_id)", 
+            "SELECT * FROM users WHERE id IN (SELECT p.user_id FROM boards b, users u, user_board_participations p WHERE u.id = p.user_id AND b.id = p.board_id AND p.board_id = :board_id)", 
             [
                 "board_id" => $board_id
             ]

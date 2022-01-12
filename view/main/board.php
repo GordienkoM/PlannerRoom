@@ -1,13 +1,15 @@
 <?php
 use App\Core\Session;
 
-$table = $data['table'];
+$board = $data['board'];
 $lists = $data['lists'];
+// var_dump($lists);
+// die();
 ?>
 
 <nav class="uk-navbar-container" uk-navbar>
     <div class="uk-navbar-left">
-        <h1 class="uk-margin-left"><?=  $table ?></h1>
+        <h1 class="uk-margin-left"><?=  $board ?></h1>
     </div>
 
     <!-- Participants -->
@@ -15,7 +17,7 @@ $lists = $data['lists'];
     <div class="uk-navbar-right">
         <div class="uk-inline">
         <?php
-            foreach($table->getParticipants() as $participant){
+            foreach($board->getParticipants() as $participant){
         ?> 
             <button class="uk-button uk-button-default uk-border-circle uk-margin-right" type="button">
                 <div><?=  $participant->getFirstLetter() ?></div>
@@ -26,32 +28,32 @@ $lists = $data['lists'];
                     <div><?=  $participant ?></div>
                     <div>
                     <?php
-                        //check if the participant is the table admin
-                        if($participant->getId() == $table->getUserApp()->getId()){
+                        //check if the participant is the board admin
+                        if($participant->getId() == $board->getUser()->getId()){
                     ?>
                         Gestionnaire
                     <?php
-                        //check that the logged in user is participant (and not table admin)
+                        //check that the logged in user is participant (and not board admin)
                         } else if($participant->getId() == Session::get("user")->getId()) { 
                     ?>  
                         <div> 
-                            <!-- table leave button with an anchor toggling the modal -->            
-                            <a class="uk-button uk-button-default" href="#modal-leave-table-<?=  $participant->getId() ?>" uk-toggle>Quitter le tableau</a>           
+                            <!-- board leave button with an anchor toggling the modal -->            
+                            <a class="uk-button uk-button-default" href="#modal-leave-board-<?=  $participant->getId() ?>" uk-toggle>Quitter le boardau</a>           
                         </div>
-                        <!-- table leave confirm (modal) -->
-                        <div id="modal-leave-table-<?=  $participant->getId() ?>" uk-modal>
+                        <!-- board leave confirm (modal) -->
+                        <div id="modal-leave-board-<?=  $participant->getId() ?>" uk-modal>
                             <div class="uk-modal-dialog uk-modal-body">
                                 <button class="uk-modal-close-default" type="button" uk-close></button>
-                                <div>Est-ce que vous êtes sûr de vouloir quitter le tableau "<?= $table ?>" ?</div>
+                                <div>Est-ce que vous êtes sûr de vouloir quitter le tableau "<?= $board ?>" ?</div>
                                 <div class="uk-margin-top">
-                                    <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=main&action=leaveTable&id=<?= $table->getId() ?>">Quitter le tableau</a> 
+                                    <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=main&action=leaveboard&id=<?= $board->getId() ?>">Quitter le boardau</a> 
                                     <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
                                 </div>  
                             </div>
                         </div>  
                     <?php
-                        //check that the logged in user is table admin (and not participant)
-                        }else if(Session::get("user")->getId() == $table->getUserApp()->getId()){
+                        //check that the logged in user is board admin (and not participant)
+                        }else if(Session::get("user")->getId() == $board->getUser()->getId()){
                     ?>
                         <div> 
                             <!-- delete participant button with an anchor toggling the modal -->            
@@ -61,11 +63,11 @@ $lists = $data['lists'];
                         <div id="modal-delete-participant-<?=  $participant->getId() ?>" uk-modal>
                             <div class="uk-modal-dialog uk-modal-body">
                                 <button class="uk-modal-close-default" type="button" uk-close></button>
-                                <div>Est-ce que vous êtes sûr de vouloir quitter le tableau "<?= $table ?>" ?</div>
+                                <div>Est-ce que vous êtes sûr de vouloir virer participant de "<?= $board ?>" ?</div>
                                 <div class="uk-margin-top">
                                     <form action="?ctrl=main&action=delParticipant" method="post">
                                         <div class="uk-margin-top">
-                                            <input type="hidden" name="table_id" value="<?= $table->getId() ?>">
+                                            <input type="hidden" name="board_id" value="<?= $board->getId() ?>">
                                             <input type="hidden" name="user_id" value="<?= $participant->getId() ?>">
                                             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                                             <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Supprimer participant">
@@ -89,8 +91,8 @@ $lists = $data['lists'];
         <!-- Create invitation  -->
 
         <?php
-            //check if the logged in user is the table admin
-            if(Session::get("user")->getId() == $table->getUserApp()->getId()){
+            //check if the logged in user is the board admin
+            if(Session::get("user")->getId() == $board->getUser()->getId()){
         ?>
             <!-- invitation button with an anchor toggling the modal --> 
             <div>                
@@ -101,14 +103,14 @@ $lists = $data['lists'];
             <div id="modal-invite-participant" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
                     <button class="uk-modal-close-default" type="button" uk-close></button>
-                    <h2 class="uk-modal-title uk-text-center">Invitation d'un participant dans le tableau "<?= $table->getTitle() ?>"</h2>
+                    <h2 class="uk-modal-title uk-text-center">Invitation d'un participant dans le tableau "<?= $board->getTitle() ?>"</h2>
                     <form action="?ctrl=main&action=createInvitation" method="post">
                         <div>
                             <label for="mail">Email : </label><br>
                             <input class="uk-input uk-form-width-large" type="email" name="email" id="mail" placeholder="Entrez l'email d'utilisateur à inviter" required>
                         </div>
                         <div class="uk-margin-top">
-                            <input type="hidden" name="table_id" value="<?= $table->getId() ?>">
+                            <input type="hidden" name="board_id" value="<?= $board->getId() ?>">
                             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                             <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
                             <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
@@ -202,7 +204,7 @@ $lists = $data['lists'];
                     <input class="uk-input" type="text" name="title" id="title" required>
                 </div>
                 <div class="uk-margin-top">
-                    <input type="hidden" name="table_id" value="<?= $table->getId() ?>">
+                    <input type="hidden" name="board_id" value="<?= $board->getId() ?>">
                     <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                     <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
                     <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>

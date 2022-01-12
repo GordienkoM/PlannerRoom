@@ -10,7 +10,7 @@
     {
         public function __construct(){
             $this->listManager = new TaskListManager();
-            $this->tableManager = new BoardManager();
+            $this->boardManager = new BoardManager();
         }
 
         public function index(){
@@ -23,10 +23,10 @@
                 if(isset($_POST["submit"])){
                     
                     $title  = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
-                    $table_id = filter_input(INPUT_POST, "table_id", FILTER_SANITIZE_STRING);
+                    $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_STRING);
                     
-                    if($title && $table_id){                    
-                        if( $table_id = $this->listManager->insertList($title, $table_id)){
+                    if($title && $board_id){                    
+                        if( $board_id = $this->listManager->insertList($title, $board_id)){
                             Session::addFlash('success', "La liste est ajoutée");
                         }
                         else{
@@ -36,7 +36,7 @@
                     else Session::addFlash('error', "La valeur de champ n'est pas correct");
                 }
                 else Session::addFlash('error', "Une erreur est survenue");
-                return $this->redirectToRoute("main", "showTable", ['id' => $table_id]);  
+                return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);  
             }
             return $this->redirectToRoute("security");                           
         }
@@ -45,11 +45,11 @@
             
         //     if(Session::get("user")){
 
-        //         $table_id = $this->listManager->getTableIdByList($id);
+        //         $board_id = $this->listManager->getboardIdByList($id);
         //         $user_id = Session::get("user")->getId();
-        //         if($table_id){
+        //         if($board_id){
         //             //check that the logged in user is participant
-        //             if($this->listManager->isParticipant($table_id, $user_id) ){  
+        //             if($this->listManager->isParticipant($board_id, $user_id) ){  
         //                 if($this->listManager->deleteList($id)){
         //                     Session::addFlash('success', "La liste est suprimée");
         //                 }
@@ -59,7 +59,7 @@
         //             }
         //             else Session::addFlash('error', "Vous n'avez pas de droit de supprimer cette liste");
         //         }
-        //         return $this->redirectToRoute("main", "showTable", ['id' => $table_id]);  
+        //         return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);  
         //     }           
         //     return $this->redirectToRoute("security");
         // }
