@@ -7,7 +7,7 @@ $boards = $data['boards'];
 
 <div class="uk-container">
 
-    <!-- creation of a board  -->
+    <!-- BOARD CREATION  -->
 
     <div class="uk-flex uk-flex-between uk-padding uk-padding-remove-horizontal">
         <h1>Dashboard</h1>
@@ -40,7 +40,7 @@ $boards = $data['boards'];
         </div>
     </div>
 
-    <!-- Display invitations -->
+    <!-- DISPLAY INVITATION -->
 
     <?php
         if($invitations){
@@ -59,11 +59,13 @@ $boards = $data['boards'];
         } 
     ?> 
 
-    <!-- board of boards where user participates -->
     <?php
         if( !empty($boards) ){
     ?>
         <h2>Liste des tableaux</h2>
+
+        <!-- TABLE OF BOARDS WHERE LOGGED IN USER PARTICIPATE -->
+
         <table class='uk-table uk-table-hover uk-table-divider'>
             <thead>
                 <tr>
@@ -98,6 +100,9 @@ $boards = $data['boards'];
                         //check if logged in user is board admin
                         if(Session::get("user")->getId() == $board->getUser()->getId()){
                     ?>
+
+                        <!-- DELETE BOARD -->
+
                         <div> 
                             <!-- board delete button with an anchor toggling the modal -->            
                             <a class="uk-button uk-button-default" href="#modal-delete-board-<?= $board->getId() ?>" uk-toggle>Supprimer le tableau</a>           
@@ -116,6 +121,9 @@ $boards = $data['boards'];
                     <?php
                         } else { 
                     ?>  
+
+                        <!-- LEAVE BOARD -->
+
                         <div> 
                             <!-- board leave button with an anchor toggling the modal -->            
                             <a class="uk-button uk-button-default" href="#modal-leave-board-<?= $board->getId() ?>" uk-toggle>Quitter le tableau</a>           
@@ -141,6 +149,7 @@ $boards = $data['boards'];
                 ?>
             </tbody>
         </table>
+
     <?php
         } 
     ?> 

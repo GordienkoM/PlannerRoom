@@ -3,8 +3,6 @@ use App\Core\Session;
 
 $board = $data['board'];
 $lists = $data['lists'];
-// var_dump($lists);
-// die();
 ?>
 
 <nav class="uk-navbar-container" uk-navbar>
@@ -12,16 +10,18 @@ $lists = $data['lists'];
         <h1 class="uk-margin-left"><?=  $board ?></h1>
     </div>
 
-    <!-- Participants -->
+    <!-- PARTICIPANTS -->
 
     <div class="uk-navbar-right">
         <div class="uk-inline">
         <?php
             foreach($board->getParticipants() as $participant){
         ?> 
+            <!-- participant icons -->
             <button class="uk-button uk-button-default uk-border-circle uk-margin-right" type="button">
                 <div><?=  $participant->getFirstLetter() ?></div>
             </button>
+            <!-- participant details -->
             <div uk-drop="mode: click">
                 <div class="uk-card uk-card-body uk-card-default">
                     <div><?=  $participant->getEmail() ?></div>
@@ -88,7 +88,7 @@ $lists = $data['lists'];
         ?>
         </div>
 
-        <!-- Create invitation  -->
+        <!-- INVITATION CREATION -->
 
         <?php
             //check if the logged in user is the board admin
@@ -128,7 +128,7 @@ $lists = $data['lists'];
 
 <div class="uk-flex uk-flex-between uk-padding">
     
-    <!-- lists -->
+    <!-- LISTS -->
 
     <div class="uk-flex">
     <?php
@@ -137,7 +137,7 @@ $lists = $data['lists'];
         <div class="uk-background-muted uk-padding uk-panel uk-margin-right">
             <h2 class="uk-h4 uk-text-center"><?=  $list ?></h2>
 
-            <!-- cards -->
+            <!-- CARDS IN LIST -->
 
             <?php
                 foreach($list->getCards() as $card){
@@ -154,7 +154,7 @@ $lists = $data['lists'];
                 }
             ?>
 
-            <!-- card create button -->
+            <!-- CARD CREATION -->
 
             <div> 
                 <!-- card create button with an anchor toggling the modal -->            
@@ -186,7 +186,7 @@ $lists = $data['lists'];
     ?>
     </div>
 
-    <!-- list create button  -->
+    <!-- LIST CREATION -->
 
     <div> 
         <!-- list create button with an anchor toggling the modal -->            
