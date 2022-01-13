@@ -36,32 +36,36 @@
                     else Session::addFlash('error', "La valeur de champ n'est pas correct");
                 }
                 else Session::addFlash('error', "Une erreur est survenue");
+
                 return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);  
             }
             return $this->redirectToRoute("security");                           
         }
 
-        // public function delList($id){
+        public function delList($id){
             
-        //     if(Session::get("user")){
+            if(Session::get("user")){
 
-        //         $board_id = $this->listManager->getboardIdByList($id);
-        //         $user_id = Session::get("user")->getId();
-        //         if($board_id){
-        //             //check that the logged in user is participant
-        //             if($this->listManager->isParticipant($board_id, $user_id) ){  
-        //                 if($this->listManager->deleteList($id)){
-        //                     Session::addFlash('success', "La liste est suprimée");
-        //                 }
-        //                 else{
-        //                     Session::addFlash('error', "Une erreur est survenue");
-        //                 }                       
-        //             }
-        //             else Session::addFlash('error', "Vous n'avez pas de droit de supprimer cette liste");
-        //         }
-        //         return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);  
-        //     }           
-        //     return $this->redirectToRoute("security");
-        // }
+                $board_id = $this->listManager->getBoardIdByList($id);
+                
+                $user_id = Session::get("user")->getId();
+                if($board_id){
+                    //check that the logged in user is participant
+                    if($this->boardManager->isParticipant($board_id, $user_id)){  
+                        if($this->listManager->deleteList($id)){
+                            Session::addFlash('success', "La liste est suprimée");
+                        }
+                        else{
+                            Session::addFlash('error', "Une erreur est survenue");
+                        }                       
+                    }
+                    else Session::addFlash('error', "Vous n'avez pas de droit de supprimer cette liste");
+
+                    return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
+                }
+                else Session::addFlash('error', "Une erreur est survenue");  
+            }           
+            return $this->redirectToRoute("security");
+        }
 
     }

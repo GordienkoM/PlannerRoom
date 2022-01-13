@@ -135,15 +135,58 @@ $lists = $data['lists'];
         foreach($lists as $list){
     ?>   
         <div class="uk-background-muted uk-padding uk-panel uk-margin-right">
-            <h2 class="uk-h4 uk-text-center"><?=  $list ?></h2>
+            <div>
+                <h2 class="uk-h4 uk-text-center"><?=  $list ?></h2>
+                <div class="uk-position-top-right">
+
+                    <!-- DELETE LIST -->
+                    
+                    <!-- list delete button with an anchor toggling the modal -->            
+                    <a href="#modal-delete-list-<?= $list->getId() ?>" class="uk-icon-link" uk-icon="trash" uk-toggle></a>           
+                
+                    <!-- list delete confirm (modal) -->
+                    <div id="modal-delete-list-<?= $list->getId() ?>" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body">
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
+                            <div>Est-ce que vous êtes sûr de vouloir supprimer la liste "<?= $list ?>" ?</div>
+                            <div class="uk-margin-top">
+                                <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=lists&action=delList&id=<?= $list->getId() ?>">Supprimer</a> 
+                                <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                            </div>  
+                        </div>
+                    </div>
+
+                    <!-- EDIT LIST -->
+         
+                    <!-- list edit button with an anchor toggling the modal -->            
+                    <a href="#modal-edit-list-<?= $list->getId() ?>" class="uk-icon-link" uk-icon="file-edit" uk-toggle></a>           
+                
+                    <!-- list edit confirm (modal) -->
+                    <div id="modal-edit-list-<?= $list->getId() ?>" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body">
+                            
+                           
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            
 
             <!-- CARDS IN LIST -->
 
             <?php
                 foreach($list->getCards() as $card){
             ?>     
-                <div class="uk-card uk-card-default uk-margin">
+                <div draggable="true" class="uk-card uk-card-default uk-margin">
                     <div class="uk-card-body">
+                        <div class="uk-position-top-right">
+                            <a href="?ctrl=main&action=delCard&id=<?= $card->getId() ?>" class="uk-icon-link" uk-icon="trash"></a>
+                            <a href="#" class="uk-icon-link" uk-icon="file-edit"></a>
+                        </div>
+
                         <p><?=  $card->getContent() ?></p>
                     </div>
                     <!-- disctiontion  -->
