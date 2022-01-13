@@ -32,6 +32,15 @@ class CardManager extends AM implements ManagerInterface
         );
     }
 
+    function getBoardIdByCard($id){
+        return $this->getOneValue(
+            "SELECT t.board_id FROM tasklists t, cards c WHERE c.taskList_id = t.id AND c.id  = :list_id",
+            [
+                "list_id" => $id
+            ]
+        );
+    }
+
     // insert functions
 
     public function insertCard($list_position, $content, $list_id){
@@ -47,6 +56,15 @@ class CardManager extends AM implements ManagerInterface
     }
     
     // delete functions
+
+    public function deleteCard($id){
+        return $this->executeQuery( 
+            "DELETE FROM cards WHERE id = :id",
+            [
+                "id" => $id 
+            ]
+        );
+    }
 
    
 

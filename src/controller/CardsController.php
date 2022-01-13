@@ -55,5 +55,31 @@
             return $this->redirectToRoute("security");                           
         }
 
+        public function delCard($id){
+            
+            if(Session::get("user")){
+
+                $board_id = $this->cardManager->getBoardIdByCard($id);
+                // var_dump($board_id);
+                // die();
+                $user_id = Session::get("user")->getId();
+                if($board_id){
+                    //check that the logged in user is participant
+                    if($this->boardManager->isParticipant($board_id, $user_id)){  
+                        if($this->cardManager->deleteCard($id)){
+                            Session::addFlash('success', "La carte est suprimée");
+                        }
+                        else{
+                            Session::addFlash('error', "Une erreur est survenue");
+                        }                       
+                    }
+                    else Session::addFlash('error', "Vous n'avez pas de droit de supprimer cette carte");
+
+                    return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
+                }
+                else Session::addFlash('error', "Une erreur est survenue");  
+            }           
+            return $this->redirectToRoute("security");
+        }
 
     }

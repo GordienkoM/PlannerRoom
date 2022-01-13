@@ -183,7 +183,23 @@ $lists = $data['lists'];
                 <div draggable="true" class="uk-card uk-card-default uk-margin">
                     <div class="uk-card-body">
                         <div class="uk-position-top-right">
-                            <a href="?ctrl=main&action=delCard&id=<?= $card->getId() ?>" class="uk-icon-link" uk-icon="trash"></a>
+
+                        <!-- DELETE CARD -->
+                    
+                        <!-- card delete button with an anchor toggling the modal -->            
+                        <a href="#modal-delete-card-<?= $card->getId() ?>" class="uk-icon-link" uk-icon="trash" uk-toggle></a>           
+                
+                        <!-- card delete confirm (modal) -->
+                        <div id="modal-delete-card-<?= $card->getId() ?>" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <button class="uk-modal-close-default" type="button" uk-close></button>
+                                <div>Est-ce que vous êtes sûr de vouloir supprimer la carte?</div>
+                                <div class="uk-margin-top">
+                                    <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=cards&action=delCard&id=<?= $card->getId() ?>">Supprimer</a> 
+                                    <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                                </div>  
+                            </div>
+                        </div>
                             <a href="#" class="uk-icon-link" uk-icon="file-edit"></a>
                         </div>
 

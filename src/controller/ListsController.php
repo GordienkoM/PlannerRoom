@@ -26,7 +26,7 @@
                     $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_STRING);
                     
                     if($title && $board_id){                    
-                        if( $board_id = $this->listManager->insertList($title, $board_id)){
+                        if( $this->listManager->insertList($title, $board_id)){
                             Session::addFlash('success', "La liste est ajoutée");
                         }
                         else{
@@ -47,7 +47,7 @@
             if(Session::get("user")){
 
                 $board_id = $this->listManager->getBoardIdByList($id);
-                
+
                 $user_id = Session::get("user")->getId();
                 if($board_id){
                     //check that the logged in user is participant
