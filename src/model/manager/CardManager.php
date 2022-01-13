@@ -30,7 +30,28 @@ class CardManager extends AM implements ManagerInterface
         );
     }
 
+    function getLastCardPosition($list_id){
+        return $this->getOneValue(
+            "SELECT MAX(list_position) FROM cards WHERE taskList_id = :list_id",
+            [
+                "list_id" => $list_id
+            ]
+        );
+    }
+
     // insert functions
+
+    public function insertCard($list_position, $content, $list_id){
+        $this->executeQuery( 
+            "INSERT INTO cards (list_position, content, taskList_id) VALUES (:list_position, :content, :list_id)",
+            [
+                "list_position"  => $list_position,
+                "content" => $content,
+                "list_id" => $list_id,
+            ]
+        );
+        return $this->getLastInsertId();
+    }
     
     // delete functions
 

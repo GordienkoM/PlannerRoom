@@ -50,6 +50,15 @@ class TaskListManager extends AM implements ManagerInterface
         );
     }
 
+    function getBoardIdByList($list_id){
+        return $this->getOneValue(
+            "SELECT board_id FROM taskLists WHERE id = :list_id",
+            [
+                "list_id" => $list_id
+            ]
+        );
+    }
+
     // insert functions
 
     public function insertList($title, $board_id){

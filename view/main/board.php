@@ -19,13 +19,13 @@ $lists = $data['lists'];
         ?> 
             <!-- participant icons -->
             <button class="uk-button uk-button-default uk-border-circle uk-margin-right" type="button">
-                <div><?=  $participant->getFirstLetter() ?></div>
+                <div><?= $participant->getFirstLetter() ?></div>
             </button>
             <!-- participant details -->
             <div uk-drop="mode: click">
                 <div class="uk-card uk-card-body uk-card-default">
-                    <div><?=  $participant->getEmail() ?></div>
-                    <div><?=  $participant ?></div>
+                    <div><?= $participant->getEmail() ?></div>
+                    <div><?= $participant ?></div>
                     <div>
                     <?php
                         //check if the participant is the board admin
@@ -41,7 +41,7 @@ $lists = $data['lists'];
                             <a class="uk-button uk-button-default" href="#modal-leave-board-<?=  $participant->getId() ?>" uk-toggle>Quitter le boardau</a>           
                         </div>
                         <!-- board leave confirm (modal) -->
-                        <div id="modal-leave-board-<?=  $participant->getId() ?>" uk-modal>
+                        <div id="modal-leave-board-<?= $participant->getId() ?>" uk-modal>
                             <div class="uk-modal-dialog uk-modal-body">
                                 <button class="uk-modal-close-default" type="button" uk-close></button>
                                 <div>Est-ce que vous êtes sûr de vouloir quitter le tableau "<?= $board ?>" ?</div>
@@ -60,7 +60,7 @@ $lists = $data['lists'];
                             <a class="uk-button uk-button-default" href="#modal-delete-participant-<?=  $participant->getId() ?>" uk-toggle>Supprimer le participant</a>           
                         </div>
                         <!-- delete participant confirm (modal) -->
-                        <div id="modal-delete-participant-<?=  $participant->getId() ?>" uk-modal>
+                        <div id="modal-delete-participant-<?= $participant->getId() ?>" uk-modal>
                             <div class="uk-modal-dialog uk-modal-body">
                                 <button class="uk-modal-close-default" type="button" uk-close></button>
                                 <div>Est-ce que vous êtes sûr de vouloir virer participant de "<?= $board ?>" ?</div>
@@ -165,10 +165,10 @@ $lists = $data['lists'];
                 <div class="uk-modal-dialog uk-modal-body">
                     <button class="uk-modal-close-default" type="button" uk-close></button>
                     <h2 class="uk-modal-title">Nouvelle carte</h2>
-                    <form action="?ctrl=cards&action=addcard" method="post">
+                    <form action="?ctrl=cards&action=addCard" method="post">
                         <div class="uk-margin">
                             <label for="content">Contenue de carte : </label><br>
-                            <input class="uk-input" type="text" name="content" id="content" required>
+                            <textarea class="uk-input" type="text" name="content" id="content" required></textarea>
                         </div>
                         <div class="uk-margin-top">
                             <input type="hidden" name="list_id" value="<?= $list->getId() ?>">

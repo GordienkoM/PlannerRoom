@@ -126,6 +126,16 @@ class BoardManager extends AM implements ManagerInterface
 
     // other functions
 
+    public function isParticipant($board_id, $user_id){
+        return $this->getOneValue( 
+            "SELECT 1 FROM user_board_participations WHERE board_id = :board_id AND user_id = :user_id",
+            [
+                "board_id" => $board_id,
+                "user_id" => $user_id
+            ]
+        );
+    }
+
     public function isInvitation($board_id, $user_id){
         return $this->getOneValue( 
             "SELECT 1 FROM user_board_invitations WHERE board_id = :board_id AND user_id = :user_id",
