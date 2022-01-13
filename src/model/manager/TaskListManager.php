@@ -13,13 +13,6 @@ class TaskListManager extends AM implements ManagerInterface
 
     // get functions
 
-    public function getAll(){
-        return $this->getResults(
-            "App\Model\Entity\TaskList",
-            "SELECT * FROM taskLists"
-        );
-    }
-
     public function getOneById($id){
         return $this->getOneOrNullResult(
             "App\Model\Entity\TaskList",

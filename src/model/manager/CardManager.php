@@ -13,13 +13,6 @@ class CardManager extends AM implements ManagerInterface
 
     // get functions
 
-    public function getAll(){
-        return $this->getResults(
-            "App\Model\Entity\Card",
-            "SELECT * FROM cards"
-        );
-    }
-
     public function getOneById($id){
         return $this->getOneOrNullResult(
             "App\Model\Entity\Card",

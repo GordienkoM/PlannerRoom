@@ -11,7 +11,7 @@ class UserManager extends AM implements ManagerInterface
     }
 
 
-    public function getAll(){
+    public function getAllUsers(){
         return $this->getResults(
             "App\Model\Entity\User",
             "SELECT * FROM users"

@@ -13,7 +13,7 @@ class ColorManager extends AM implements ManagerInterface
 
     // get functions
 
-    public function getAll(){
+    public function getAllColors(){
         return $this->getResults(
             "App\Model\Entity\Color",
             "SELECT * FROM colors"

@@ -13,13 +13,6 @@ class BoardManager extends AM implements ManagerInterface
 
     // get functions
 
-    public function getAll(){
-        return $this->getResults(
-            "App\Model\Entity\Board",
-            "SELECT * FROM boards"
-        );
-    }
-
     public function getOneById($id){
         return $this->getOneOrNullResult(
             "App\Model\Entity\Board",

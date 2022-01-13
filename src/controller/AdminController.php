@@ -17,7 +17,7 @@
                 // check if logged in user is the application admin
                 if (Session::get("user")->hasRole("ROLE_ADMIN")){
                     //get all users
-                    $users = $this->userManager->getAll();               
+                    $users = $this->userManager->getAllUsers();               
                     
                     return $this->render("admin/admin.php", [
                         "users" => $users,
