@@ -42,6 +42,34 @@
             return $this->redirectToRoute("security");                           
         }
 
+
+        public function editList(){
+
+            if(Session::get("user")){
+                if(isset($_POST["submit"])){
+                    
+                    $title  = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
+                    $list_id = filter_input(INPUT_POST, "list_id", FILTER_SANITIZE_STRING);
+                    $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_STRING);
+                    
+                    if($title && $list_id){                    
+                        if( $this->listManager->editList($title, $list_id)){
+                            Session::addFlash('success', "La liste est modifiée");
+                        }
+                        else{
+                            Session::addFlash('error', "Une erreur est survenue");
+                        }
+
+                        return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
+                    }
+                    else Session::addFlash('error', "La valeur de champ n'est pas correct");
+                    
+                }
+                else Session::addFlash('error', "Une erreur est survenue");  
+            }
+            return $this->redirectToRoute("security");                           
+        }
+
         public function delList($id){
             
             if(Session::get("user")){

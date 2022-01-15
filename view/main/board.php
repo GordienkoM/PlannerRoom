@@ -126,11 +126,12 @@ $lists = $data['lists'];
 
 </nav>
 
-<div class="uk-flex uk-flex-between uk-padding">
+
     
     <!-- LISTS -->
 
-    <div class="uk-flex">
+    <div class="uk-flex uk-margin">
+
     <?php
         foreach($lists as $list){
     ?>   
@@ -162,10 +163,23 @@ $lists = $data['lists'];
                     <a href="#modal-edit-list-<?= $list->getId() ?>" class="uk-icon-link" uk-icon="file-edit" uk-toggle></a>           
                 
                     <!-- list edit confirm (modal) -->
-                    <div id="modal-edit-list-<?= $list->getId() ?>" uk-modal>
+                    <div id="modal-edit-list-<?= $list->getId() ?>" uk-modal>                    
                         <div class="uk-modal-dialog uk-modal-body">
-                            
-                           
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
+                            <h2 class="uk-modal-title">Edition de la liste</h2>
+                            <form action="?ctrl=lists&action=editList" method="post">
+                                <div class="uk-margin">
+                                    <label for="title">Titre de liste : </label><br>
+                                    <input class="uk-input" type="text" name="title" id="title" value="<?= $list ?>" required>
+                                </div>
+                                <div class="uk-margin-top">
+                                    <input type="hidden" name="list_id" value="<?= $list->getId() ?>">
+                                    <input type="hidden" name="board_id" value="<?= $list->getBoard()->getId() ?>">
+                                    <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                    <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
+                                    <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                                </div>  
+                            </form>
                         </div>
                     </div>
 
@@ -243,7 +257,7 @@ $lists = $data['lists'];
     <?php
         }
     ?>
-    </div>
+
 
     <!-- LIST CREATION -->
 
@@ -271,8 +285,11 @@ $lists = $data['lists'];
             </form>
         </div>
     </div>
+    </div>
 
-</div>
+
+
+
 
 <div>
 

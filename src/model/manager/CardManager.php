@@ -66,6 +66,17 @@ class CardManager extends AM implements ManagerInterface
         );
     }
 
+
+    public function updateCard($id, $content){
+        
+        return $this->executeQuery( 
+            "UPDATE users SET content = :content WHERE id = :id",
+            [
+                "content" => $content,
+                "id" => $id
+            ]
+        );
+    }
    
 
 }

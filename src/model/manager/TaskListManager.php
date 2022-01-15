@@ -76,4 +76,17 @@ class TaskListManager extends AM implements ManagerInterface
         );
     }
 
+    // update functions
+
+    public function editList($title, $id){
+        
+        return $this->executeQuery( 
+            "UPDATE taskLists SET title = :title WHERE id = :id",
+            [
+                "title" => $title,
+                "id" => $id
+            ]
+        );
+    }
+
 }
