@@ -128,75 +128,68 @@ $lists = $data['lists'];
 
 
     
-    <!-- LISTS -->
+<!-- LISTS -->
 
-    <div class="uk-flex uk-margin">
+<div class="uk-flex uk-margin">
 
-    <?php
-        foreach($lists as $list){
-    ?>   
-        <div class="uk-background-muted uk-padding uk-panel uk-margin-right">
-            <div>
-                <h2 class="uk-h4 uk-text-center"><?=  $list ?></h2>
-                <div class="uk-position-top-right">
+<?php
+    foreach($lists as $list){
+?>   
+    <div class="uk-background-muted uk-padding uk-panel uk-margin-right">
+        <div>
+            <h2 class="uk-h4 uk-text-center"><?=  $list ?></h2>
+            <div class="uk-position-top-right">
 
-                    <!-- DELETE LIST -->
-                    
-                    <!-- list delete button with an anchor toggling the modal -->            
-                    <a href="#modal-delete-list-<?= $list->getId() ?>" class="uk-icon-link" uk-icon="trash" uk-toggle></a>           
+                <!-- DELETE LIST -->
                 
-                    <!-- list delete confirm (modal) -->
-                    <div id="modal-delete-list-<?= $list->getId() ?>" uk-modal>
-                        <div class="uk-modal-dialog uk-modal-body">
-                            <button class="uk-modal-close-default" type="button" uk-close></button>
-                            <div>Est-ce que vous êtes sûr de vouloir supprimer la liste "<?= $list ?>" ?</div>
-                            <div class="uk-margin-top">
-                                <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=lists&action=delList&id=<?= $list->getId() ?>">Supprimer</a> 
-                                <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                <!-- list delete button with an anchor toggling the modal -->            
+                <a href="#modal-delete-list-<?= $list->getId() ?>" class="uk-icon-link" uk-icon="trash" uk-toggle></a>           
+            
+                <!-- list delete confirm (modal) -->
+                <div id="modal-delete-list-<?= $list->getId() ?>" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body">
+                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                        <div>Est-ce que vous êtes sûr de vouloir supprimer la liste "<?= $list ?>" ?</div>
+                        <div class="uk-margin-top">
+                            <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=lists&action=delList&id=<?= $list->getId() ?>">Supprimer</a> 
+                            <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                        </div>  
+                    </div>
+                </div>
+
+                <!-- EDIT LIST -->
+        
+                <!-- list edit button with an anchor toggling the modal -->            
+                <a href="#modal-edit-list-<?= $list->getId() ?>" class="uk-icon-link" uk-icon="file-edit" uk-toggle></a>           
+            
+                <!-- list edit confirm (modal) -->
+                <div id="modal-edit-list-<?= $list->getId() ?>" uk-modal>                    
+                    <div class="uk-modal-dialog uk-modal-body">
+                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                        <h2 class="uk-modal-title">Edition de la liste</h2>
+                        <form action="?ctrl=lists&action=editList" method="post">
+                            <div class="uk-margin uk-flex">
+                                <input class="uk-input" type="text" name="title" id="title" value="<?= $list ?>" required>
+                                <input type="hidden" name="list_id" value="<?= $list->getId() ?>">
+                                <input type="hidden" name="board_id" value="<?= $list->getBoard()->getId() ?>">
+                                <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Ok">
                             </div>  
-                        </div>
+                        </form>
                     </div>
-
-                    <!-- EDIT LIST -->
-         
-                    <!-- list edit button with an anchor toggling the modal -->            
-                    <a href="#modal-edit-list-<?= $list->getId() ?>" class="uk-icon-link" uk-icon="file-edit" uk-toggle></a>           
-                
-                    <!-- list edit confirm (modal) -->
-                    <div id="modal-edit-list-<?= $list->getId() ?>" uk-modal>                    
-                        <div class="uk-modal-dialog uk-modal-body">
-                            <button class="uk-modal-close-default" type="button" uk-close></button>
-                            <h2 class="uk-modal-title">Edition de la liste</h2>
-                            <form action="?ctrl=lists&action=editList" method="post">
-                                <div class="uk-margin">
-                                    <label for="title">Titre de liste : </label><br>
-                                    <input class="uk-input" type="text" name="title" id="title" value="<?= $list ?>" required>
-                                </div>
-                                <div class="uk-margin-top">
-                                    <input type="hidden" name="list_id" value="<?= $list->getId() ?>">
-                                    <input type="hidden" name="board_id" value="<?= $list->getBoard()->getId() ?>">
-                                    <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                                    <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
-                                    <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
-                                </div>  
-                            </form>
-                        </div>
-                    </div>
-
-
-
                 </div>
             </div>
+        </div>
             
 
-            <!-- CARDS IN LIST -->
+        <!-- CARDS IN LIST -->
 
-            <?php
-                foreach($list->getCards() as $card){
-            ?>     
-                <div draggable="true" class="uk-card uk-card-default uk-margin">
-                    <div class="uk-card-body">
-                        <div class="uk-position-top-right">
+        <?php
+            foreach($list->getCards() as $card){
+        ?>     
+            <div draggable="true" class="uk-card uk-card-default uk-margin">
+                <div class="uk-card-body">
+                    <div class="uk-position-top-right">
 
                         <!-- DELETE CARD -->
                     
@@ -214,49 +207,85 @@ $lists = $data['lists'];
                                 </div>  
                             </div>
                         </div>
-                            <a href="#" class="uk-icon-link" uk-icon="file-edit"></a>
+
+                        <!-- EDIT CARD -->
+        
+                        <!-- card edit button with an anchor toggling the modal -->            
+                        <a href="#modal-edit-card-<?= $card->getId() ?>" class="uk-icon-link" uk-icon="file-edit" uk-toggle></a>           
+                    
+                        <!-- card edit confirm (modal) -->
+                        <div id="modal-edit-card-<?= $card->getId() ?>" uk-modal>                    
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <button class="uk-modal-close-default" type="button" uk-close></button>
+                                <h2 class="uk-modal-title">Edition de la carte</h2>
+                                <form action="?ctrl=cards&action=editCard" method="post">
+                                    <div class="uk-margin uk-flex">
+                                        <textarea class="uk-input" type="text" name="content" id="content" required><?= $card->getContent() ?></textarea>
+                                        <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
+                                        <input type="hidden" name="list_id" value="<?= $card->getTaskList()->getId() ?>">
+                                        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                        <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Ok">
+                                    </div> 
+                                </form>
+                                <hr>
+                            
+                                <ul class="uk-nav uk-dropdown-nav uk-margin-left">
+                                    <li><a href="#">Ajouter la discreption</a></li>
+                                    <li><a href="#">Modifier l'étiquette</a></li>
+                                    <li><a href="#">Modifier un membre</a></li>
+                                    <li><a href="#">couleur de la carte</a></li>                                  
+                                    <li><a href="#">Supprimer la carte</a></li>
+                                </ul>                       
+                            
+                            </div>
+                            
+                            
+
                         </div>
 
-                        <p><?=  $card->getContent() ?></p>
+
                     </div>
-                    <!-- disctiontion  -->
-                    <!-- <div class="uk-card-footer">                       
-                    </div> -->
-                </div>
-            <?php
-                }
-            ?>
 
-            <!-- CARD CREATION -->
-
-            <div> 
-                <!-- card create button with an anchor toggling the modal -->            
-                <a class="uk-button uk-button-default uk-margin-right" href="#modal-create-card-<?=  $list->getId() ?>" uk-toggle>Ajouter une carte</a>           
-            </div>
-            <!-- card create form (modal) -->
-            <div id="modal-create-card-<?=  $list->getId() ?>" uk-modal>
-                <div class="uk-modal-dialog uk-modal-body">
-                    <button class="uk-modal-close-default" type="button" uk-close></button>
-                    <h2 class="uk-modal-title">Nouvelle carte</h2>
-                    <form action="?ctrl=cards&action=addCard" method="post">
-                        <div class="uk-margin">
-                            <label for="content">Contenue de carte : </label><br>
-                            <textarea class="uk-input" type="text" name="content" id="content" required></textarea>
-                        </div>
-                        <div class="uk-margin-top">
-                            <input type="hidden" name="list_id" value="<?= $list->getId() ?>">
-                            <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                            <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
-                            <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
-                        </div>  
-                    </form>
+                    <p><?=  $card->getContent() ?></p>
                 </div>
+                <!-- disctiontion  -->
+                <!-- <div class="uk-card-footer">                       
+                </div> -->
             </div>
-            
+        <?php
+            }
+        ?>
+
+        <!-- CARD CREATION -->
+
+        <div> 
+            <!-- card create button with an anchor toggling the modal -->            
+            <a class="uk-button uk-button-default uk-margin-right" href="#modal-create-card-<?=  $list->getId() ?>" uk-toggle>Ajouter une carte</a>           
         </div>
-    <?php
-        }
-    ?>
+        <!-- card create form (modal) -->
+        <div id="modal-create-card-<?=  $list->getId() ?>" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <h2 class="uk-modal-title">Nouvelle carte</h2>
+                <form action="?ctrl=cards&action=addCard" method="post">
+                    <div class="uk-margin">
+                        <label for="content">Contenue de carte : </label><br>
+                        <textarea class="uk-input" type="text" name="content" id="content" required></textarea>
+                    </div>
+                    <div class="uk-margin-top">
+                        <input type="hidden" name="list_id" value="<?= $list->getId() ?>">
+                        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                        <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer">
+                        <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                    </div>  
+                </form>
+            </div>
+        </div>
+        
+    </div>
+<?php
+    }
+?>
 
 
     <!-- LIST CREATION -->
@@ -285,7 +314,7 @@ $lists = $data['lists'];
             </form>
         </div>
     </div>
-    </div>
+</div>
 
 
 

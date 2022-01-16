@@ -33,17 +33,18 @@
                     if($this->boardManager->isParticipant($board_id, $user_id)){
                         if($content && $list_id){
                             $last_card_position = $this->cardManager->getLastCardPosition($list_id);
-                            var_dump($last_card_position);
-                            if($last_card_position){
-                                $list_position = $last_card_position + 1000;                   
-                                if($this->cardManager->insertCard($list_position, $content, $list_id)){
-                                    Session::addFlash('success', "La carte est ajoutée");
-                                }
-                                else{
-                                    Session::addFlash('error', "Une erreur est survenue");
-                                }
-                            }                           
-                            else Session::addFlash('error', "Une erreur est survenue");   
+                            //var_dump($last_card_position);
+
+                            $list_position = $last_card_position ? $last_card_position + 10000 : 10000; 
+                                    
+                            if($this->cardManager->insertCard($list_position, $content, $list_id)){
+                                Session::addFlash('success', "La carte est ajoutée");
+                            }
+                            else{
+                                Session::addFlash('error', "Une erreur est survenue");
+                            }
+                                                      
+                             
                         }
                         else Session::addFlash('error', "La valeur de champ n'est pas correct");
                     }
