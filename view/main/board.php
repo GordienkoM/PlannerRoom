@@ -4,6 +4,17 @@ use App\Core\Session;
 $board = $data['board'];
 $lists = $data['lists'];
 ?>
+<style>
+    .draggable {
+        cursor: move;
+    }
+
+    .draggable.dragging {
+    opacity: .5;
+    }
+</style>
+
+
 
 <nav class="uk-navbar-container" uk-navbar>
     <div class="uk-navbar-left">
@@ -183,78 +194,79 @@ $lists = $data['lists'];
             
 
         <!-- CARDS IN LIST -->
+        <div class="cards-container">
+            <?php
+                foreach($list->getCards() as $card){
+            ?>     
+                <div draggable="true" class=" draggable uk-card uk-card-default uk-margin">
+                    <div class="uk-card-body">
+                        <div class="uk-position-top-right">
 
-        <?php
-            foreach($list->getCards() as $card){
-        ?>     
-            <div draggable="true" class="uk-card uk-card-default uk-margin">
-                <div class="uk-card-body">
-                    <div class="uk-position-top-right">
-
-                        <!-- DELETE CARD -->
+                            <!-- DELETE CARD -->
+                        
+                            <!-- card delete button with an anchor toggling the modal -->            
+                            <a href="#modal-delete-card-<?= $card->getId() ?>" class="uk-icon-link" uk-icon="trash" uk-toggle></a>           
                     
-                        <!-- card delete button with an anchor toggling the modal -->            
-                        <a href="#modal-delete-card-<?= $card->getId() ?>" class="uk-icon-link" uk-icon="trash" uk-toggle></a>           
-                
-                        <!-- card delete confirm (modal) -->
-                        <div id="modal-delete-card-<?= $card->getId() ?>" uk-modal>
-                            <div class="uk-modal-dialog uk-modal-body">
-                                <button class="uk-modal-close-default" type="button" uk-close></button>
-                                <div>Est-ce que vous êtes sûr de vouloir supprimer la carte?</div>
-                                <div class="uk-margin-top">
-                                    <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=cards&action=delCard&id=<?= $card->getId() ?>">Supprimer</a> 
-                                    <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
-                                </div>  
+                            <!-- card delete confirm (modal) -->
+                            <div id="modal-delete-card-<?= $card->getId() ?>" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body">
+                                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                                    <div>Est-ce que vous êtes sûr de vouloir supprimer la carte?</div>
+                                    <div class="uk-margin-top">
+                                        <a class="uk-button uk-button-secondary uk-margin-right uk-margin-left" href="?ctrl=cards&action=delCard&id=<?= $card->getId() ?>">Supprimer</a> 
+                                        <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                                    </div>  
+                                </div>
                             </div>
+
+                            <!-- EDIT CARD -->
+            
+                            <!-- card edit button with an anchor toggling the modal -->            
+                            <a href="#modal-edit-card-<?= $card->getId() ?>" class="uk-icon-link" uk-icon="file-edit" uk-toggle></a>           
+                        
+                            <!-- card edit confirm (modal) -->
+                            <div id="modal-edit-card-<?= $card->getId() ?>" uk-modal>                    
+                                <div class="uk-modal-dialog uk-modal-body">
+                                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                                    <h2 class="uk-modal-title">Edition de la carte</h2>
+                                    <form action="?ctrl=cards&action=editCard" method="post">
+                                        <div class="uk-margin uk-flex">
+                                            <textarea class="uk-input" type="text" name="content" id="content" required><?= $card->getContent() ?></textarea>
+                                            <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
+                                            <input type="hidden" name="list_id" value="<?= $card->getTaskList()->getId() ?>">
+                                            <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                            <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Ok">
+                                        </div> 
+                                    </form>
+                                    <hr>
+                                
+                                    <ul class="uk-nav uk-dropdown-nav uk-margin-left">
+                                        <li><a href="#">Ajouter la discreption</a></li>
+                                        <li><a href="#">Modifier l'étiquette</a></li>
+                                        <li><a href="#">Modifier un membre</a></li>
+                                        <li><a href="#">couleur de la carte</a></li>                                  
+                                        <li><a href="#">Supprimer la carte</a></li>
+                                    </ul>                       
+                                
+                                </div>
+                                
+                                
+
+                            </div>
+
+
                         </div>
 
-                        <!-- EDIT CARD -->
-        
-                        <!-- card edit button with an anchor toggling the modal -->            
-                        <a href="#modal-edit-card-<?= $card->getId() ?>" class="uk-icon-link" uk-icon="file-edit" uk-toggle></a>           
-                    
-                        <!-- card edit confirm (modal) -->
-                        <div id="modal-edit-card-<?= $card->getId() ?>" uk-modal>                    
-                            <div class="uk-modal-dialog uk-modal-body">
-                                <button class="uk-modal-close-default" type="button" uk-close></button>
-                                <h2 class="uk-modal-title">Edition de la carte</h2>
-                                <form action="?ctrl=cards&action=editCard" method="post">
-                                    <div class="uk-margin uk-flex">
-                                        <textarea class="uk-input" type="text" name="content" id="content" required><?= $card->getContent() ?></textarea>
-                                        <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
-                                        <input type="hidden" name="list_id" value="<?= $card->getTaskList()->getId() ?>">
-                                        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                                        <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Ok">
-                                    </div> 
-                                </form>
-                                <hr>
-                            
-                                <ul class="uk-nav uk-dropdown-nav uk-margin-left">
-                                    <li><a href="#">Ajouter la discreption</a></li>
-                                    <li><a href="#">Modifier l'étiquette</a></li>
-                                    <li><a href="#">Modifier un membre</a></li>
-                                    <li><a href="#">couleur de la carte</a></li>                                  
-                                    <li><a href="#">Supprimer la carte</a></li>
-                                </ul>                       
-                            
-                            </div>
-                            
-                            
-
-                        </div>
-
-
+                        <p><?=  $card->getContent() ?></p>
                     </div>
-
-                    <p><?=  $card->getContent() ?></p>
+                    <!-- disctiontion  -->
+                    <!-- <div class="uk-card-footer">                       
+                    </div> -->
                 </div>
-                <!-- disctiontion  -->
-                <!-- <div class="uk-card-footer">                       
-                </div> -->
-            </div>
-        <?php
-            }
-        ?>
+            <?php
+                }
+            ?>
+        </div>
 
         <!-- CARD CREATION -->
 
@@ -316,10 +328,44 @@ $lists = $data['lists'];
     </div>
 </div>
 
+<script>
+    const draggables = document.querySelectorAll('.draggable')
+    const containers = document.querySelectorAll('.cards-container')
 
+    draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', () => {
+        draggable.classList.add('dragging')
+    })
 
+    draggable.addEventListener('dragend', () => {
+        draggable.classList.remove('dragging')
+    })
+    })
 
+    containers.forEach(container => {
+    container.addEventListener('dragover', e => {
+        e.preventDefault()
+        const afterElement = getDragAfterElement(container, e.clientY)
+        const draggable = document.querySelector('.dragging')
+        if (afterElement == null) {
+        container.appendChild(draggable)
+        } else {
+        container.insertBefore(draggable, afterElement)
+        }
+    })
+    })
 
-<div>
+    function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
 
-</div>
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height / 2
+        if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child }
+        } else {
+        return closest
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element
+    }
+</script>
