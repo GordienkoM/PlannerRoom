@@ -233,7 +233,6 @@ $lists = $data['lists'];
                                         <div class="uk-margin uk-flex">
                                             <textarea class="uk-input" type="text" name="content" id="content" required><?= $card->getContent() ?></textarea>
                                             <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
-                                            <input type="hidden" name="list_id" value="<?= $card->getTaskList()->getId() ?>">
                                             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                                             <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Ok">
                                         </div> 
@@ -242,10 +241,8 @@ $lists = $data['lists'];
                                 
                                     <ul class="uk-nav uk-dropdown-nav uk-margin-left">
                                         <li><a href="#">Ajouter la discreption</a></li>
-                                        <li><a href="#">Modifier l'étiquette</a></li>
                                         <li><a href="#">Modifier un membre</a></li>
-                                        <li><a href="#">couleur de la carte</a></li>                                  
-                                        <li><a href="#">Supprimer la carte</a></li>
+                                        <li><a href="#">Couleur de la carte</a></li>                                  
                                     </ul>                       
                                 
                                 </div>
@@ -333,39 +330,39 @@ $lists = $data['lists'];
     const containers = document.querySelectorAll('.cards-container')
 
     draggables.forEach(draggable => {
-    draggable.addEventListener('dragstart', () => {
-        draggable.classList.add('dragging')
-    })
+        draggable.addEventListener('dragstart', () => {
+            draggable.classList.add('dragging')
+        })
 
-    draggable.addEventListener('dragend', () => {
-        draggable.classList.remove('dragging')
-    })
+        draggable.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging')
+        })
     })
 
     containers.forEach(container => {
-    container.addEventListener('dragover', e => {
-        e.preventDefault()
-        const afterElement = getDragAfterElement(container, e.clientY)
-        const draggable = document.querySelector('.dragging')
-        if (afterElement == null) {
-        container.appendChild(draggable)
-        } else {
-        container.insertBefore(draggable, afterElement)
-        }
-    })
+        container.addEventListener('dragover', e => {
+            e.preventDefault()
+            const afterElement = getDragAfterElement(container, e.clientY)
+            const draggable = document.querySelector('.dragging')
+            if (afterElement == null) {
+                container.appendChild(draggable)
+            } else {
+                container.insertBefore(draggable, afterElement)
+            }
+        })
     })
 
     function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+        const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
 
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect()
-        const offset = y - box.top - box.height / 2
-        if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: child }
-        } else {
-        return closest
-        }
-    }, { offset: Number.NEGATIVE_INFINITY }).element
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect()
+            const offset = y - box.top - box.height / 2
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child }
+            } else {
+                return closest
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element
     }
 </script>

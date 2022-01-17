@@ -56,6 +56,31 @@
             return $this->redirectToRoute("security");                           
         }
 
+        public function editCard(){
+
+            if(Session::get("user")){
+                if(isset($_POST["submit"])){
+                    
+                    $content  = filter_input(INPUT_POST, "content", FILTER_SANITIZE_STRING);
+                    $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_STRING);
+                    
+                    if($content && $card_id){                    
+                        $board_id = $this->cardManager->getBoardIdByCard($card_id);
+                        if( !$this->cardManager->editCard($content, $card_id)){
+                            Session::addFlash('error', "Une erreur est survenue");
+                        }
+                        return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
+                    }
+                    else Session::addFlash('error', "La valeur de champ n'est pas correct");
+                    
+                }
+                else Session::addFlash('error', "Une erreur est survenue");  
+            }
+            return $this->redirectToRoute("security");                           
+        }
+
+
+
         public function delCard($id){
             
             if(Session::get("user")){
