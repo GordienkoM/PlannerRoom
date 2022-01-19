@@ -15,6 +15,8 @@
             $this->listManager = new TaskListManager();
         }
 
+        //display page "Dashboard" 
+        
         public function index(){
             // check if user is logged in
             if(Session::get("user")){
@@ -146,7 +148,7 @@
 
             if(isset($_POST["submit"])){
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-                $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_STRING);
+                $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_NUMBER_INT);
                 if($email && $board_id){
                     // get the user if the entered email corresponds the database
                     $user = $this->userManager->getUserByEmail($email);

@@ -23,7 +23,7 @@
                 if(isset($_POST["submit"])){
                     
                     $title  = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
-                    $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_STRING);
+                    $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_NUMBER_INT);
                     
                     if($title && $board_id){                    
                         if( $this->listManager->insertList($title, $board_id)){
@@ -49,8 +49,8 @@
                 if(isset($_POST["submit"])){
                     
                     $title  = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
-                    $list_id = filter_input(INPUT_POST, "list_id", FILTER_SANITIZE_STRING);
-                    $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_STRING);
+                    $list_id = filter_input(INPUT_POST, "list_id", FILTER_SANITIZE_NUMBER_INT);
+                    $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_NUMBER_INT);
                     
                     if($title && $list_id){                    
                         if( $this->listManager->editList($title, $list_id)){

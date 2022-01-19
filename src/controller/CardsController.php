@@ -25,7 +25,7 @@
                 if(isset($_POST["submit"])){
                     
                     $content  = filter_input(INPUT_POST, "content", FILTER_SANITIZE_STRING);
-                    $list_id = filter_input(INPUT_POST, "list_id", FILTER_SANITIZE_STRING);
+                    $list_id = filter_input(INPUT_POST, "list_id", FILTER_SANITIZE_NUMBER_INT);
 
                     $board_id = $this->listManager->getBoardIdByList($list_id);
                     $user_id = Session::get("user")->getId();
@@ -62,7 +62,7 @@
                 if(isset($_POST["submit"])){
                     
                     $content  = filter_input(INPUT_POST, "content", FILTER_SANITIZE_STRING);
-                    $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_STRING);
+                    $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
                     
                     if($content && $card_id){                    
                         $board_id = $this->cardManager->getBoardIdByCard($card_id);
@@ -78,8 +78,6 @@
             }
             return $this->redirectToRoute("security");                           
         }
-
-
 
         public function delCard($id){
             
@@ -105,21 +103,17 @@
             }           
             return $this->redirectToRoute("security");
         }
-
         
-
         public function changeCardPosition(){
-            
-           
+
             $list_id = 2;
             $card_id = 1;
-            
+
             if( $this->cardManager->changeCardPosition($list_id, $card_id)){
                 echo "bien marché";
             }else echo "une erreur";
 
             die();
         }
-
 
     }

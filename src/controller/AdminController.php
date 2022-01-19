@@ -11,6 +11,8 @@
             $this->userManager = new UserManager();
         }
 
+        //display page "Administration" with users list   
+           
         public function index(){
             // check if user is logged in
             if (Session::get("user")){
