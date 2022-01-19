@@ -78,6 +78,17 @@ class CardManager extends AM implements ManagerInterface
             ]
         );
     }
+
+    public function changeCardPosition ( $list_id, $card_id){
+        
+        return $this->executeQuery( 
+            "UPDATE cards SET taskList_id = :list_id WHERE id = :card_id",
+            [
+                "list_id" => $list_id,
+                "card_id" => $card_id
+            ]
+        );
+    }
    
 
 }

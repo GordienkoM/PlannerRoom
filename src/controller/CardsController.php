@@ -106,4 +106,20 @@
             return $this->redirectToRoute("security");
         }
 
+        
+
+        public function changeCardPosition(){
+            
+           
+            $list_id = 2;
+            $card_id = 1;
+            
+            if( $this->cardManager->changeCardPosition($list_id, $card_id)){
+                echo "bien marché";
+            }else echo "une erreur";
+
+            die();
+        }
+
+
     }

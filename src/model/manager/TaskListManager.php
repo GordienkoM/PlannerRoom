@@ -36,7 +36,7 @@ class TaskListManager extends AM implements ManagerInterface
     public function getCardsByList($list_id){
         return $this->getResults(
             "App\Model\Entity\Card",
-            "SELECT * FROM cards WHERE taskList_id = :taskList_id", 
+            "SELECT * FROM cards WHERE taskList_id = :taskList_id ORDER BY list_position", 
             [
                 "taskList_id" => $list_id
             ]
