@@ -105,14 +105,22 @@
         }
         
         public function changeCardPosition(){
+            
+            $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
-            $list_id = 2;
-            $card_id = 1;
+            if ($contentType === "application/json") {
+                $content = trim(file_get_contents("php://input"));
 
-            if( $this->cardManager->changeCardPosition($list_id, $card_id)){
-                echo "bien marché";
-            }else echo "une erreur";
+                $decoded = json_decode($content, true); 
 
+                $card_id = $decoded['card_id'];
+                $list_id = $decoded['list_id'];
+                $list_position = $decoded['list_position'];
+
+                if( $this->cardManager->changeCardPosition($list_id, $list_position, $card_id)){
+                    echo "bien marché";
+                }else echo "une erreur";
+            }  
             die();
         }
 
