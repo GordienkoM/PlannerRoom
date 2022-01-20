@@ -232,7 +232,7 @@ $lists = $data['lists'];
                                 <div class="uk-modal-dialog uk-modal-body">
                                     <button class="uk-modal-close-default" type="button" uk-close></button>
                                     <h2 class="uk-modal-title">Edition de la carte</h2>
-                                    <form action="?ctrl=cards&action=editCard" method="post">
+                                    <form action="?ctrl=cards&action=editCardContent" method="post">
                                         <div class="uk-margin uk-flex">
                                             <textarea class="uk-input" type="text" name="content" id="content" required><?= $card->getContent() ?></textarea>
                                             <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
@@ -240,28 +240,59 @@ $lists = $data['lists'];
                                             <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Ok">
                                         </div> 
                                     </form>
-                                    <hr>
-                                
-                                    <ul class="uk-nav uk-dropdown-nav uk-margin-left">
-                                        <li><a href="#">Ajouter la discreption</a></li>
-                                        <li><a href="#">Modifier un membre</a></li>
-                                        <li><a href="#">Couleur de la carte</a></li>                                  
-                                    </ul>                       
-                                
+
+                                    <ul uk-accordion>
+                                        <li>
+                                            <a class="uk-accordion-title" href="#">Ajouter la discreption</a>
+                                            <div class="uk-accordion-content">
+                                                <form action="?ctrl=cards&action=editCardDescription" method="post">
+                                                    <div class="uk-margin uk-flex">
+                                                        <textarea class="uk-input" type="text" name="description" id="description" required><?= $card->getDescription() ?></textarea>
+                                                        <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
+                                                        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                                        <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Ok">
+                                                    </div> 
+                                                </form>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a class="uk-accordion-title" href="#">Modifier un membre</a>
+                                            <div class="uk-accordion-content">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <a class="uk-accordion-title" href="#">Couleur de la carte</a>
+                                            <div class="uk-accordion-content">
+                                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
-                                
-                                
-
                             </div>
-
-
                         </div>
 
-                        <p><?=  $card->getContent() ?></p>
+                        <div><?=  $card->getContent() ?></div>
                     </div>
+                    
                     <!-- disctiontion  -->
-                    <!-- <div class="uk-card-footer">                       
-                    </div> -->
+
+                    <?php
+                        //for card with description
+                        if($card->getDescription()){
+                    ?>
+                        <div class="uk-padding-small uk-padding-remove-vertical">
+                            <button uk-toggle="target: #toggle-<?= $card->getId() ?>" class="uk-button uk-button-default uk-button-small" type="button">Description</button>   
+                        </div>    
+                        <div id="toggle-<?= $card->getId() ?>" class="uk-padding-small">
+                            <?=  $card->getDescription() ?>
+                        </div>                                                  
+                        
+                    <?php
+                        }
+                    ?>
+                    
                 </div>
             <?php
                 }
@@ -336,7 +367,7 @@ $lists = $data['lists'];
 
     let position_in_list_before;
     let position_in_list_after;
-    let list_position
+    let list_position;
 
     containers.forEach(container => {
         if (container.querySelectorAll('.draggable').length == 0){
@@ -357,14 +388,11 @@ $lists = $data['lists'];
         draggable.addEventListener('dragend', () => {
 
             var card_id = draggable.dataset.card_id;
-            console.log("card id:"+card_id);
+            // console.log("card id:"+card_id);
             var targetContainer = draggable.parentNode;
             var list_id = targetContainer.dataset.list_id;
-            console.log("list id:"+list_id);
-
-            // console.log("avant position" + position_in_list_before);
-            // console.log("apres position" + position_in_list_after);
-            console.log("list_position" + list_position);
+            // console.log("list id:"+list_id);
+            // console.log("list_position" + list_position);
 
             // AJAX
 

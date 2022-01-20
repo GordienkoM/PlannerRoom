@@ -56,7 +56,7 @@
             return $this->redirectToRoute("security");                           
         }
 
-        public function editCard(){
+        public function editCardContent(){
 
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
@@ -66,7 +66,7 @@
                     
                     if($content && $card_id){                    
                         $board_id = $this->cardManager->getBoardIdByCard($card_id);
-                        if( !$this->cardManager->editCard($content, $card_id)){
+                        if( !$this->cardManager->editCardContent($content, $card_id)){
                             Session::addFlash('error', "Une erreur est survenue");
                         }
                         return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
@@ -78,6 +78,30 @@
             }
             return $this->redirectToRoute("security");                           
         }
+
+        public function editCardDescription(){
+
+            if(Session::get("user")){
+                if(isset($_POST["submit"])){
+                    
+                    $description  = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
+                    $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
+                    
+                    if($description && $card_id){                    
+                        $board_id = $this->cardManager->getBoardIdByCard($card_id);
+                        if( !$this->cardManager->editCardDescription($description, $card_id)){
+                            Session::addFlash('error', "Une erreur est survenue");
+                        }
+                        return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
+                    }
+                    else Session::addFlash('error', "La valeur de champ n'est pas correct");
+                    
+                }
+                else Session::addFlash('error', "Une erreur est survenue");  
+            }
+            return $this->redirectToRoute("security");                           
+        }
+
 
         public function delCard($id){
             
@@ -105,7 +129,7 @@
         }
         
         public function changeCardPosition(){
-            
+
             $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
             if ($contentType === "application/json") {
@@ -118,7 +142,7 @@
                 $list_position = $decoded['list_position'];
 
                 if( $this->cardManager->changeCardPosition($list_id, $list_position, $card_id)){
-                    echo "bien marché";
+                    echo "bien marché.";
                 }else echo "une erreur";
             }  
             die();

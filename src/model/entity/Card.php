@@ -9,7 +9,7 @@
         private $id;
         private $list_position;
         private $content;
-        private $label;
+        private $description;
         private $taskList;
         private $color;
 
@@ -78,21 +78,21 @@
         }
 
         /**
-         * Get the value of label
+         * Get the value of description
          */ 
-        public function getLabel()
+        public function getDescription()
         {
-                return $this->label;
+                return $this->description;
         }
 
         /**
-         * Set the value of label
+         * Set the value of description
          *
          * @return  self
          */ 
-        public function setLabel($label)
+        public function setDescription($description)
         {
-                $this->label = $label;
+                $this->description = $description;
 
                 return $this;
         }

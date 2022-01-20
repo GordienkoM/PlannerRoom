@@ -68,12 +68,23 @@ class CardManager extends AM implements ManagerInterface
 
     // update functions
 
-    public function editCard($content, $id){
+    public function editCardContent($content, $id){
         
         return $this->executeQuery( 
             "UPDATE cards SET content = :content WHERE id = :id",
             [
                 "content" => $content,
+                "id" => $id
+            ]
+        );
+    }
+
+    public function editCardDescription($description, $id){
+        
+        return $this->executeQuery( 
+            "UPDATE cards SET description = :description WHERE id = :id",
+            [
+                "description" => $description,
                 "id" => $id
             ]
         );
