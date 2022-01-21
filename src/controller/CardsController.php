@@ -102,6 +102,28 @@
             return $this->redirectToRoute("security");                           
         }
 
+        public function editCardColor(){
+
+            if(Session::get("user")){
+                if(isset($_POST["submit"])){
+                    
+                    $color_id  = filter_input(INPUT_POST, "color_id", FILTER_SANITIZE_STRING);
+                    $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
+                    
+                    if($color_id && $card_id){                    
+                        $board_id = $this->cardManager->getBoardIdByCard($card_id);
+                        if( !$this->cardManager->editCardColor($color_id, $card_id)){
+                            Session::addFlash('error', "Une erreur est survenue");
+                        }
+                        return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
+                    }
+                    else Session::addFlash('error', "La valeur de champ n'est pas correct");
+                    
+                }
+                else Session::addFlash('error', "Une erreur est survenue");  
+            }
+            return $this->redirectToRoute("security");                           
+        }
 
         public function delCard($id){
             

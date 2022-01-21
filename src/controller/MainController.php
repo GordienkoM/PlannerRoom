@@ -6,6 +6,7 @@
     use App\Model\Manager\UserManager;
     use App\Model\Manager\BoardManager;
     use App\Model\Manager\TaskListManager;
+    use App\Model\Manager\ColorManager;
 
     class MainController extends AC
     {
@@ -13,6 +14,7 @@
             $this->userManager = new UserManager();
             $this->boardManager = new BoardManager();
             $this->listManager = new TaskListManager();
+            $this->colorManager = new ColorManager();
         }
 
         //display page "Dashboard" 
@@ -40,11 +42,13 @@
                         // add a board in array of boards
                         $boards[] = $board;
                     }
-                }    
+                } 
+
                 return $this->render("main/dashboard.php", [
                     "invitations" => $invitations,
                     "boards" => $boards,
-                    "title" => "Dashboard"
+                    "title" => "Dashboard",
+
                 ]);
             }
             return $this->redirectToRoute("security");
@@ -131,10 +135,13 @@
                         }
                     }   
 
+                    $colors = $this->colorManager->getAllColors();
+
                     return $this->render("main/board.php", [
                         "board" => $board,
                         "lists" => $lists,
-                        "title" => $board
+                        "title" => $board,
+                        "colors" => $colors,
                     ]);
                 }else{
                     Session::addFlash('error', 'Accès refusé !');

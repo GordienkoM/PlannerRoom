@@ -90,6 +90,17 @@ class CardManager extends AM implements ManagerInterface
         );
     }
 
+    public function editCardColor($color_id, $id){
+        
+        return $this->executeQuery( 
+            "UPDATE cards SET color_id = :color_id WHERE id = :id",
+            [
+                "color_id" => $color_id,
+                "id" => $id
+            ]
+        );
+    }
+
     public function changeCardPosition($list_id, $list_position, $card_id){
         
         return $this->executeQuery( 

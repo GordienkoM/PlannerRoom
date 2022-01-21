@@ -3,6 +3,7 @@ use App\Core\Session;
 
 $board = $data['board'];
 $lists = $data['lists'];
+$colors = $data['colors'];
 ?>
 <style>
     .draggable {
@@ -13,7 +14,6 @@ $lists = $data['lists'];
     opacity: .5;
     }
 </style>
-
 
 
 <nav class="uk-navbar-container" uk-navbar>
@@ -138,7 +138,6 @@ $lists = $data['lists'];
 </nav>
 
 
-    
 <!-- LISTS -->
 
 <div class="uk-flex uk-margin">
@@ -192,7 +191,6 @@ $lists = $data['lists'];
             </div>
         </div>
             
-
         <!-- CARDS IN LIST -->
 
         <!-- cards container in the list, attribute "data-list-id" is list id where container is located -->
@@ -200,8 +198,10 @@ $lists = $data['lists'];
             <?php
                 foreach($list->getCards() as $card){
             ?>  
-                <!-- card in the list -->
-                <div draggable="true" data-card_id="<?= $card->getId() ?>" data-card_list_position="<?= $card->getList_position() ?>" class=" draggable uk-card uk-card-default uk-margin">
+
+                <!-- CARD IN THE LIST -->
+
+                <div draggable="true" data-card_id="<?= $card->getId() ?>" data-card_list_position="<?= $card->getList_position() ?>" class=" draggable uk-card uk-card-default uk-margin" style="background-color:<?= $card->getColor()->getColor_code() ?>">
                     <div class="uk-card-body">
                         <div class="uk-position-top-right">
 
@@ -241,7 +241,12 @@ $lists = $data['lists'];
                                         </div> 
                                     </form>
 
+                                    <!-- ACCORDION -->
+
                                     <ul uk-accordion>
+                                
+                                        <!-- EDIT CARD DESCRIPTION -->
+
                                         <li>
                                             <a class="uk-accordion-title" href="#">Ajouter la discreption</a>
                                             <div class="uk-accordion-content">
@@ -255,6 +260,9 @@ $lists = $data['lists'];
                                                 </form>
                                             </div>
                                         </li>
+
+                                        <!-- EDIT MARK -->
+
                                         <li>
                                             <a class="uk-accordion-title" href="#">Modifier un membre</a>
                                             <div class="uk-accordion-content">
@@ -262,10 +270,32 @@ $lists = $data['lists'];
                                             </div>
                                         </li>
 
+                                        <!-- EDIT CARD COLOR -->
+
                                         <li>
                                             <a class="uk-accordion-title" href="#">Couleur de la carte</a>
                                             <div class="uk-accordion-content">
-                                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
+
+                                                <form action="?ctrl=cards&action=editCardColor" method="post">
+
+                                                <?php
+                                                    foreach($colors as $color){
+                                                ?> 
+                                                    <div class="uk-margin">
+                                                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
+                                                            <div style="background-color:<?= $color->getColor_code() ?>; height:40px " class="uk-width-expand@m uk-margin-right"></div>
+                                                            <div class="uk-flex"> 
+                                                                <input class="uk-checkbox" type="radio" name="color_id" value="<?= $color->getId() ?>" <?php if($color->getId()==$card->getColor()->getId()) {echo 'checked';} ?>>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <?php
+                                                    }
+                                                ?>                                                    
+                                                    <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
+                                                    <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                                    <input class="uk-button uk-button-default uk-margin-right uk-margin-left"  type="submit" name="submit" value="Appliquer la couleur">                              
+                                                </form>
                                             </div>
                                         </li>
                                     </ul>
@@ -273,10 +303,14 @@ $lists = $data['lists'];
                             </div>
                         </div>
 
-                        <div><?=  $card->getContent() ?></div>
+                        <!-- CARD CONTENT -->
+
+                        <div>
+                            <?=  $card->getContent() ?>
+                        </div>
                     </div>
                     
-                    <!-- disctiontion  -->
+                    <!-- CARD DESCRIPTION -->
 
                     <?php
                         //for card with description
@@ -288,7 +322,7 @@ $lists = $data['lists'];
                         <div id="toggle-<?= $card->getId() ?>" class="uk-padding-small">
                             <?=  $card->getDescription() ?>
                         </div>                                                  
-                        
+
                     <?php
                         }
                     ?>
@@ -329,7 +363,6 @@ $lists = $data['lists'];
 <?php
     }
 ?>
-
 
     <!-- LIST CREATION -->
 
