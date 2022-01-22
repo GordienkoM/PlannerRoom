@@ -5,7 +5,7 @@
     define("SECRET", "this_is_a_secret");
 //DATABASE
     // database connection host
-    define("DB_HOST", "mysql:host=localhost:3306;dbname=planner_room");
+    define("DB_HOST", "mysql:host=localhost;dbname=planner_room");
     // username of the database server
     define("DB_USER", "root");
     // password of the database server user

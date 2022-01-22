@@ -1,7 +1,7 @@
 <?php
     use App\Core\Session;
 ?>
-<div class="uk-container">
+<div>
     <section class="uk-padding-remove">
     <?php 
         if($successMsgs = Session::getFlashes("success")){
