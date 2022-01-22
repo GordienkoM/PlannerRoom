@@ -310,23 +310,38 @@ $colors = $data['colors'];
                         </div>
                     </div>
                     
-                    <!-- CARD DESCRIPTION -->
+                    <!-- CARD DESCRIPTION AND MARK USER -->
 
-                    <?php
-                        //for card with description
-                        if($card->getDescription()){
-                    ?>
-                        <div class="uk-padding-small uk-padding-remove-vertical">
+                    <div class="uk-flex uk-child-width-expand">
+                                                            
+                        <?php
+                            //for card with description
+                            if($card->getDescription()){
+                        ?>
+                            <!-- description button -->
+              
                             <button uk-toggle="target: #toggle-<?= $card->getId() ?>" class="uk-button uk-button-default uk-button-small" type="button">Description</button>   
-                        </div>    
-                        <div id="toggle-<?= $card->getId() ?>" class="uk-padding-small">
-                            <?=  $card->getDescription() ?>
-                        </div>                                                  
+                                                                           
+                        <?php
+                            }
+                        ?>
+                        <!-- mark user -->
+                        <div class="uk-flex uk-flex-right">
 
-                    <?php
-                        }
-                    ?>
-                    
+                        <?php
+                            foreach($card->getMarks() as $mark){
+                        ?>                          
+                            <div class="uk-badge uk-margin-small-right"><?= $mark->getFirstLetter() ?></div>
+                        <?php
+                            }
+                        ?>    
+                        </div>
+
+                    </div>
+                     <!-- description -->
+                    <div id="toggle-<?= $card->getId() ?>" class="uk-padding-small">
+                        <?=  $card->getDescription() ?>
+                    </div> 
                 </div>
             <?php
                 }

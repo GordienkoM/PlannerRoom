@@ -7,6 +7,7 @@
     use App\Model\Manager\BoardManager;
     use App\Model\Manager\TaskListManager;
     use App\Model\Manager\ColorManager;
+    use App\Model\Manager\CardManager;
 
     class MainController extends AC
     {
@@ -14,6 +15,7 @@
             $this->userManager = new UserManager();
             $this->boardManager = new BoardManager();
             $this->listManager = new TaskListManager();
+            $this->cardManager = new CardManager();
             $this->colorManager = new ColorManager();
         }
 
@@ -102,8 +104,10 @@
             return $this->redirectToRoute("security");
         }
 
-        public function showBoard($id){
+        //display page "Board"
 
+        public function showBoard($id){
+            // check if user is logged in
             if(Session::get("user")){
                 // get board as an object
                 $board = $this->boardManager->getOneById($id);
@@ -121,13 +125,22 @@
                 if ($isParticipant){
                     // add array of participants in a board
                     $board->setParticipants($participants);
-                    $lists = []; 
+                    $lists = [];
+                    // if board have the lists 
                     if($this->listManager->getListsByBoard($id)){
                         // for each list
                         foreach($this->listManager->getListsByBoard($id) as $list){
                             $list_id = $list->getId();
                             // get array of cards for a list                   
                             $cards = $this->listManager->getCardsByList($list_id);
+                            // for each card in list
+                            foreach($cards as $card){
+                                $card_id = $card->getId();
+                                // get array of mark users for a card 
+                                $markUsers = $this->cardManager->getMarkUsersByCard($card_id);
+                                // add array of mark users in a card
+                                $card->setMarks($markUsers);
+                            }
                             // add array of cards in a list
                             $list->setCards($cards);
                             // add a list in array of lists

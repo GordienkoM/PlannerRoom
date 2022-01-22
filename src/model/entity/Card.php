@@ -12,6 +12,7 @@
         private $description;
         private $taskList;
         private $color;
+        private $marks;
 
         public function __construct($data){
             parent::hydrate($data, $this);
@@ -133,6 +134,26 @@
         public function setColor($color)
         {
                 $this->color = $color;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of marks
+         */ 
+        public function getMarks()
+        {
+                return $this->marks;
+        }
+
+        /**
+         * Set the value of marks
+         *
+         * @return  self
+         */ 
+        public function setMarks($marks)
+        {
+                $this->marks = $marks;
 
                 return $this;
         }

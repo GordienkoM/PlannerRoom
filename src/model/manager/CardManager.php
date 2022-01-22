@@ -41,6 +41,16 @@ class CardManager extends AM implements ManagerInterface
         );
     }
 
+    public function getMarkUsersByCard($card_id){
+        return $this->getResults(
+            "App\Model\Entity\User",
+            "SELECT * FROM users WHERE id IN (SELECT m.user_id FROM cards c, users u, user_card_marks m WHERE u.id = m.user_id AND c.id = m.card_id AND m.card_id = :card_id)", 
+            [
+                "card_id" => $card_id
+            ]
+        );
+    }
+
     // insert functions
 
     public function insertCard($list_position, $content, $list_id){
