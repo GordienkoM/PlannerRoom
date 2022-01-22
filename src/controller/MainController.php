@@ -3,52 +3,60 @@
 
     use App\Core\Session;
     use App\Core\AbstractController as AC;
-    use App\Model\Manager\UserAppManager;
-    use App\Model\Manager\TableAppManager;
-    use App\Model\Manager\ListAppManager;
+    use App\Model\Manager\UserManager;
+    use App\Model\Manager\BoardManager;
+    use App\Model\Manager\TaskListManager;
+    use App\Model\Manager\ColorManager;
+    use App\Model\Manager\CardManager;
 
     class MainController extends AC
     {
         public function __construct(){
-            $this->userManager = new UserAppManager();
-            $this->tableManager = new TableAppManager();
-            $this->listManager = new ListAppManager();
+            $this->userManager = new UserManager();
+            $this->boardManager = new BoardManager();
+            $this->listManager = new TaskListManager();
+            $this->cardManager = new CardManager();
+            $this->colorManager = new ColorManager();
         }
 
+        //display page "Dashboard" 
+        
         public function index(){
             // check if user is logged in
             if(Session::get("user")){
                 $user_id =  Session::get("user")->getId();
                 // array of invitations
-                $invitations = $this->tableManager->getInvitationsByUser($user_id);
-                // array of tables
-                $tables = [];
-                // get table ids where user is a participant
-                $table_ids = $this->tableManager->getTableIdsByUser($user_id);
-                if($table_ids){
+                $invitations = $this->boardManager->getInvitationsByUser($user_id);
+                // array of boards
+                $boards = [];
+                // get board ids where user is a participant
+                $board_ids = $this->boardManager->getBoardIdsByUser($user_id);
+                if($board_ids){
                     // for each id
-                    foreach($table_ids as $table_id){
-                        $table_id = $table_id['tableApp_id'];
-                        // get table as an object
-                        $table = $this->tableManager->getOneById($table_id);
-                        // get array of participants for a table                   
-                        $participants = $this->tableManager->getParticipantsByTable($table_id);
-                        // add array of participants in a table
-                        $table->setParticipants($participants);
-                        // add a table in array of tables
-                        $tables[] = $table;
+                    foreach($board_ids as $board_id){
+                        $board_id = $board_id['board_id'];
+                        // get board as an object
+                        $board = $this->boardManager->getOneById($board_id);
+                        // get array of participants for a board                   
+                        $participants = $this->boardManager->getParticipantsByBoard($board_id);
+                        // add array of participants in a board
+                        $board->setParticipants($participants);
+                        // add a board in array of boards
+                        $boards[] = $board;
                     }
-                }    
+                } 
+
                 return $this->render("main/dashboard.php", [
                     "invitations" => $invitations,
-                    "tables" => $tables,
-                    "title" => "Dashboard"
+                    "boards" => $boards,
+                    "title" => "Dashboard",
+
                 ]);
             }
             return $this->redirectToRoute("security");
         }
 
-        public function addTable(){
+        public function addBoard(){
 
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
@@ -59,8 +67,8 @@
                     
                     if($title && $description){
 
-                        $table_id = $this->tableManager->insertTable($title, $description, $user_id);                    
-                        if($table_id && $this->tableManager->insertParticipation($table_id, $user_id)){
+                        $board_id = $this->boardManager->insertBoard($title, $description, $user_id);                    
+                        if($board_id && $this->boardManager->insertParticipation($board_id, $user_id)){
                             Session::addFlash('success', "Le tableau est ajouté");
                         }
                         else{
@@ -76,15 +84,15 @@
             return $this->redirectToRoute("security");                           
         }
 
-        public function delTable($id){
+        public function delBoard($id){
             
             if(Session::get("user")){
 
-                $table = $this->tableManager->getOneById($id); 
-                if($table){
-                    //check that the logged in user is the table admin
-                    if(Session::get("user")->getId() == $table->getUserApp()->getId()){  
-                        if($this->tableManager->deleteTable($id)){
+                $board = $this->boardManager->getOneById($id); 
+                if($board){
+                    //check that the logged in user is the board admin
+                    if(Session::get("user")->getId() == $board->getUser()->getId()){  
+                        if($this->boardManager->deleteBoard($id)){
                             Session::addFlash('success', "Le tableau est suprimé");
                         }
                         else{
@@ -96,15 +104,17 @@
             return $this->redirectToRoute("security");
         }
 
-        public function showTable($id){
+        //display page "Board"
 
+        public function showBoard($id){
+            // check if user is logged in
             if(Session::get("user")){
-                // get table as an object
-                $table = $this->tableManager->getOneById($id);
-                // get array of participants for a table                   
-                $participants = $this->tableManager->getParticipantsByTable($id);
+                // get board as an object
+                $board = $this->boardManager->getOneById($id);
+                // get array of participants for a board                   
+                $participants = $this->boardManager->getParticipantsByBoard($id);
                 
-                //check if the logged in user is one of the table participants
+                //check if the logged in user is one of the board participants
                 $isParticipant = false;
                 foreach($participants as $participant){
                     if ($participant->getId() ==  Session::get("user")->getId()){
@@ -113,14 +123,38 @@
                 }
 
                 if ($isParticipant){
-                    // add array of participants in a table
-                    $table->setParticipants($participants);
-                    $lists = $this->listManager->getListsByTable($id);  
+                    // add array of participants in a board
+                    $board->setParticipants($participants);
+                    $lists = [];
+                    // if board have the lists 
+                    if($this->listManager->getListsByBoard($id)){
+                        // for each list
+                        foreach($this->listManager->getListsByBoard($id) as $list){
+                            $list_id = $list->getId();
+                            // get array of cards for a list                   
+                            $cards = $this->listManager->getCardsByList($list_id);
+                            // for each card in list
+                            foreach($cards as $card){
+                                $card_id = $card->getId();
+                                // get array of mark users for a card 
+                                $markUsers = $this->cardManager->getMarkUsersByCard($card_id);
+                                // add array of mark users in a card
+                                $card->setMarks($markUsers);
+                            }
+                            // add array of cards in a list
+                            $list->setCards($cards);
+                            // add a list in array of lists
+                            $lists[] = $list;
+                        }
+                    }   
 
-                    return $this->render("main/table.php", [
-                        "table" => $table,
+                    $colors = $this->colorManager->getAllColors();
+
+                    return $this->render("main/board.php", [
+                        "board" => $board,
                         "lists" => $lists,
-                        "title" => $table
+                        "title" => $board,
+                        "colors" => $colors,
                     ]);
                 }else{
                     Session::addFlash('error', 'Accès refusé !');
@@ -134,17 +168,17 @@
 
             if(isset($_POST["submit"])){
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-                $table_id = filter_input(INPUT_POST, "table_id", FILTER_SANITIZE_STRING);
-                if($email && $table_id){
+                $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_NUMBER_INT);
+                if($email && $board_id){
                     // get the user if the entered email corresponds the database
                     $user = $this->userManager->getUserByEmail($email);
-                    $table = $this->tableManager->getOneById($table_id);
+                    $board = $this->boardManager->getOneById($board_id);
                     if($user){
                         $user_id = $user->getId();
-                        //check that the logged in user is the table admin
-                        if(Session::get("user")->getId() == $table->getUserApp()->getId()){
-                            if(!$this->tableManager->isInvitation($table_id, $user_id)){
-                                if($this->tableManager->insertInvitation($table_id, $user_id)){
+                        //check that the logged in user is the board admin
+                        if(Session::get("user")->getId() == $board->getUser()->getId()){
+                            if(!$this->boardManager->isInvitation($board_id, $user_id)){
+                                if($this->boardManager->insertInvitation($board_id, $user_id)){
                                     Session::addFlash('success', "L'utilisateur est invité");
                                 }
                                 else{
@@ -159,8 +193,8 @@
                 }
                 else Session::addFlash('error', "Le champ doit être remplis correctement");
 
-                $params = ['id' => $table_id];
-                return $this->redirectToRoute("main", "showTable", $params);
+                $params = ['id' => $board_id];
+                return $this->redirectToRoute("main", "showBoard", $params);
             }
             return $this->redirectToRoute("security");
         }
@@ -169,7 +203,7 @@
                        
             if(Session::get("user")){
                 $user_id = Session::get("user")->getId();
-                if($this->tableManager->acceptInvitation($id, $user_id)){
+                if($this->boardManager->acceptInvitation($id, $user_id)){
                     Session::addFlash('success', "Vous avez accepté l'invitation et vous participez dans un nouveau tableau");
                 }
                 else{
@@ -184,7 +218,7 @@
 
             if(Session::get("user")){
                 $user_id = Session::get("user")->getId();
-                if($this->tableManager->deleteInvitation($id, $user_id)){
+                if($this->boardManager->deleteInvitation($id, $user_id)){
                     Session::addFlash('success', "L'invitation est suprimé");
                 }
                 else{
@@ -195,11 +229,11 @@
             return $this->redirectToRoute("security");
         }
 
-        public function leaveTable($id){ 
+        public function leaveBoard($id){ 
 
             if(Session::get("user")){
                 $user_id = Session::get("user")->getId();
-                if($this->tableManager->deleteParticipation($id, $user_id)){
+                if($this->boardManager->deleteParticipation($id, $user_id)){
                     Session::addFlash('success', "Vous avez quitté le tableau");
                 }
                 else{
@@ -216,14 +250,14 @@
                 if(isset($_POST["submit"])){
                     var_dump("salut");
                     $user_id = filter_input(INPUT_POST, "user_id", FILTER_VALIDATE_INT);
-                    $table_id = filter_input(INPUT_POST, "table_id", FILTER_VALIDATE_INT);
+                    $board_id = filter_input(INPUT_POST, "board_id", FILTER_VALIDATE_INT);
 
-                    if($user_id && $table_id){
-                        $table = $this->tableManager->getOneById($table_id); 
-                        if($table){
-                            //check that the logged in user is the table admin
-                            if(Session::get("user")->getId() == $table->getUserApp()->getId()){
-                                if($this->tableManager->deleteParticipation($table_id, $user_id)){
+                    if($user_id && $board_id){
+                        $board = $this->boardManager->getOneById($board_id); 
+                        if($board){
+                            //check that the logged in user is the board admin
+                            if(Session::get("user")->getId() == $board->getUser()->getId()){
+                                if($this->boardManager->deleteParticipation($board_id, $user_id)){
                                     Session::addFlash('success', "Vous avez supprimer le participant");
                                 }
                                 else{
@@ -236,8 +270,8 @@
                     }
                     else Session::addFlash('error', "Une erreur est survenue");
     
-                    $params = ['id' => $table_id];
-                    return $this->redirectToRoute("main", "showTable", $params);
+                    $params = ['id' => $board_id];
+                    return $this->redirectToRoute("main", "showBoard", $params);
                 }
             }return $this->redirectToRoute("security");    
         }

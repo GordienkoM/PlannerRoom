@@ -3,21 +3,23 @@
 
     use App\Core\Session;
     use App\Core\AbstractController as AC;
-    use App\Model\Manager\UserAppManager;
+    use App\Model\Manager\UserManager;
 
     class AdminController extends AC
     {
         public function __construct(){
-            $this->userManager = new UserAppManager();
+            $this->userManager = new UserManager();
         }
 
+        //display page "Administration" with users list   
+           
         public function index(){
             // check if user is logged in
             if (Session::get("user")){
                 // check if logged in user is the application admin
                 if (Session::get("user")->hasRole("ROLE_ADMIN")){
                     //get all users
-                    $users = $this->userManager->getAll();               
+                    $users = $this->userManager->getAllUsers();               
                     
                     return $this->render("admin/admin.php", [
                         "users" => $users,

@@ -3,15 +3,16 @@
     
     use App\Core\AbstractController as AC;
     use App\Core\Session;
-    use App\Model\Manager\UserAppManager;
+    use App\Model\Manager\UserManager;
 
     class SecurityController extends AC
     {
         public function __construct(){
-            $this->manager = new UserAppManager();
+            $this->manager = new UserManager();
         }
 
         // display the login form or compute the login action with post data
+        
         public function index(){
             if(isset($_POST["submit"])){
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
@@ -139,7 +140,6 @@
             return $this->redirectToRoute("security");
         }
 
-
         public function cancelPassword($id)
         {
             if(Session::get("user")){
@@ -226,10 +226,4 @@
             return $this->redirectToRoute("security");
         }
 
-        public function getError(){
-
-            return $this->render("user/error.php", [
-                "title"    => "error"
-            ]);
-        }
     }
