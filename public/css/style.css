@@ -1,3 +1,488 @@
 *{
     box-sizing: border-box;
 }
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: 'Nunito', Arial, sans-serif;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, a {
+  font-family: 'Open Sans', Arial, sans-serif;
+  color: white;
+}
+
+h1 {
+  font-size: 3.6rem;
+}
+
+/****************************HEADER****************************/
+
+header {
+    background-color: #262626;
+    padding-bottom: 20px;
+}
+
+nav.header-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 50px;
+}
+
+a#planner-room-logo {
+    margin-top: 20px;
+    max-width: 350px;
+    min-width: 258px;
+}
+
+div.header-nav-div {
+    margin-top: 20px;
+}
+
+ul.header-nav-div-ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+ul.header-nav-div-ul li {
+  display: flex;
+}
+
+ul.header-nav-div-ul li:first-child {
+  margin-left: 40px;
+}
+
+ul.header-nav-div-ul a {
+    text-decoration: none;
+    margin-right: 50px;
+    white-space: nowrap;
+}
+
+a.shutter-effect {
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  border: 1px solid white;
+  border-radius: 7px;
+  padding: 10px 30px;
+  box-shadow: 3px 3px 0 white, -3px -3px 0 white, -3px 3px 0 white, 3px -3px 0 white;
+  transition: 300ms ease-in-out;
+}
+
+a.shutter-effect:hover {
+  box-shadow: 20px 5px 1px rgba(255, 255, 255, 0.5), -20px -5px 1px rgba(255, 255, 255, 0.5);
+}
+
+a.shutter-effect:focus {
+  box-shadow: 20px 5px 1px white, -20px -5px 1px white;
+}
+
+img.user-profile-icon {
+    width: 24px;
+    margin-right: 5px;
+}
+
+/****************************MAIN****************************/
+
+
+
+div.form-message {
+  transition-duration: 2s;
+  width: 100%;
+}
+
+div.form-message section {
+    width: 100%;
+}
+
+div.form-message section div{
+    margin-bottom: 0;
+}
+
+div.form-message h4 {
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  transition-duration: 2s;
+}
+
+    /**********LOGIN MAIN**********/
+
+
+div.login-page {
+    background: url("../images/planner_room_login_background-image_1920x1280.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 89.8vh;
+}
+
+div.login-container {
+    margin: 0 auto;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    color: white;
+    max-width: 1600px;
+}
+
+div.login-text, div.login-form {
+    flex: 1;
+    margin: 0 50px;
+    padding-bottom: 1px;
+}
+
+div.login-text {
+    min-width: 500px;
+}
+
+div.login-text p, div.login-text h2 {
+    text-align: center;
+}
+
+div.login-text p {
+    font-size: 2.8rem;
+    line-height: 4rem;
+}
+
+div.login-text h2 {
+    font-size: 3.6rem;
+    text-shadow: 1px 1px 2px black;
+    line-height: 6rem;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+div.login-container h2 {
+    font-weight: bold;
+}
+
+div.login-container div.login-form-container {
+    position: relative;
+    margin: 80px auto;
+    display: flex;                  
+    align-items: center;
+    width: 450px;
+    z-index: 0;
+}
+
+div.login-form-container-div {
+    background: rgba(255, 255, 255, .3);
+    border-radius: 5px;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    backdrop-filter: blur(10px);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, .8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-shadow: 1px 1px 2px black;
+}
+
+div.login-container h1 {
+    font-weight: 600;
+        margin-top: 70px;
+    margin-bottom: 50px;
+}
+
+div.login-form-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.login-form-container-div form label {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 6px;
+}
+
+div#login-input-email{
+    margin-bottom: 20px;
+}
+
+input {
+  border: none;
+  padding: 1rem;
+  width: 270px;
+  border-radius: 4px;
+  box-shadow: 4px 4px 60px rgba(0, 0, 0, .2);
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
+  transition: all .3s;
+  margin-bottom: 2em;
+}
+
+input[type="submit"] {
+    color: white;
+    background-color: #4B4B4B;
+    font-size: 20px;
+    margin-top: 35px;
+    width: 175px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid white;
+    padding: 10px 20px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    text-shadow: 1px 1px 2px black;
+}
+
+input[type="submit"]:hover, input[type="submit"]:focus {
+  background: rgba(0,0,0,0.4);
+  box-shadow: 4px 4px 60px 8px rgba(0,0,0,0.2);
+  color: white;
+}
+
+div.login-form-container div.register-div {
+    margin-bottom: 70px;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+div.login-form-container div.register-div a {
+    font-weight: 800;
+    color: white;
+}
+
+div.drop {
+  background: rgba(255, 255, 255, .3);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border-left: 1px solid rgba(255, 255, 255, .3);
+  border-top: 1px solid rgba(255, 255, 255, .3);
+  box-shadow: 10px 10px 60px -8px rgba(0,0,0,0.2);
+  position: absolute;
+  transition: all 0.2s ease;
+}
+
+div.drop-1 {
+  height: 80px; width: 80px;
+  top: -40px; left: -50px;
+  background-color: rgba(0, 139, 248, 0.39);
+}
+
+div.drop-2 {
+  
+  height: 80px; width: 80px;
+  bottom: -30px; right: -50px;
+  background-color: rgba(220, 0, 115, 0.39);  
+}
+
+div.drop-3 {
+    background-color: rgba(245, 183, 0, 0.39);
+    z-index: -1;
+    height: 100px; 
+    width: 100px;
+    bottom: -40px; 
+    left: -40px;
+}
+
+div.drop-4 {
+  height: 120px; 
+  width: 120px;
+  top: -60px; 
+  right: -60px;
+  z-index: -1;
+  background-color: rgba(4, 231, 98, 0.39);
+}
+
+
+    /**********REGISTRATION MAIN**********/
+
+div.registration-page {
+    background: url("../images/planner_room_registration_background-image_1920x1080.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 89.8vh;
+}
+
+div.registration-container {
+    padding-top: 80px;
+    padding-bottom: 50px;
+}
+
+div.registration-form {
+    background: rgba(255, 255, 255, .3);
+    border-radius: 5px;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    backdrop-filter: blur(10px);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, .8);
+    display: flex;
+    flex-direction: column;
+    color: white;
+    align-items: center;
+    width: 600px;
+    text-shadow: 1px 1px 2px black;
+    margin: 0 auto 50px;
+}
+
+div.registration-form h1 {
+    font-weight: 600;
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+
+div.registration-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 70px;
+}
+
+
+div.registration-form form label {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 6px;  
+}
+
+div.registration-form form input {
+    width: 460px;
+    margin-bottom: 20px;
+}
+
+div.registration-form input[type="submit"] {
+    margin-bottom: 70px;
+    width: 175px;
+}
+
+
+    /**********PROFILE MAIN**********/
+
+div.profile-page {
+    background: url("../images/planner_room_profile_background-image_1920x1280.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 89.8vh;
+}
+
+div.profile-container {
+    margin: 0 50px;
+    padding-bottom: 50px;
+}
+
+div.profile-container h1 {
+    font-size: 3.6rem;
+    text-shadow: 1px 1px 2px black;
+    line-height: 6rem;
+    text-align: center;
+    padding-top: 50px;
+    margin-top: 0;
+}
+
+div.profile-container table {
+    width: auto;
+    color: white;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+div.profile-container table tr {
+    margin-right: 0;
+    margin-left: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, .3);
+    border-radius: 5px;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, .8);
+    flex-direction: column;
+    text-shadow: 1px 1px 2px black;
+    border-spacing: 0px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+div.profile-container table tr td {
+    width: auto;
+    color: white;
+    border-top: 10px solid inset;
+    padding: 30px;
+    vertical-align: top;
+}
+
+div.profile-container table tr td:first-child {
+    width: 220px;
+    font-size: 2.3rem;
+    text-align: left;
+}
+
+div.profile-container table tr td:nth-child(2) {
+    font-size: 2rem;
+}
+
+div.profile-container table tr td:last-child {
+    float: right;
+}
+
+div.profile-container form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+div.input-and-link {
+    display: flex;
+    align-items: center;
+}
+
+div.profile-container form input[type="submit"] {
+    font-size: 1.6rem;
+    margin-top: 10px;
+    padding: 6px 20px;
+    margin-right: 30px;
+}
+
+div.input-and-link div {
+    margin-top: 10px;
+}
+
+div.input-and-link a {
+    color: white;
+}
+
+div.input-and-link div a:hover, div.input-and-link div a:focus {
+    text-decoration: underline;
+}
+
+div.profile-container table tr.profile-tr-password td.profile-td-new-password {
+    text-align: left;
+}
+
+div.profile-container table tr.profile-tr-password td.profile-td-new-password form {
+    align-items: flex-start;
+}
+
+div.profile-container table tr.profile-tr-password td.profile-td-new-password div.div-new-password {
+    margin-bottom: 15px;
+}
+
+div.profile-container table tr.profile-tr-password td.profile-td-new-password form input {
+    font-size: 1.6rem;
+    margin-top: 8px;
+}
+
+div.profile-container table tr.profile-tr-password a {
+    font-size: 1.6rem;
+}

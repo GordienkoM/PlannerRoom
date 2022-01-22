@@ -3,5 +3,7 @@
 
     interface ManagerInterface
     {
+        public function getAll();
+
         public function getOneById($id);
     }

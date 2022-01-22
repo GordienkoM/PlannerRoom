@@ -17,82 +17,128 @@
 CREATE DATABASE IF NOT EXISTS `planner_room` /*!40100 DEFAULT CHARACTER SET utf16 COLLATE utf16_bin */;
 USE `planner_room`;
 
--- Listage de la structure de la table planner_room. boards
-CREATE TABLE IF NOT EXISTS `boards` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf16_bin NOT NULL,
-  `description` text COLLATE utf16_bin,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `tableapp_ibfk_1` (`user_id`) USING BTREE,
-  CONSTRAINT `boards_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
-
--- Listage des données de la table planner_room.boards : ~3 rows (environ)
-/*!40000 ALTER TABLE `boards` DISABLE KEYS */;
-INSERT INTO `boards` (`id`, `title`, `description`, `user_id`) VALUES
-	(1, 'Test', 'Voici un test', 2),
-	(2, 'Projet CCI ', 'Backlog de Trello Like', 1),
-	(6, 'test3', 'voici un test', 1);
-/*!40000 ALTER TABLE `boards` ENABLE KEYS */;
-
--- Listage de la structure de la table planner_room. cards
-CREATE TABLE IF NOT EXISTS `cards` (
+-- Listage de la structure de la table planner_room. card
+CREATE TABLE IF NOT EXISTS `card` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `list_position` int(11) NOT NULL,
   `content` text COLLATE utf16_bin NOT NULL,
   `description` text COLLATE utf16_bin,
-  `taskList_id` int(11) NOT NULL,
+  `listApp_id` int(11) NOT NULL,
   `color_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `card_ibfk_2` (`color_id`),
-  KEY `card_ibfk_1` (`taskList_id`) USING BTREE,
-  CONSTRAINT `FK_cards_tasklists` FOREIGN KEY (`taskList_id`) REFERENCES `tasklists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `cards_ibfk_2` FOREIGN KEY (`color_id`) REFERENCES `colors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+  KEY `card_ibfk_1` (`listApp_id`) USING BTREE,
+  CONSTRAINT `card_ibfk_1` FOREIGN KEY (`listApp_id`) REFERENCES `listapp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `card_ibfk_2` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
--- Listage des données de la table planner_room.cards : ~4 rows (environ)
-/*!40000 ALTER TABLE `cards` DISABLE KEYS */;
-INSERT INTO `cards` (`id`, `list_position`, `content`, `description`, `taskList_id`, `color_id`) VALUES
-	(1, 1000, 'test', NULL, 1, 1),
-	(2, 2000, 'test2  test test', NULL, 1, 1),
-	(3, 1000, 'test3', NULL, 2, 1),
-	(4, 2000, 'test', NULL, 2, NULL);
-/*!40000 ALTER TABLE `cards` ENABLE KEYS */;
+-- Listage des données de la table planner_room.card : ~0 rows (environ)
+/*!40000 ALTER TABLE `card` DISABLE KEYS */;
+/*!40000 ALTER TABLE `card` ENABLE KEYS */;
 
--- Listage de la structure de la table planner_room. colors
-CREATE TABLE IF NOT EXISTS `colors` (
+-- Listage de la structure de la table planner_room. color
+CREATE TABLE IF NOT EXISTS `color` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `color_code` varchar(50) COLLATE utf16_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
--- Listage des données de la table planner_room.colors : ~0 rows (environ)
-/*!40000 ALTER TABLE `colors` DISABLE KEYS */;
-INSERT INTO `colors` (`id`, `color_code`) VALUES
-	(1, '255,255,255');
-/*!40000 ALTER TABLE `colors` ENABLE KEYS */;
+-- Listage des données de la table planner_room.color : ~0 rows (environ)
+/*!40000 ALTER TABLE `color` DISABLE KEYS */;
+/*!40000 ALTER TABLE `color` ENABLE KEYS */;
 
--- Listage de la structure de la table planner_room. tasklists
-CREATE TABLE IF NOT EXISTS `tasklists` (
+-- Listage de la structure de la table planner_room. invitation
+CREATE TABLE IF NOT EXISTS `invitation` (
+  `tableApp_id` int(11) NOT NULL,
+  `userApp_id` int(11) NOT NULL,
+  PRIMARY KEY (`tableApp_id`,`userApp_id`),
+  KEY `invitation_ibfk_2` (`userApp_id`),
+  CONSTRAINT `invitation_ibfk_1` FOREIGN KEY (`tableApp_id`) REFERENCES `tableapp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `invitation_ibfk_2` FOREIGN KEY (`userApp_id`) REFERENCES `userapp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+
+-- Listage des données de la table planner_room.invitation : ~1 rows (environ)
+/*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
+INSERT INTO `invitation` (`tableApp_id`, `userApp_id`) VALUES
+	(6, 3);
+/*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
+
+-- Listage de la structure de la table planner_room. listapp
+CREATE TABLE IF NOT EXISTS `listapp` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text COLLATE utf16_bin NOT NULL,
-  `board_id` int(11) NOT NULL,
+  `tableApp_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `list_ibfk_1` (`board_id`) USING BTREE,
-  CONSTRAINT `tasklists_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `boards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `list_ibfk_1` (`tableApp_id`),
+  CONSTRAINT `listapp_ibfk_1` FOREIGN KEY (`tableApp_id`) REFERENCES `tableapp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
--- Listage des données de la table planner_room.tasklists : ~3 rows (environ)
-/*!40000 ALTER TABLE `tasklists` DISABLE KEYS */;
-INSERT INTO `tasklists` (`id`, `title`, `board_id`) VALUES
+-- Listage des données de la table planner_room.listapp : ~3 rows (environ)
+/*!40000 ALTER TABLE `listapp` DISABLE KEYS */;
+INSERT INTO `listapp` (`id`, `title`, `tableApp_id`) VALUES
 	(1, 'A faire', 2),
 	(2, 'En cours', 2),
 	(3, 'Terminé', 2);
-/*!40000 ALTER TABLE `tasklists` ENABLE KEYS */;
+/*!40000 ALTER TABLE `listapp` ENABLE KEYS */;
 
--- Listage de la structure de la table planner_room. users
-CREATE TABLE IF NOT EXISTS `users` (
+-- Listage de la structure de la table planner_room. mark
+CREATE TABLE IF NOT EXISTS `mark` (
+  `card_id` int(11) NOT NULL,
+  `userApp_id` int(11) NOT NULL,
+  PRIMARY KEY (`card_id`,`userApp_id`),
+  KEY `mark_ibfk_2` (`userApp_id`),
+  CONSTRAINT `mark_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `card` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `mark_ibfk_2` FOREIGN KEY (`userApp_id`) REFERENCES `userapp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+
+-- Listage des données de la table planner_room.mark : ~0 rows (environ)
+/*!40000 ALTER TABLE `mark` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mark` ENABLE KEYS */;
+
+-- Listage de la structure de la table planner_room. participation
+CREATE TABLE IF NOT EXISTS `participation` (
+  `tableApp_id` int(11) NOT NULL,
+  `userApp_id` int(11) NOT NULL,
+  PRIMARY KEY (`tableApp_id`,`userApp_id`),
+  KEY `participation_ibfk_2` (`userApp_id`),
+  CONSTRAINT `participation_ibfk_1` FOREIGN KEY (`tableApp_id`) REFERENCES `tableapp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `participation_ibfk_2` FOREIGN KEY (`userApp_id`) REFERENCES `userapp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+
+-- Listage des données de la table planner_room.participation : ~8 rows (environ)
+/*!40000 ALTER TABLE `participation` DISABLE KEYS */;
+INSERT INTO `participation` (`tableApp_id`, `userApp_id`) VALUES
+	(1, 1),
+	(2, 1),
+	(6, 1),
+	(1, 2),
+	(2, 2),
+	(6, 2),
+	(1, 3),
+	(2, 3);
+/*!40000 ALTER TABLE `participation` ENABLE KEYS */;
+
+-- Listage de la structure de la table planner_room. tableapp
+CREATE TABLE IF NOT EXISTS `tableapp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf16_bin NOT NULL,
+  `description` text COLLATE utf16_bin,
+  `userApp_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tableapp_ibfk_1` (`userApp_id`),
+  CONSTRAINT `tableapp_ibfk_1` FOREIGN KEY (`userApp_id`) REFERENCES `userapp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+
+-- Listage des données de la table planner_room.tableapp : ~3 rows (environ)
+/*!40000 ALTER TABLE `tableapp` DISABLE KEYS */;
+INSERT INTO `tableapp` (`id`, `title`, `description`, `userApp_id`) VALUES
+	(1, 'Test', 'Voici un test', 2),
+	(2, 'Projet CCI ', 'Backlog de Trello Like', 1),
+	(6, 'test3', 'voici un test', 1);
+/*!40000 ALTER TABLE `tableapp` ENABLE KEYS */;
+
+-- Listage de la structure de la table planner_room. userapp
+CREATE TABLE IF NOT EXISTS `userapp` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(128) COLLATE utf16_bin NOT NULL,
   `email` varchar(128) COLLATE utf16_bin NOT NULL,
@@ -101,66 +147,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `role` varchar(10) COLLATE utf16_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
--- Listage des données de la table planner_room.users : ~5 rows (environ)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `nickname`, `email`, `password`, `code_change`, `role`) VALUES
-	(1, ' Jérôme ', 'jerome.guyennet@orange.com', '$argon2i$v=19$m=65536,t=4,p=1$MkFuLmtSLlNDVVZiNjZQNA$84tlvor3fGaCO4weldQAgDLVmEC9CV/+7X7dneb0YCA', NULL, 'ROLE_USER'),
+-- Listage des données de la table planner_room.userapp : ~4 rows (environ)
+/*!40000 ALTER TABLE `userapp` DISABLE KEYS */;
+INSERT INTO `userapp` (`id`, `nickname`, `email`, `password`, `code_change`, `role`) VALUES
+	(1, 'Jérôme', 'jerome.guyennet@orange.com', '$argon2i$v=19$m=65536,t=4,p=1$MkFuLmtSLlNDVVZiNjZQNA$84tlvor3fGaCO4weldQAgDLVmEC9CV/+7X7dneb0YCA', NULL, 'ROLE_USER'),
 	(2, 'Maria Gordienko', 'mgordienkom@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$NHEwa1dCYkl3MHF4Rms1MQ$h0twzZi8CZbfgrW9RSP7z1dInpASR0Wm6W0EVqBNqjo', NULL, 'ROLE_USER'),
 	(3, 'Hamme', 'hamme@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$TWFkeS5rWFd1WFM3UnFWSg$U7BYzqGnC5kzImAZWTldtAdkUakWt6KCTnYh2b4KwfE', NULL, 'ROLE_USER'),
 	(5, 'admin', 'admin@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$ZGtQQTdLYm1kd21XZzMxZA$oZY3w5UiULtwT0w/Mj22F8ovsdcTISPyRKhNnvCYE+U', NULL, 'ROLE_ADMIN');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-
--- Listage de la structure de la table planner_room. user_board_invitations
-CREATE TABLE IF NOT EXISTS `user_board_invitations` (
-  `board_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`board_id`,`user_id`) USING BTREE,
-  KEY `invitation_ibfk_2` (`user_id`) USING BTREE,
-  CONSTRAINT `user_board_invitations_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `boards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user_board_invitations_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
-
--- Listage des données de la table planner_room.user_board_invitations : ~0 rows (environ)
-/*!40000 ALTER TABLE `user_board_invitations` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_board_invitations` ENABLE KEYS */;
-
--- Listage de la structure de la table planner_room. user_board_participations
-CREATE TABLE IF NOT EXISTS `user_board_participations` (
-  `board_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`board_id`,`user_id`) USING BTREE,
-  KEY `participation_ibfk_2` (`user_id`) USING BTREE,
-  CONSTRAINT `user_board_participations_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `boards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user_board_participations_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
-
--- Listage des données de la table planner_room.user_board_participations : ~7 rows (environ)
-/*!40000 ALTER TABLE `user_board_participations` DISABLE KEYS */;
-INSERT INTO `user_board_participations` (`board_id`, `user_id`) VALUES
-	(2, 1),
-	(6, 1),
-	(1, 2),
-	(2, 2),
-	(6, 2),
-	(1, 3),
-	(2, 3);
-/*!40000 ALTER TABLE `user_board_participations` ENABLE KEYS */;
-
--- Listage de la structure de la table planner_room. user_card_marks
-CREATE TABLE IF NOT EXISTS `user_card_marks` (
-  `card_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`card_id`,`user_id`) USING BTREE,
-  KEY `mark_ibfk_2` (`user_id`) USING BTREE,
-  CONSTRAINT `user_card_marks_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user_card_marks_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
-
--- Listage des données de la table planner_room.user_card_marks : ~0 rows (environ)
-/*!40000 ALTER TABLE `user_card_marks` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_card_marks` ENABLE KEYS */;
+/*!40000 ALTER TABLE `userapp` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

@@ -9,10 +9,9 @@
         private $id;
         private $list_position;
         private $content;
-        private $description;
-        private $taskList;
+        private $label;
+        private $listApp;
         private $color;
-        private $marks;
 
         public function __construct($data){
             parent::hydrate($data, $this);
@@ -79,41 +78,41 @@
         }
 
         /**
-         * Get the value of description
+         * Get the value of label
          */ 
-        public function getDescription()
+        public function getLabel()
         {
-                return $this->description;
+                return $this->label;
         }
 
         /**
-         * Set the value of description
+         * Set the value of label
          *
          * @return  self
          */ 
-        public function setDescription($description)
+        public function setLabel($label)
         {
-                $this->description = $description;
+                $this->label = $label;
 
                 return $this;
         }
 
         /**
-         * Get the value of taskList
+         * Get the value of listApp
          */ 
-        public function getTaskList()
+        public function getListApp()
         {
-                return $this->taskList;
+                return $this->listApp;
         }
 
         /**
-         * Set the value of TaskList
+         * Set the value of listApp
          *
          * @return  self
          */ 
-        public function setTaskList($taskList)
+        public function setListApp($listApp)
         {
-                $this->taskList = $taskList;
+                $this->listApp = $listApp;
 
                 return $this;
         }
@@ -134,26 +133,6 @@
         public function setColor($color)
         {
                 $this->color = $color;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of marks
-         */ 
-        public function getMarks()
-        {
-                return $this->marks;
-        }
-
-        /**
-         * Set the value of marks
-         *
-         * @return  self
-         */ 
-        public function setMarks($marks)
-        {
-                $this->marks = $marks;
 
                 return $this;
         }

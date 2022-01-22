@@ -4,7 +4,7 @@
     use App\Core\AbstractEntity as AE;
     use App\Core\EntityInterface;
 
-    class User extends AE implements EntityInterface
+    class UserApp extends AE implements EntityInterface
     {
         private $id;
         private $nickname;

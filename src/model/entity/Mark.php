@@ -4,10 +4,10 @@
     use App\Core\AbstractEntity as AE;
     use App\Core\EntityInterface;
 
-    class User_card_mark extends AE implements EntityInterface
+    class Mark extends AE implements EntityInterface
     {
         private $card;
-        private $user;
+        private $userApp;
 
         public function __construct($data){
                 parent::hydrate($data, $this);
@@ -34,21 +34,21 @@
         }
 
         /**
-         * Get the value of user
+         * Get the value of userApp
          */ 
-        public function getUser()
+        public function getUserApp()
         {
-                return $this->user;
+                return $this->userApp;
         }
 
         /**
-         * Set the value of user
+         * Set the value of userApp
          *
          * @return  self
          */ 
-        public function setUser($user)
+        public function setUserApp($userApp)
         {
-                $this->user = $user;
+                $this->userApp = $userApp;
 
                 return $this;
         }

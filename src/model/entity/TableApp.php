@@ -4,12 +4,12 @@
     use App\Core\AbstractEntity as AE;
     use App\Core\EntityInterface;
 
-    class Board extends AE implements EntityInterface
+    class TableApp extends AE implements EntityInterface
     {
         private $id;
         private $title;
         private $description;
-        private $user;
+        private $userApp;
         private $participants;
 
         public function __construct($data){
@@ -82,21 +82,21 @@
         }
 
         /**
-         * Get the value of user
+         * Get the value of userApp
          */ 
-        public function getUser()
+        public function getUserApp()
         {
-                return $this->user;
+                return $this->userApp;
         }
 
         /**
-         * Set the value of user
+         * Set the value of userApp
          *
          * @return  self
          */ 
-        public function setUser($user)
+        public function setUserApp($userApp)
         {
-                $this->user = $user;
+                $this->userApp = $userApp;
 
                 return $this;
         }

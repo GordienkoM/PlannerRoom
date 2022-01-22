@@ -4,12 +4,11 @@
     use App\Core\AbstractEntity as AE;
     use App\Core\EntityInterface;
 
-    class TaskList extends AE implements EntityInterface
+    class ListApp extends AE implements EntityInterface
     {
         private $id;
         private $title;
-        private $board;
-        private $cards;
+        private $tableApp;
 
         public function __construct($data){
             parent::hydrate($data, $this);
@@ -60,43 +59,23 @@
         }    
 
         /**
-         * Get the value of board
+         * Get the value of tableApp
          */ 
-        public function getBoard()
+        public function getTableApp()
         {
-                return $this->board;
+                return $this->tableApp;
         }
 
         /**
-         * Set the value of board
+         * Set the value of tableApp
          *
          * @return  self
          */ 
-        public function setBoard($board)
+        public function setTableApp($tableApp)
         {
-                $this->board = $board;
+                $this->tableApp = $tableApp;
 
                 return $this;
         }
 
-
-        /**
-         * Get the value of cards
-         */ 
-        public function getCards()
-        {
-                return $this->cards;
-        }
-
-        /**
-         * Set the value of cards
-         *
-         * @return  self
-         */ 
-        public function setCards($cards)
-        {
-                $this->cards = $cards;
-
-                return $this;
-        }
     }
