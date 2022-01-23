@@ -16,4 +16,6 @@
     define("CSS_PATH", "./public/css");
     // image path
     define("IMG_PATH", "./public/images");
+    // java script path
+    define("JS_PATH", "./public/js");
     
