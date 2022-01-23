@@ -64,6 +64,16 @@ class CardManager extends AM implements ManagerInterface
         );
         return $this->getLastInsertId();
     }
+
+    public function addMark($mark_user_id, $card_id){
+        return $this->executeQuery( 
+            "INSERT INTO user_card_marks (user_id, card_id) VALUES (:mark_user_id, :card_id)",
+            [
+                "mark_user_id" => $mark_user_id,
+                "card_id" => $card_id
+            ]
+        );
+    }
     
     // delete functions
 
@@ -72,6 +82,16 @@ class CardManager extends AM implements ManagerInterface
             "DELETE FROM cards WHERE id = :id",
             [
                 "id" => $id 
+            ]
+        );
+    }
+
+    public function deleteMark($mark_user_id, $card_id){
+        return $this->executeQuery( 
+            "DELETE FROM user_card_marks WHERE user_id = :mark_user_id and card_id = :card_id",
+            [
+                "mark_user_id" => $mark_user_id,
+                "card_id" => $card_id 
             ]
         );
     }

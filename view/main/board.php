@@ -266,7 +266,61 @@ $colors = $data['colors'];
                                         <li>
                                             <a class="uk-accordion-title" href="#">Modifier un membre</a>
                                             <div class="uk-accordion-content">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                
+                                            <table class='uk-table uk-table-hover uk-table-divider'>
+                                                <tbody>
+                                                <?php
+                                                    foreach($board->getParticipants() as $participant){
+                                                ?>       
+                                                    <tr>
+                                                        <!-- participant icons -->
+                                                        <td>      
+                                                            <div class="uk-button uk-button-default uk-border-circle uk-margin-right"><?= $participant->getFirstLetter() ?></div>
+                                                        </td>
+                                                        <td><?= $participant->getEmail() ?></td>
+                                                        <td>
+                                                        <?php
+                                                            $isMark = false;
+                                                            foreach($card->getMarks() as $mark){
+                                                                if($mark->getId() == $participant->getId()){
+                                                                    $isMark = true;
+                                                                } 
+                                                            }
+                                                        ?>
+                                                        <?php
+                                                            //check if participant is mark user
+                                                            if($isMark){
+                                                        ?>
+
+                                                            <!-- DELETE MARK -->
+                                                            <form action="?ctrl=cards&action=delMark" method="post">
+                                                                <input type="hidden" name="mark_user_id" value="<?= $participant->getId()  ?>">
+                                                                <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
+                                                                <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                                                <input class=""  type="submit" name="submit" value="Supprimer le membre">                              
+                                                            </form>
+
+                                                        <?php
+                                                            } else { 
+                                                        ?>  
+                                                            <!-- ADD MARK -->
+                                                            <form action="?ctrl=cards&action=addMark" method="post">
+                                                                <input type="hidden" name="mark_user_id" value="<?= $participant->getId() ?>">
+                                                                <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
+                                                                <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                                                <input class=""  type="submit" name="submit" value="Ajouter le membre">                              
+                                                            </form>
+                                                        <?php
+                                                            }
+                                                        ?> 
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+
                                             </div>
                                         </li>
 

@@ -125,6 +125,52 @@
             return $this->redirectToRoute("security");                           
         }
 
+        public function addMark(){
+
+            if(Session::get("user")){
+                if(isset($_POST["submit"])){
+                    
+                    $mark_user_id  = filter_input(INPUT_POST, "mark_user_id", FILTER_SANITIZE_STRING);
+                    $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
+                    
+                    if($mark_user_id && $card_id){                    
+                        $board_id = $this->cardManager->getBoardIdByCard($card_id);
+                        if( !$this->cardManager->addMark($mark_user_id, $card_id)){
+                            Session::addFlash('error', "Une erreur est survenue");
+                        }
+                        return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
+                    }
+                    else Session::addFlash('error', "Une erreur est survenue");
+                    
+                }
+                else Session::addFlash('error', "Une erreur est survenue");  
+            }
+            return $this->redirectToRoute("security");                           
+        }
+
+        public function delMark(){
+            
+            if(Session::get("user")){
+                if(isset($_POST["submit"])){
+                    
+                    $mark_user_id  = filter_input(INPUT_POST, "mark_user_id", FILTER_SANITIZE_STRING);
+                    $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
+                    
+                    if($mark_user_id && $card_id){                    
+                        $board_id = $this->cardManager->getBoardIdByCard($card_id);
+                        if( !$this->cardManager->deleteMark($mark_user_id, $card_id)){
+                            Session::addFlash('error', "Une erreur est survenue");
+                        }
+                        return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
+                    }
+                    else Session::addFlash('error', "Une erreur est survenue");
+                    
+                }
+                else Session::addFlash('error', "Une erreur est survenue");  
+            }
+            return $this->redirectToRoute("security");                         
+        }
+
         public function delCard($id){
             
             if(Session::get("user")){
