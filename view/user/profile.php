@@ -13,7 +13,7 @@
         <table>
             <tbody>
                 <tr>
-                    <td>Pseudo</td>
+                    <td>Nom d'utilisateur</td>
                     <td><?=  htmlspecialchars($user) ?></td>
                     <td>
                         <?php

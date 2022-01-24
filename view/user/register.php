@@ -7,7 +7,7 @@
             
             <form action="?ctrl=security&action=register" method="post">
                 <div>
-                    <label for="nickname">Pseudo : </label>
+                    <label for="nickname">Nom d'utilisateur : </label>
                     <input type="text" name="nickname" id="nickname" required>
                 </div>
                 <div>

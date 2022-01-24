@@ -31,28 +31,26 @@
             <a id="planner-room-logo" href="?ctrl=home"><img src="public/images/planner_room_logo_510x82.png" alt="logo du site comprenant à gauche 4 carrés colorés formant le mot 'task', et à droite le nom du site 'Planner Room'"></a>
             <div class="header-nav-div">
                 <ul class="header-nav-div-ul">           
-                    <li>
                     <?php
                         if(Session::get("user")){
                             if(Session::get("user")->hasRole("ROLE_ADMIN")){
                     ?>      
-                            <a class="shutter-effect" href='?ctrl=admin'>Administration</a>
+                            <li><a class="shutter-effect" href='?ctrl=admin'>Administration</a></li>
                         <?php
                             }
                         ?>                                                
-                            <a class="shutter-effect" href='?ctrl=security&action=profile&id=<?= Session::get("user")->getId() ?>'><img class="user-profile-icon" src="public/images/planner_room_user_profile_icon_96x96.png" alt="icone profil utilisateur"> Bonjour  <?= Session::get("user") ?></a>
-                            <a class="shutter-effect" href="?ctrl=main">Dashboard</a> 
-                            <a class="shutter-effect" href='?ctrl=security&action=logout'>Se déconnecter</a>
+                            <li><a class="shutter-effect" href='?ctrl=security&action=profile&id=<?= Session::get("user")->getId() ?>'><img class="user-profile-icon" src="public/images/planner_room_user_profile_icon_96x96.png" alt="icone profil utilisateur"> Bonjour  <?= Session::get("user") ?></a></li>
+                            <li><a class="shutter-effect" href="?ctrl=main">Dashboard</a></li> 
+                            <li><a class="shutter-effect" href='?ctrl=security&action=logout'>Se déconnecter</a></li>
                     <?php
                         }else{
                     ?>
-                            <a class="shutter-effect" href='?ctrl=security&action=login'>Se connecter</a>
-                            <a class="shutter-effect" href='?ctrl=security&action=register'>S'inscire</a>
+                            <li><a class="shutter-effect" href='?ctrl=security&action=login'>Se connecter</a></li>
+                            <li><a class="shutter-effect" href='?ctrl=security&action=register'>S'inscire</a></li>
                             
                     <?php
                         }
                     ?>
-                    </li>
                 </ul>
             </div>  
         </nav>
