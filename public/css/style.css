@@ -41,7 +41,7 @@ nav.header-nav {
 
 a#planner-room-logo {
     margin-top: 20px;
-    max-width: 350px;
+    max-width: 330px;
     min-width: 258px;
 }
 
@@ -865,3 +865,759 @@ div.delete-user-confirm a.delete-user-confirm-button:hover, div.delete-user-conf
   box-shadow: 4px 4px 60px 8px rgba(0,0,0,0.2);
   color: white;
 }
+
+
+
+    /**********BOARD**********/
+
+
+div.board-page {
+    background: url("../images/planner_room_board_background-image_2000x1333.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 89.8vh;
+}
+
+div.board-container {
+    margin: 0 50px;
+    padding-bottom: 50px;
+}
+
+div.board-container h1 {
+    margin-left: 0;
+    text-align: center;
+    font-size: 3.6rem;      
+    text-shadow: 1px 1px 2px black;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+
+
+
+div.first-letter-participant {
+    margsin: 0;
+    margin-top: -5px;
+    margin-ldeft:0px;
+    font-size: 1.7rem;
+    vedrtical-align: middle;
+        width: 30px;
+    height: 30px;
+
+
+}
+
+nav.board-container-nav button.participant-button {
+    border-radius: 50px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    dissplay: flex;
+    margin: 0;
+    border: 1px solid white;
+    background-color: #4B4B4B;
+    color: white;
+        margin-left: 4px;
+
+}
+
+
+nav.board-container-nav button.participant-button:hover, nav.board-container-nav button.participant-button:focus {
+    background-color: rgba(0,0,0,0.6);
+}
+
+a.button-to-confirm-leave-board {
+    white-space: nowrap;
+    background-color: #4B4B4B;
+    font-size: 1.8rem;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid white;
+    font-family: 'Open Sans', Arial, sans-serif;
+    padding: 8.5px 20px;
+    text-decoration: none;    
+}
+
+a.button-to-confirm-leave-board:hover, a.button-to-confirm-leave-board:focus {
+  background: rgba(0,0,0,0.6);
+  box-shasdow: 4px 4px 60px 8px rgba(0,0,0,0.2);
+  color: white;    
+}    
+
+
+
+
+        /*****INVITATION CREATION*****/
+
+a.button-invite-participant {
+        white-spasce: nowrap;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filtser: blur(10px);
+    font-size: 1.7rem;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid white;
+    font-family: 'Open Sans', Arial, sans-serif;
+    padding: 7px 20px;
+    text-decoration: none;
+    margin-left: 30px;
+    color: white;
+}
+
+a.button-invite-participant:hover, a.button-invite-participant:focus {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+div.invite-participant-confirm h2 {
+    font-size: 2.1rem;
+}
+
+div.invite-participant-confirm form label {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+div.invite-participant-confirm form input[type="submit"] {
+        font-size: 1.8rem;
+    margin-top: 10px;
+    padding: 6px 20px;
+    margin-right: 30px;
+    width: auto;
+}
+
+div.invite-participant-confirm form input[type="submit"]:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+div.invite-participant-confirm form a {
+       color: white;
+    font-size: 1.8rem;
+    padding: 4.5px 20px;
+    margin-left: 0;
+}
+
+
+        /*****LISTS*****/
+
+div.lists-container {
+    display: flex;
+    justify-constent: space-between;
+    overflow-x: auto;
+
+}
+
+div.lists-container::-webkit-scrollbar {
+    dispslay: none;
+}
+
+/* Works on Firefox */
+div.lists-container {
+  scrollbar-width: thin;
+  scrollbar-color: grey, white;
+}
+
+/* Works on Chrome, Edge, and Safari */
+div.lists-container::-webkit-scrollbar {
+
+  width: 12px;
+}
+
+div.lists-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  backdrop-filtser: blur(10px);
+}
+
+div.lists-container::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.5);
+  border-radius: 20px;
+  border: 1px solid grey;
+}
+
+
+
+/*Les listes + le bouton d'ajout d'une liste*/
+div.element-of-list-container {
+    width: 300px;
+    min-width: 300px;
+    margin-bottom: 20px;
+}
+
+/*Div du bouton d'ajout d'une liste*/
+div.div-button-to-create-list {
+    
+/*    border-radius: 5px;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, .8);
+    color: black;
+    margin-top: 40px;
+    font-size: 2rem;*/
+}
+
+/*bouton d'ajout d'une liste*/
+a.button-to-create-list {
+width: 100%;
+background: rgba(255, 255, 255, .2);
+    backdrop-filter: blur(10px);
+    font-weidght: 500;
+    codlor: black;
+    text-decoratsion: none;
+    font-sisze: 1.8rem;
+    border: 2px solid white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shsadow: 2px 2px 8px grey;
+    text-transform: none;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    font-size: 2rem;
+}
+
+a.button-to-create-list:hover, a.button-to-create-list:focus {
+    background: rgba(0, 0, 0, .1);
+}
+
+img.add-list-icon {
+    width: 25px;
+    margin-right: 15px;
+}
+
+/*Les listes*/
+div.list-element-of-list-container {
+    background: rgba(255, 255, 255, .3);
+    border-radius: 5px;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    backdrop-filter: blur(10px);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, .8);
+    text-shadow: 1px 1px 2px black;
+    margin-right: 30px;
+    box-shadow: inset 2px 2px 5px white;
+    height: 100%;
+}
+
+/*Mozilla Fixefox Version*/
+@-moz-document url-prefix() {
+      div.list-element-of-list-container {
+        background: rgba(130,130,130);
+      }       
+}
+
+div.div-title-of-list h2.title-of-list {
+    color: white;
+    margin-bottom: 0;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    word-break: break-word;
+}
+
+/*Icones de suppression et de modification d'une liste*/
+div.div-delete-and-edit-list {
+    margin-top: 8px;
+    margin-right: 8px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+a.list-delete-button-and-edit-button {
+    visibility : hidden;
+    margin-left: 5px;
+
+}
+
+a.list-delete-button-and-edit-button svg {
+    width: 25px;
+}
+
+div.div-title-of-list:hover a.list-delete-button-and-edit-button {
+    visibility: visible;
+    color: black;
+}
+
+div.modal-text-delete-list {
+    font-size: 2rem;
+    padding-bottom:  20px;
+}
+
+a.button-confirm-delete-list {
+    white-space: nowrap;
+    background-color: #4B4B4B;
+    font-size: 1.8rem;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid white;
+    font-family: 'Open Sans', Arial, sans-serif;
+    padding: 8.5px 20px;
+    text-decoration: none;    
+}
+
+a.button-confirm-delete-list:hover, a.button-confirm-delete-list:focus {
+  background: rgba(0,0,0,0.6);
+  box-shasdow: 4px 4px 60px 8px rgba(0,0,0,0.2);
+  color: white;    
+}
+
+/*bouton ok de confirmation d'édition de la liste*/
+input.input-confirm-edit-list {
+    padding: 6px 13px;
+    width: auto;
+}
+
+input.input-confirm-edit-list:hover, input.input-confirm-edit-list:focus {
+    background: rgba(0,0,0,0.7);
+}
+
+/*div.delete-board-confirm a.delete-board-confirm-button, div.leave-board-confirm a.leave-board-confirm-button {
+    white-space: nowrap;
+    background-color: #4B4B4B;
+    font-size: 1.8rem;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid white;
+    font-family: 'Open Sans', Arial, sans-serif;
+    padding: 8.5px 20px;
+    text-decoration: none;
+}
+
+div.delete-board-confirm a.delete-board-confirm-button:hover, div.delete-board-confirm a.delete-board-confirm-button:focus,
+div.leave-board-confirm a.leave-board-confirm-button:hover, div.leave-board-confirm a.leave-board-confirm-button:focus {
+  background: rgba(0,0,0,0.4);
+  box-shadow: 4px 4px 60px 8px rgba(0,0,0,0.2);
+  color: white;
+}*/
+
+
+
+
+/*cards container in the list*/
+div.cards-container {
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+
+/*a card*/
+div.div-card {
+    border-radius: 3px;
+    margin-bottom: 5px;
+    backdrop-fislter: blur(100px);
+    opacisty: 0.5;
+    positsion: relative;
+}
+
+div.div-delete-and-edit-card {
+    margin-top: 8px;
+    margin-right: 8px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;    
+}
+
+a.card-delete-button-and-edit-button {
+    visibility : hidden;
+    margin-left: 5px;    
+}
+
+div.title-of-card-div:hover a.card-delete-button-and-edit-button {
+    visibility: visible;
+    color: black;    
+}
+
+a.card-delete-button-and-edit-button svg {
+    width: 23px;
+}
+
+div.modal-text-delete-card {
+    font-size: 2rem;
+    padding-bottom:  20px;
+}
+
+a.button-confirm-delete-card {
+    white-space: nowrap;
+    background-color: #4B4B4B;
+    font-size: 1.8rem;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid white;
+    font-family: 'Open Sans', Arial, sans-serif;
+    padding: 8.5px 20px;
+    text-decoration: none;    
+}
+
+a.button-confirm-delete-card:hover, a.button-confirm-delete-card:focus {
+  background: rgba(0,0,0,0.6);
+  box-shasdow: 4px 4px 60px 8px rgba(0,0,0,0.2);
+  color: white;    
+}
+
+
+
+
+div.div-modal-edit-card {
+    width: 800px;
+}
+
+div.modal-div-edit-card {
+    display: flex;
+    flex-directsion: row;
+    align-items: center;
+}
+
+h2.modal-h2-edit-card {
+    font-size: 2.4rem;
+    margin-bottom: 35px;
+}
+
+input.input-confirm-edit-card {
+     padding: 6px 13px;
+    width: auto;  
+    margin-left: 30px; 
+    margin-top: 0;
+}
+
+input.input-confirm-edit-card:hover, input.input-confirm-edit-card:focus {
+    background: rgba(0,0,0,0.7);
+}
+
+ul.ul-accordion li {
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+a.uk-accordion-title {
+    color: white;
+        font-weight: 500;
+
+    font-size: 1.9rem;
+}
+
+a.uk-accordion-title:hover, a.uk-accordion-title:focus {
+    color: rgba(0, 0, 0, 0.9);
+    font-weight: 500;
+    text-shadow: none;  
+}
+
+a.uk-accordion-title::before {
+    
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50px;
+}
+
+input.input-confirm-add-description {
+      padding: 6px 13px;
+    width: auto;  
+    margin-left: 30px; 
+    margin-top: 0;   
+}
+
+input.input-confirm-add-description:hover, input.input-confirm-add-description:focus {
+    background: rgba(0,0,0,0.7);
+}
+
+
+li.li-edit-mark table tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+li.li-edit-mark table tr td {
+    margin: 12px;
+    padding: 0;
+}
+
+div.edit-card-participant-first-letter {
+    margsin: 0;
+    margin-top: 5px;
+    margin-left: 9px;
+    font-size: 1.7rem;
+    vedrtical-align: middle;
+        width: 30px;
+    height: 30px;    
+}
+
+td.participant-icon {
+    border-radius: 50px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    dissplay: flex;
+    margin: 0;
+    border: 1px solid white;
+    background-color: #4B4B4B;
+    color: white;
+        margin-left: 4px;    
+}
+
+
+li.li-edit-mark table form input[type="submit"] {
+    margin-top: 0;
+}
+
+
+input.modal-edit-card-add-member, input.modal-edit-card-delete-member {
+      padding: 6px 13px;
+    width: auto;  
+    margin-left: 30px; 
+    margin-top: 0; 
+    font-size:  1.7rem; 
+    float: right;   
+}
+
+/*div.div-edit-card-color {
+    width: 70%;
+   */ /*text-align: ;
+}*/
+
+div.div-edit-card-color form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+div.form-div-colors {
+    flex: 1;
+}
+
+div.form-div-confirm-color {
+    flex: 1;
+
+}
+
+div.form-div-confirm-color input[type="submit"] {
+      padding: 6px 13px;
+    width: auto;  
+    margin-lefdt: 30px; 
+    margin-right: 30px;
+    margin-top: 0; 
+    margin-bottom: 20px;
+    mardgin: 0 auto;
+    texst-align: center;
+    font-size:  1.7rem; 
+    float: right;      
+}
+
+
+
+/*div titre carte*/
+div.title-of-card-div {
+        padsding: 0 0 8px 0;
+            padding-bottoms: 8px;
+}
+
+/*Contenu titre d'une carte*/
+div.title-card-content {
+    word-break: break-word;
+    margin-right: 60px;
+    margin-top: 8px;
+    margin-left: 8px;
+        padding-top: 8px;
+        padding-bottom: 15px;
+    color: black;
+    text-shadow: none;
+    font-size: 1.8rem;
+}
+
+
+
+/*CARD DESCRIPTION AND MARK USER*/
+
+div.card-description-and-mark-user {
+    margin-left: 8px;
+    margin-right: 8px;
+    heighst: ;
+    display: flex;
+    justify-content: space-between;
+}
+
+button.description-button-card {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 1.6rem;
+    border: 1px solid white;
+    border-radius: 4px;
+    padding: 5px;
+    widtsh: 50px;
+    displsay: inline;
+    text-shadow: none;
+    max-height: 29px;
+    cursor: pointer;
+}
+
+button.description-button-card:hover, button.description-button-card:focus {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+div.div-card-all-marks-users {
+    max-widsth: 10px;
+    widtsh: 30px;
+    margin-left: 8px;
+    display: flex;
+    justify-constent: flex-end;
+    overflow-x: auto;
+    margin-bottom: 8px;
+}
+
+/* Works on Firefox */
+div.div-card-all-marks-users {
+  scrollbar-width: thin;
+  scrollbar-color: grey, white;
+}
+
+/* Works on Chrome, Edge, and Safari */
+div.div-card-all-marks-users::-webkit-scrollbar {
+    height: 8px;
+  width: 20px;
+}
+
+div.div-card-all-marks-users::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 10px;
+}
+
+div.div-card-all-marks-users::-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+
+/*mark user on card*/
+div.mark-user-on-card {
+        border-radius: 50px;
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
+    min-height: 28px;
+    paddindg: 0;
+    dissplay: flex;
+    margisn: 0;
+    border: 1px solid white;
+    background-color: #4B4B4B;
+    color: white;
+        margin-left: 4px;
+}
+
+div.mark-user-on-card span {
+    font-size: 1.6rem;
+    display: block;
+    margin-left: 8px;
+    margin-top: 3px;
+}
+
+
+/*Content description of card*/
+div.text-description-of-card {
+    font-size: 1.6rem;
+    text-shadow: none;
+    color: black;
+    margin: 0 8px 8px 8px;
+    padding: 0 0 8px 0;
+    word-break: break-word;
+}
+
+
+
+/*Bouton ajout carte*/
+
+a.add-card-button {
+    border: 1.5px solid white;
+    display: block;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.15);
+    width: 100%;
+    border-radius: 0 0 4px 4px;
+    font-size: 1.7rem;
+    color: white;
+    margin-top: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-decoration: none;
+    text-shadow: 2px 2px 4px black;
+}
+
+a.add-card-button:hover, a.add-card-button:focus {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+img.add-card-icon {
+    width: 25px;
+    margin-right: 15px;
+}
+
+div.modal-div-new-card h2 {
+    font-size: 2.3rem;
+}
+
+form.form-new-card label {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+
+form.form-new-card div.div-confirm-or-cancel {
+        margin-top: 30px;
+}
+
+form.form-new-card div.div-confirm-or-cancel input[type="submit"] {
+    font-size: 1.8rem;
+    margdin-top: 10px;
+    paddsing: 3px 20px;
+    mardgin-right: 30px;
+    width: auto;
+    text-shadow: none; 
+    margin-top: 0;   
+}
+
+form.form-new-card div.div-confirm-or-cancel input[type="submit"]:hover, form.form-new-card div.div-confirm-or-cancel input[type="submit"]:focus {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+
+
+
+
+
+div.modal-div-new-list h2 {
+    font-size: 2.3rem;
+}
+
+form.form-new-list label {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+
+form.form-new-list div.div-confirm-or-cancel {
+        margin-top: 30px;
+}
+
+form.form-new-list div.div-confirm-or-cancel input[type="submit"] {
+    font-size: 1.8rem;
+    margdin-top: 10px;
+    paddsing: 3px 20px;
+    mardgin-right: 30px;
+    width: auto;
+    text-shadow: none; 
+    margin-top: 0;   
+}
+
+form.form-new-list div.div-confirm-or-cancel input[type="submit"]:hover, form.form-new-list div.div-confirm-or-cancel input[type="submit"]:focus {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+
+/*uk-panel : icone corbeille et modif*/
