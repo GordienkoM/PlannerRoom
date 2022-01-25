@@ -20,7 +20,7 @@
 
         public static function handleRequest($params /* $_GET*/ ){
 
-            $ctrlname = ucfirst(self::$defaultCtrl)."Controller";//par défaut !!
+            $ctrlname = ucfirst(self::$defaultCtrl)."Controller"; //by default 
             
             $method = "index";
 
@@ -32,7 +32,6 @@
                 }
             }
             
-            //eh oui, on peut mettre le nom de la classe à instancier dans une variable et faire new avec !!
             $ctrlname = "App\\Controller\\".$ctrlname;
             $ctrl = new $ctrlname();
 
@@ -49,7 +48,7 @@
         }
 
         /**
-         * 
+         *  allows to redirect to a new route (HTTP 302 redirect)
          */
         public static function redirect($arrayRoute){
 

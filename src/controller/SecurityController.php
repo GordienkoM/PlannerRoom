@@ -11,7 +11,11 @@
             $this->manager = new UserManager();
         }
 
-        // display the login form or compute the login action with post data
+        /**
+         * display the login form or compute the login action with post data
+         * 
+         * @return array with view login.php
+         */
         
         public function index(){
             if(isset($_POST["submit"])){
@@ -44,7 +48,7 @@
             }
             return $this->render("user/login.php");
         }
-
+    
         public function logout(){
             Session::remove("user");
             Session::addFlash('success', "Déconnexion réussie, à bientôt !");

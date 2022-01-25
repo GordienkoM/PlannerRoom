@@ -5,12 +5,12 @@
     {
 
         /**
-         * permet au contrôleur de renvoyer une vue et ses données
-         * 
-         * @param string $view - le chemin de la vue à afficher
-         * @param array $data - le tableau contenant les données nécessaires à la vue
-         * 
-         * @return array tableau formaté contenant la vue et ses données
+          * allows the controller to return a view and its data
+          *
+          * @param string $view - the path of the view to display
+          * @param array $data - the array containing the data needed by the view
+          *
+          * @return array formatted array containing the view and its data
          */
         protected function render($view, $data = []){
             

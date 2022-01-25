@@ -7,6 +7,17 @@
 
     abstract class Mailer
     {
+    
+        /**
+         * allows sending emails with mailtrap
+         * 
+         * @param string $recipientMail - mail of recipient
+         * @param string $recipientName - name of recipient
+         * @param string $subject - mail subject 
+         * @param string $message - mail message 
+         * 
+         * @return string message of success ('Message has been sent') or error
+         */
         public static function mailTest($recipientMail, $recipientName , $subject, $message)
         {
             //Create an instance; passing `true` enables exceptions
@@ -25,7 +36,7 @@
 
                 //Recipients
                 $mail->setFrom('from@example.com', 'Planner Room');
-                $mail->addAddress($recipientMail, $recipientName );                      //recipient email
+                $mail->addAddress($recipientMail, $recipientName );         //recipient email
                
                 //Content
                 $mail->isHTML(true);                                        //Set email format to HTML
