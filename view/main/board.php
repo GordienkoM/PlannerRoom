@@ -27,11 +27,18 @@ $colors = $data['colors'];
             <div class="uk-navbar-right">
                 <div class="uk-inline">
                 <?php
+                    // array of colors the participant icons
+                    $color_code = ['#EB6CAF','#39E380', '#FBE344', '#2D9FF8'];
+                    // participant number
+                    $n = 0;
                     foreach($board->getParticipants() as $participant){
+                        // color number for a participant
+                        $i = $n % 4;
+                        $n++;                
                 ?> 
                     <!-- participant icons -->
                     <button class="participant-button uk-button" type="button">
-                        <div class="first-letter-participant"><?= $participant->getFirstLetter() ?></div>
+                        <div class="first-letter-participant" style="background-color:<?= $color_code[$i] ?>"><?= $participant->getFirstLetter() ?></div>
                     </button>
                     <!-- participant details -->
                     <div uk-drop="mode: click">
@@ -50,7 +57,7 @@ $colors = $data['colors'];
                             ?>  
                                 <div> 
                                     <!-- board leave button with an anchor toggling the modal -->            
-                                    <a class="uk-button uk-button-default" href="#modal-leave-board-<?=  $participant->getId() ?>" uk-toggle>Quitter le boardau</a>           
+                                    <a class="uk-button uk-button-default" href="#modal-leave-board-<?=  $participant->getId() ?>" uk-toggle>Quitter le tableau</a>           
                                 </div>
                                 <!-- board leave confirm (modal) -->
                                 <div id="modal-leave-board-<?= $participant->getId() ?>" uk-modal>
@@ -271,11 +278,14 @@ $colors = $data['colors'];
                                                     <table class='uk-table uk-table-divider'>
                                                         <tbody>
                                                         <?php
+                                                            $c = 0;
                                                             foreach($board->getParticipants() as $participant){
+                                                                $i = $c % 4;
+                                                                $c++; 
                                                         ?>       
                                                             <tr>
                                                                 <!-- participant icons -->
-                                                                <td class="participant-icon">      
+                                                                <td class="participant-icon" style="background-color:<?= $color_code[$i] ?>">      
                                                                     <div class="edit-card-participant-first-letter"><?= $participant->getFirstLetter() ?></div>
                                                                 </td>
                                                                 <td><?= $participant->getEmail() ?></td>
@@ -388,9 +398,12 @@ $colors = $data['colors'];
                                 <div class="div-card-all-marks-users">
 
                                 <?php
+                                    $m = 0;
                                     foreach($card->getMarks() as $mark){
+                                        $i = $m % 4;
+                                        $m++; 
                                 ?>                          
-                                    <div class="mark-user-on-card"><span><?= $mark->getFirstLetter() ?></span></div>
+                                    <div class="mark-user-on-card" style="background-color:<?= $color_code[$i] ?>"><span><?= $mark->getFirstLetter() ?></span></div>
                                 <?php
                                     }
                                 ?>    
