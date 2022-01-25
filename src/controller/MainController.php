@@ -2,6 +2,7 @@
     namespace App\Controller;
 
     use App\Core\Session;
+    use App\Core\Mailer;
     use App\Core\AbstractController as AC;
     use App\Model\Manager\UserManager;
     use App\Model\Manager\BoardManager;
@@ -178,7 +179,20 @@
                         //check that the logged in user is the board admin
                         if(Session::get("user")->getId() == $board->getUser()->getId()){
                             if(!$this->boardManager->isInvitation($board_id, $user_id)){
-                                if($this->boardManager->insertInvitation($board_id, $user_id)){
+                                if($this->boardManager->insertInvitation($board_id, $user_id)){  
+                                    
+                                    // send invitation mail
+
+                                    if(APP_ENV == "dev"){
+                                        $message = Mailer::mailTest($user->getEmail(), $user->getNickname() , 'Invitation', 'Vous avez une nouvelle invitation');
+                                        if($message == 'Message has been sent'){
+                                            Session::addFlash('success', "Email a été invoyé");
+                                        }
+                                        else{
+                                            Session::addFlash('error', $message);
+                                        }
+                                    }
+
                                     Session::addFlash('success', "L'utilisateur est invité");
                                 }
                                 else{

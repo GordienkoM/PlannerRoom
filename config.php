@@ -1,6 +1,6 @@
 <?php
 // ENVIRONMENT
-    define ("APP_ENV", "prod"); //"dev" and "prod"
+    define ("APP_ENV", "dev"); //"dev" and "prod"
 // SECRET KEY
     define("SECRET", "this_is_a_secret");
 //DATABASE
