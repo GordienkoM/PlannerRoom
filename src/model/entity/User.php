@@ -23,7 +23,7 @@
 
         public function getFirstLetter()
         {
-            return substr($this->nickname, 0, 1);
+            return strtoupper(substr(trim($this->nickname), 0, 1));
         }
 
         /**
