@@ -55,7 +55,7 @@ class CardManager extends AM implements ManagerInterface
 
     public function insertCard($list_position, $content, $list_id){
         $this->executeQuery( 
-            "INSERT INTO cards (list_position, content, taskList_id) VALUES (:list_position, :content, :list_id)",
+            "INSERT INTO cards (list_position, content, taskList_id, color_id) VALUES (:list_position, :content, :list_id, 1)",
             [
                 "list_position"  => $list_position,
                 "content" => $content,
