@@ -9,21 +9,34 @@
 
     class CardsController extends AC
     {
+
+        /**
+         *  instantiate  managers classes
+         */
         public function __construct(){
             $this->cardManager = new CardManager();
             $this->listManager = new TaskListManager();
             $this->boardManager = new BoardManager();
         }
 
+        /**
+         *  redirect on MainController (default controller method)
+         */
         public function index(){
             return $this->redirectToRoute("main");
         }
 
+        /**
+         * add a new card in list 
+         * 
+         * @return array array with view board.php and data
+         */  
         public function addCard(){
-
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
-                    
+
+                    // validation or cleaning of data transmitted by the form
                     $content  = filter_input(INPUT_POST, "content", FILTER_SANITIZE_STRING);
                     $list_id = filter_input(INPUT_POST, "list_id", FILTER_SANITIZE_NUMBER_INT);
 
@@ -37,18 +50,13 @@
 
                             $list_position = $last_card_position ? $last_card_position + 10000 : 10000; 
                                     
-                            if($this->cardManager->insertCard($list_position, $content, $list_id)){
-                                Session::addFlash('success', "La carte est ajoutée");
-                            }
-                            else{
+                            if(!$this->cardManager->insertCard($list_position, $content, $list_id)){
                                 Session::addFlash('error', "Une erreur est survenue");
-                            }
-                                                      
-                             
+                            }                                                                                 
                         }
-                        else Session::addFlash('error', "La valeur de champ n'est pas correct");
+                        else Session::addFlash('error', "La valeur du champ n'est pas correcte");
                     }
-                    else Session::addFlash('error', "Vous n'êtes pas participant de ce tableau");
+                    else Session::addFlash('error', "Vous n'êtes pas participant à ce tableau");
                 }
                 else Session::addFlash('error', "Une erreur est survenue");
                 return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);  
@@ -57,21 +65,22 @@
         }
 
         public function editCardContent(){
-
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
-                    
+
+                    // validation or cleaning of data transmitted by the form
                     $content  = filter_input(INPUT_POST, "content", FILTER_SANITIZE_STRING);
                     $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
                     
                     if($content && $card_id){                    
                         $board_id = $this->cardManager->getBoardIdByCard($card_id);
-                        if( !$this->cardManager->editCardContent($content, $card_id)){
+                        if(!$this->cardManager->editCardContent($content, $card_id)){
                             Session::addFlash('error', "Une erreur est survenue");
                         }
                         return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
                     }
-                    else Session::addFlash('error', "La valeur de champ n'est pas correct");
+                    else Session::addFlash('error', "La valeur du champ n'est pas correcte");
                     
                 }
                 else Session::addFlash('error', "Une erreur est survenue");  
@@ -80,10 +89,11 @@
         }
 
         public function editCardDescription(){
-
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
-                    
+
+                    // validation or cleaning of data transmitted by the form
                     $description  = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
                     $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
                     
@@ -94,7 +104,7 @@
                         }
                         return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
                     }
-                    else Session::addFlash('error', "La valeur de champ n'est pas correct");
+                    else Session::addFlash('error', "La valeur du champ n'est pas correcte");
                     
                 }
                 else Session::addFlash('error', "Une erreur est survenue");  
@@ -103,10 +113,11 @@
         }
 
         public function editCardColor(){
-
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
-                    
+
+                    // validation or cleaning of data transmitted by the form
                     $color_id  = filter_input(INPUT_POST, "color_id", FILTER_SANITIZE_STRING);
                     $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
                     
@@ -117,7 +128,7 @@
                         }
                         return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
                     }
-                    else Session::addFlash('error', "La valeur de champ n'est pas correct");
+                    else Session::addFlash('error', "La valeur du champ n'est pas correcte");
                     
                 }
                 else Session::addFlash('error', "Une erreur est survenue");  
@@ -126,10 +137,11 @@
         }
 
         public function addMark(){
-
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
-                    
+
+                    // validation or cleaning of data transmitted by the form
                     $mark_user_id  = filter_input(INPUT_POST, "mark_user_id", FILTER_SANITIZE_STRING);
                     $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
                     
@@ -149,10 +161,11 @@
         }
 
         public function delMark(){
-            
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
-                    
+
+                    // validation or cleaning of data transmitted by the form
                     $mark_user_id  = filter_input(INPUT_POST, "mark_user_id", FILTER_SANITIZE_STRING);
                     $card_id = filter_input(INPUT_POST, "card_id", FILTER_SANITIZE_NUMBER_INT);
                     
@@ -172,7 +185,7 @@
         }
 
         public function delCard($id){
-            
+            // check if user is logged in
             if(Session::get("user")){
 
                 $board_id = $this->cardManager->getBoardIdByCard($id);
@@ -180,12 +193,9 @@
                 if($board_id){
                     //check that the logged in user is participant
                     if($this->boardManager->isParticipant($board_id, $user_id)){  
-                        if($this->cardManager->deleteCard($id)){
-                            Session::addFlash('success', "La carte est suprimée");
-                        }
-                        else{
+                        if(!$this->cardManager->deleteCard($id)){
                             Session::addFlash('error', "Une erreur est survenue");
-                        }                       
+                        }               
                     }
                     else Session::addFlash('error', "Vous n'avez pas de droit de supprimer cette carte");
 
@@ -201,6 +211,7 @@
             $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
             if ($contentType === "application/json") {
+                // racket body recovery
                 $content = trim(file_get_contents("php://input"));
 
                 $decoded = json_decode($content, true); 
@@ -210,7 +221,7 @@
                 $list_position = $decoded['list_position'];
 
                 if( $this->cardManager->changeCardPosition($list_id, $list_position, $card_id)){
-                    echo "bien marché.";
+                    echo "bien marché";
                 }else echo "une erreur";
             }  
             die();

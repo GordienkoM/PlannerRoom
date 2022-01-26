@@ -8,17 +8,21 @@
     class SecurityController extends AC
     {
         public function __construct(){
+        /**
+         *  instantiate UserManager
+         */
             $this->manager = new UserManager();
         }
 
         /**
          * display the login form or compute the login action with post data
          * 
-         * @return array with view login.php
-         */
-        
+         * @return array array with view login.php
+         */ 
         public function index(){
             if(isset($_POST["submit"])){
+
+                // validation of data transmitted by the form
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
                 $password = filter_input(INPUT_POST, "password", FILTER_VALIDATE_REGEXP, [
                     "options" => [
@@ -33,7 +37,6 @@
                         // verify that the password is correct (password_verify — verifies that a password matches a hash)
                         if(password_verify($password, $this->manager->getPasswordByEmail($email))){
                             Session::set("user", $user);
-                            Session::addFlash('success', "Bienvenue !");
                             // if logged in user is the application admin
                             if (Session::get("user")->hasRole("ROLE_ADMIN")){
                                 return $this->redirectToRoute("admin");
@@ -44,7 +47,7 @@
                     }
                     else Session::addFlash('error', "E-mail inconnu !");
                 }
-                else Session::addFlash('error', "Tous les champs sont obligatoires et doivent respecter");
+                else Session::addFlash('error', "Tous les champs doivent être remplis correctement");
             }
             return $this->render("user/login.php");
         }
@@ -57,6 +60,8 @@
 
         public function register(){
             if(isset($_POST["submit"])){
+
+                // validation or cleaning of data transmitted by the form
                 $nickname  = filter_input(INPUT_POST, "nickname", FILTER_SANITIZE_STRING);
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
                 $password = filter_input(INPUT_POST, "password", FILTER_VALIDATE_REGEXP, [
@@ -94,6 +99,7 @@
         }
 
         public function profile($id){
+            // check if user is logged in
             if(Session::get("user")){
                 $user = $this->manager->getOneById($id);
                 // check that the user in session is the page owner
@@ -114,6 +120,7 @@
                     Session::remove("editPassword");
                     if(isset($_POST["submit"])){
 
+                        // validation of data transmitted by the form
                         $new_password = filter_input(INPUT_POST, "new_password", FILTER_VALIDATE_REGEXP, [
                             "options" => [
                                 "regexp" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/"
@@ -126,13 +133,13 @@
                             if($id && $new_password){ 
                             $hash = password_hash($new_password, PASSWORD_ARGON2I);   
                                 if( $this->manager->upDatePassword($id, $hash) ){
-                                    Session::addFlash('success', "Le mot de pass était édité");
+                                    Session::addFlash('success', "Le mot de passe a été édité");
                                 }
                                 else{
                                     Session::addFlash('error', "Une erreur est survenue");
                                 }
                             }
-                            else Session::addFlash('error', "Tous les champs doivent être remplis et respecter leur format");
+                            else Session::addFlash('error', "Tous les champs doivent être remplis correctement");
                         }
                         else Session::addFlash('error', "Le mot de passe est erroné");
                     }
@@ -146,6 +153,7 @@
 
         public function cancelPassword($id)
         {
+            // check if user is logged in
             if(Session::get("user")){
 
                 Session::remove("editPassword");
@@ -156,22 +164,24 @@
 
         public function editNickname($id)
         {
+            // check if user is logged in
             if(Session::get("user")){
                 if(Session::get("editNickname")){
                     Session::remove("editNickname");
                     if(isset($_POST["submit"])){
+                        // cleaning of data transmitted by the form
                         $nickname = filter_input(INPUT_POST, "nickname", FILTER_SANITIZE_STRING);
                         
                         if($id && $nickname){ 
                             
                             if($this->manager->updateNickname($id, $nickname)){
-                                Session::addFlash('success', "Le pseudo était édité");
+                                Session::addFlash('success', "Le nom d'utilisateur a été édité");
                             }
                             else{
                                 Session::addFlash('error', "Une erreur est survenue");
                             }
                         }
-                        else Session::addFlash('error', "Le champ doit être rempli et respecter son format");                       
+                        else Session::addFlash('error', "Le champ doit être rempli correctement");                       
                     }
                     else Session::addFlash('error', "Une erreur est survenue");
                 }
@@ -193,16 +203,18 @@
 
         public function editEmail($id)
         {
+            // check if user is logged in
             if(Session::get("user")){
                 if(Session::get("editEmail")){
                     Session::remove("editEmail");
                     if(isset($_POST["submit"])){
+                        // validation or cleaning of data transmitted by the form
                         $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
              
                         if($id && $email){ 
                             if(!$this->manager->getUserByEmail($email)){
                                 if($this->manager->updateEmail($id, $email)){
-                                    Session::addFlash('success', "L'email était édité");
+                                    Session::addFlash('success', "L'email a été édité");
                                 }
                                 else{
                                     Session::addFlash('error', "Une erreur est survenue");
@@ -210,7 +222,7 @@
                             }
                             else Session::addFlash('error', "Cette adresse mail est déjà liée à un compte");    
                         }
-                        else Session::addFlash('error', "Le champ doit être rempli et respecter son format");                        
+                        else Session::addFlash('error', "Le champ doit être rempli correctement");                        
                     }
                     else Session::addFlash('error', "Une erreur est survenue");
                 }
@@ -222,6 +234,7 @@
         
         public function cancelEmail($id)
         {
+            // check if user is logged in
             if(Session::get("user")){
 
                 Session::remove("editEmail");

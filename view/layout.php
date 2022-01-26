@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.uikit.min.css" />
     <!-- CSS -->
     <link rel="stylesheet" href="<?= CSS_PATH ?>/style.css">
-    <link rel="stylesheet" href="public/css/normalize.css">
+    <link rel="stylesheet" href="<?= CSS_PATH ?>/normalize.css">
 </head>
 
 <body>  
@@ -32,7 +32,9 @@
             <div class="header-nav-div">
                 <ul class="header-nav-div-ul">           
                     <?php
+                        // if user is logged in
                         if(Session::get("user")){
+                            // if logged in user is admin
                             if(Session::get("user")->hasRole("ROLE_ADMIN")){
                     ?>      
                             <li><a class="shutter-effect" href='?ctrl=admin'>Administration</a></li>

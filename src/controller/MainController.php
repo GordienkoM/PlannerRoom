@@ -12,6 +12,9 @@
 
     class MainController extends AC
     {
+        /**
+         *  instantiate  managers classes
+         */
         public function __construct(){
             $this->userManager = new UserManager();
             $this->boardManager = new BoardManager();
@@ -58,10 +61,11 @@
         }
 
         public function addBoard(){
-
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
-                    
+
+                    // validation or cleaning of data transmitted by the form
                     $user_id =  Session::get("user")->getId();
                     $title  = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
                     $description = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
@@ -76,7 +80,7 @@
                             Session::addFlash('error', "Une erreur est survenue");
                         }
                     }
-                    else Session::addFlash('error', "Tous les champs doivent être remplis et respecter leur format");
+                    else Session::addFlash('error', "Tous les champs doivent être remplis correctement");
                 }
                 else Session::addFlash('error', "Une erreur est survenue");
 
@@ -86,7 +90,7 @@
         }
 
         public function delBoard($id){
-            
+            // check if user is logged in
             if(Session::get("user")){
 
                 $board = $this->boardManager->getOneById($id); 
@@ -94,7 +98,7 @@
                     //check that the logged in user is the board admin
                     if(Session::get("user")->getId() == $board->getUser()->getId()){  
                         if($this->boardManager->deleteBoard($id)){
-                            Session::addFlash('success', "Le tableau est suprimé");
+                            Session::addFlash('success', "Le tableau est supprimé");
                         }
                         else{
                             Session::addFlash('error', "Une erreur est survenue");
@@ -157,6 +161,7 @@
                         "title" => $board,
                         "colors" => $colors,
                     ]);
+
                 }else{
                     Session::addFlash('error', 'Accès refusé !');
                     $this->redirectToRoute("security", "logout");
@@ -168,6 +173,8 @@
         public function createInvitation(){
 
             if(isset($_POST["submit"])){
+
+                // validation or cleaning of data transmitted by the form
                 $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
                 $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_NUMBER_INT);
                 if($email && $board_id){
@@ -186,7 +193,7 @@
                                     if(APP_ENV == "dev"){
                                         $message = Mailer::mailTest($user->getEmail(), $user->getNickname() , 'Invitation', 'Vous avez une nouvelle invitation');
                                         if($message == 'Message has been sent'){
-                                            Session::addFlash('success', "Email a été invoyé");
+                                            Session::addFlash('success', "L'email a été invoyé");
                                         }
                                         else{
                                             Session::addFlash('error', $message);
@@ -199,13 +206,13 @@
                                     Session::addFlash('error', "Une erreur est survenue");
                                 }
                             }
-                            else Session::addFlash('error', "L'utilisateur était déjà invité et il n'est pas encore repondu");     
+                            else Session::addFlash('error', "L'utilisateur a déjà été invité et il n'a pas encore repondu");     
                         }
-                        else Session::addFlash('error', "Vous n'avez pas de droit d'inviter dans ce tableau");
+                        else Session::addFlash('error', "Vous n'avez pas le droit d'inviter dans ce tableau");
                     }
                     else Session::addFlash('error', "Il n'y a pas d'utilisateur avec cet email");
                 }
-                else Session::addFlash('error', "Le champ doit être remplis correctement");
+                else Session::addFlash('error', "Le champ doit être rempli correctement");
 
                 $params = ['id' => $board_id];
                 return $this->redirectToRoute("main", "showBoard", $params);
@@ -214,11 +221,11 @@
         }
 
         public function acceptInvitation($id){ 
-                       
+            // check if user is logged in          
             if(Session::get("user")){
                 $user_id = Session::get("user")->getId();
                 if($this->boardManager->acceptInvitation($id, $user_id)){
-                    Session::addFlash('success', "Vous avez accepté l'invitation et vous participez dans un nouveau tableau");
+                    Session::addFlash('success', "Vous avez accepté l'invitation et vous participez à un nouveau tableau");
                 }
                 else{
                     Session::addFlash('error', "Une erreur est survenue");
@@ -229,11 +236,11 @@
         }
 
         public function delInvitation($id){ 
-
+            // check if user is logged in
             if(Session::get("user")){
                 $user_id = Session::get("user")->getId();
                 if($this->boardManager->deleteInvitation($id, $user_id)){
-                    Session::addFlash('success', "L'invitation est suprimé");
+                    Session::addFlash('success', "L'invitation est supprimée");
                 }
                 else{
                     Session::addFlash('error', "Une erreur est survenue");
@@ -244,7 +251,7 @@
         }
 
         public function leaveBoard($id){ 
-
+            // check if user is logged in
             if(Session::get("user")){
                 $user_id = Session::get("user")->getId();
                 if($this->boardManager->deleteParticipation($id, $user_id)){
@@ -259,10 +266,11 @@
         }
 
         public function delParticipant(){ 
-
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
-                    var_dump("salut");
+                    
+                    // validation or cleaning of data transmitted by the form
                     $user_id = filter_input(INPUT_POST, "user_id", FILTER_VALIDATE_INT);
                     $board_id = filter_input(INPUT_POST, "board_id", FILTER_VALIDATE_INT);
 
@@ -272,13 +280,13 @@
                             //check that the logged in user is the board admin
                             if(Session::get("user")->getId() == $board->getUser()->getId()){
                                 if($this->boardManager->deleteParticipation($board_id, $user_id)){
-                                    Session::addFlash('success', "Vous avez supprimer le participant");
+                                    Session::addFlash('success', "Vous avez supprimé le participant");
                                 }
                                 else{
                                     Session::addFlash('error', "Une erreur est survenue");
                                 }   
                             }
-                            else Session::addFlash('error', "Vous n'avez pas de droit de supprimer l'utilisateur");
+                            else Session::addFlash('error', "Vous n'avez pas le droit de supprimer l'utilisateur");
                         }
                         else Session::addFlash('error', "Une erreur est survenue");
                     }

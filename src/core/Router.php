@@ -48,7 +48,7 @@
         }
 
         /**
-         *  allows to redirect to a new route (HTTP 302 redirect)
+         *  allows to redirect to a new route
          */
         public static function redirect($arrayRoute){
 

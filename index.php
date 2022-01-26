@@ -6,17 +6,17 @@ session_start();
 use App\Core\Router;
 use App\Core\Session;
 
-//on fait générer une clé propre à la session (si c'est pas déjà fait)
+//we generate a key specific to the session (if it is not already done)
 $key = Session::generateKey();
-//on génère le jeton CSRF pour CETTE REQUETE HTTP SEULEMENT
+//we generate a key specific to the session (if it is not already done)
 $csrf_token = hash_hmac("sha256", SECRET, $key);
 
-//si la protection présente dans Router renvoie true
+// if the protection present in Router it returns true
 if(Router::CSRFProtection($csrf_token)){
-    //on laisse le routeur solliciter le contrôleur 
-    //(aka : continuer la prise en charge de la requête comme normalement)
+    //we let the router request the controller
+     //(continue handling the request as normal)
     $response = Router::handleRequest($_GET);
-}//sinon, on redirige vers l'accueil
+}//otherwise, we redirect to logout
 else{
     Session::eraseKey();
     Session::addFlash("error", "Invalid CSRF Token !!");
@@ -34,7 +34,7 @@ if(isset($response["data"]["title"])){
 
 $data = isset($response["data"]) ? $response["data"] : null;
 
-// temporisation sortie
+// output buffering (temporisation sortie)
 
 ob_start();
 

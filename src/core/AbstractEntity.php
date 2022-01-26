@@ -4,10 +4,10 @@
     abstract class AbstractEntity
     {
         /**
-         * hydrate un objet avec les données voulues
-         * 
-         * @param array $data - les données sortant de la base de données
-         * @param Object $object - l'objet à hydrater
+          * hydrates an object with the desired data
+          *
+          * @param array $data - the data coming out of the database
+          * @param Object $object - the object to hydrate
          */
         protected static function hydrate($data, $object){
             

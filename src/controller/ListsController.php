@@ -8,6 +8,10 @@
 
     class ListsController extends AC
     {
+        
+        /**
+         *  instantiate  managers classes
+         */
         public function __construct(){
             $this->listManager = new TaskListManager();
             $this->boardManager = new BoardManager();
@@ -18,22 +22,20 @@
         }
 
         public function addList(){
-
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
                     
+                    // validation or cleaning of data transmitted by the form
                     $title  = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
                     $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_NUMBER_INT);
                     
                     if($title && $board_id){                    
-                        if( $this->listManager->insertList($title, $board_id)){
-                            Session::addFlash('success', "La liste est ajoutée");
-                        }
-                        else{
+                        if( !$this->listManager->insertList($title, $board_id)){
                             Session::addFlash('error', "Une erreur est survenue");
                         }
                     }
-                    else Session::addFlash('error', "La valeur de champ n'est pas correct");
+                    else Session::addFlash('error', "La valeur du champ n'est pas correcte");
                 }
                 else Session::addFlash('error', "Une erreur est survenue");
 
@@ -44,26 +46,22 @@
 
 
         public function editList(){
-
+            // check if user is logged in
             if(Session::get("user")){
                 if(isset($_POST["submit"])){
-                    
+
+                    // validation or cleaning of data transmitted by the form
                     $title  = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
                     $list_id = filter_input(INPUT_POST, "list_id", FILTER_SANITIZE_NUMBER_INT);
                     $board_id = filter_input(INPUT_POST, "board_id", FILTER_SANITIZE_NUMBER_INT);
                     
                     if($title && $list_id){                    
-                        if( $this->listManager->editList($title, $list_id)){
-                            Session::addFlash('success', "La liste est modifiée");
-                        }
-                        else{
+                        if( !$this->listManager->editList($title, $list_id)){
                             Session::addFlash('error', "Une erreur est survenue");
                         }
-
                         return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
                     }
-                    else Session::addFlash('error', "La valeur de champ n'est pas correct");
-                    
+                    else Session::addFlash('error', "La valeur du champ n'est pas correcte");                    
                 }
                 else Session::addFlash('error', "Une erreur est survenue");  
             }
@@ -71,7 +69,7 @@
         }
 
         public function delList($id){
-            
+            // check if user is logged in
             if(Session::get("user")){
 
                 $board_id = $this->listManager->getBoardIdByList($id);
@@ -80,14 +78,11 @@
                 if($board_id){
                     //check that the logged in user is participant
                     if($this->boardManager->isParticipant($board_id, $user_id)){  
-                        if($this->listManager->deleteList($id)){
-                            Session::addFlash('success', "La liste est suprimée");
-                        }
-                        else{
+                        if(!$this->listManager->deleteList($id)){
                             Session::addFlash('error', "Une erreur est survenue");
-                        }                       
+                        }                     
                     }
-                    else Session::addFlash('error', "Vous n'avez pas de droit de supprimer cette liste");
+                    else Session::addFlash('error', "Vous n'avez pas le droit de supprimer cette liste");
 
                     return $this->redirectToRoute("main", "showBoard", ['id' => $board_id]);
                 }
