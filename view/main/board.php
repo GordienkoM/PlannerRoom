@@ -17,9 +17,9 @@ $colors = $data['colors'];
 
 <div class="board-page">
     <div class="board-container">
-        <nav class="board-container-nav" class="" uk-navbar>
+        <nav class="board-container-nav" uk-navbar>
             <div class="uk-navbar-left">
-                <h1 class=""><?=  $board ?></h1>
+                <h1><?=  $board ?></h1>
             </div>
 
             <!-- PARTICIPANTS -->
@@ -37,14 +37,14 @@ $colors = $data['colors'];
                         $n++;                
                 ?> 
                     <!-- participant icons -->
-                    <button class="participant-button uk-button" type="button">
-                        <div class="first-letter-participant" style="background-color:<?= $color_code[$i] ?>"><?= $participant->getFirstLetter() ?></div>
+                    <button class="participant-button uk-button" type="button" style="background-color:<?= $color_code[$i] ?>">
+                        <div class="first-letter-participant"><?= $participant->getFirstLetter() ?></div>
                     </button>
                     <!-- participant details -->
                     <div uk-drop="mode: click">
-                        <div class="uk-card uk-card-body uk-card-default">
-                            <div><?= $participant->getEmail() ?></div>
-                            <div><?= $participant ?></div>
+                        <div class="div-participant-details uk-card uk-card-body uk-card-default">
+                            <div class="div-participant-details-email"><?= $participant->getEmail() ?></div>
+                            <div class="div-participant-details-nickname"><?= $participant ?></div>
                             <div>
                             <?php
                                 //check if the participant is the board admin
@@ -57,16 +57,16 @@ $colors = $data['colors'];
                             ?>  
                                 <div> 
                                     <!-- board leave button with an anchor toggling the modal -->            
-                                    <a class="uk-button uk-button-default" href="#modal-leave-board-<?=  $participant->getId() ?>" uk-toggle>Quitter le tableau</a>           
+                                    <a class="button-to-leave-board" href="#modal-leave-board-<?=  $participant->getId() ?>" uk-toggle>Quitter le tableau</a>           
                                 </div>
                                 <!-- board leave confirm (modal) -->
                                 <div id="modal-leave-board-<?= $participant->getId() ?>" uk-modal>
-                                    <div class="uk-modal-dialog uk-modal-body">
+                                    <div class="leave-board-confirm uk-modal-dialog uk-modal-body">
                                         <button class="uk-modal-close-default" type="button" uk-close></button>
-                                        <div>Etes-vous sûr de vouloir quitter le tableau "<?= $board ?>" ?</div>
+                                        <div class="modal-text-delete-list">Etes-vous sûr de vouloir quitter le tableau "<?= $board ?>" ?</div>
                                         <div class="uk-margin-top">
                                             <a class="button-to-confirm-leave-board" href="?ctrl=main&action=leaveboard&id=<?= $board->getId() ?>">Quitter le tableau</a> 
-                                            <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                                            <a class="uk-modal-close">Annuler</a>
                                         </div>  
                                     </div>
                                 </div>  
@@ -76,21 +76,21 @@ $colors = $data['colors'];
                             ?>
                                 <div> 
                                     <!-- delete participant button with an anchor toggling the modal -->            
-                                    <a class="uk-button uk-button-default" href="#modal-delete-participant-<?=  $participant->getId() ?>" uk-toggle>Supprimer le participant</a>           
+                                    <a class="button-to-delete-participant" href="#modal-delete-participant-<?=  $participant->getId() ?>" uk-toggle>Supprimer le participant</a>           
                                 </div>
                                 <!-- delete participant confirm (modal) -->
                                 <div id="modal-delete-participant-<?= $participant->getId() ?>" uk-modal>
-                                    <div class="uk-modal-dialog uk-modal-body">
+                                    <div class="delete-participant-confirm uk-modal-dialog uk-modal-body">
                                         <button class="uk-modal-close-default" type="button" uk-close></button>
-                                        <div>Est-ce que vous êtes sûr de vouloir supprimer le participant de "<?= $board ?>" ?</div>
+                                        <div class="modal-text-delete-list">Etes-vous sûr de vouloir supprimer le participant de "<?= $board ?>" ?</div>
                                         <div class="uk-margin-top">
                                             <form action="?ctrl=main&action=delParticipant" method="post">
                                                 <div class="uk-margin-top">
                                                     <input type="hidden" name="board_id" value="<?= $board->getId() ?>">
                                                     <input type="hidden" name="user_id" value="<?= $participant->getId() ?>">
                                                     <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                                                    <input class="uk-button uk-button-secondary uk-margin-right uk-margin-left"  type="submit" name="submit" value="Supprimer participant">
-                                                    <a class="uk-button uk-button-secondary uk-modal-close">Annuler</a>
+                                                    <input class="input-to-confirm-delete-participant"  type="submit" name="submit" value="Supprimer participant">
+                                                    <a class="uk-modal-close">Annuler</a>
                                                 </div>  
                                             </form>
                                         </div>  
@@ -131,7 +131,7 @@ $colors = $data['colors'];
                                 <div class="uk-margin-top">
                                     <input type="hidden" name="board_id" value="<?= $board->getId() ?>">
                                     <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                                    <input class=""  type="submit" name="submit" value="Appliquer">
+                                    <input type="submit" name="submit" value="Appliquer">
                                     <a class="uk-modal-close">Annuler</a>
                                 </div>  
                             </form>
@@ -362,7 +362,7 @@ $colors = $data['colors'];
                                                             <div class="form-div-confirm-color">
                                                                 <input type="hidden" name="card_id" value="<?= $card->getId() ?>">
                                                                 <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                                                                <input class=""  type="submit" name="submit" value="Appliquer la couleur">
+                                                                <input type="submit" name="submit" value="Appliquer la couleur">
                                                             </div>                              
                                                         </form>
                                                     </div>
@@ -439,7 +439,7 @@ $colors = $data['colors'];
                             <div class="div-confirm-or-cancel">
                                 <input type="hidden" name="list_id" value="<?= $list->getId() ?>">
                                 <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                                <input class=""  type="submit" name="submit" value="Appliquer">
+                                <input type="submit" name="submit" value="Appliquer">
                                 <a class="uk-modal-close">Annuler</a>
                             </div>  
                         </form>
@@ -471,7 +471,7 @@ $colors = $data['colors'];
                         <div class="div-confirm-or-cancel">
                             <input type="hidden" name="board_id" value="<?= $board->getId() ?>">
                             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                            <input class=""  type="submit" name="submit" value="Appliquer">
+                            <input type="submit" name="submit" value="Appliquer">
                             <a class="uk-modal-close">Annuler</a>
                         </div>  
                     </form>
