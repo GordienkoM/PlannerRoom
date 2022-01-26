@@ -29,11 +29,5 @@ class ColorManager extends AM implements ManagerInterface
             ]
         );
     }
-
-    // insert functions
-    
-    // delete functions
-
    
-
 }

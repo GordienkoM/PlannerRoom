@@ -9,7 +9,7 @@ abstract class AbstractManager
         protected static $db;
 
         protected function connect(){
-            //se connecter à MySQL
+            //connect to MySQL
             if (!self::$db){
                 try {
                     self::$db = new \PDO(
@@ -19,13 +19,13 @@ abstract class AbstractManager
                         [
                             // PHP will throw a PDOexception if an error occurs
                             \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+                            // Array indexed by column names
                             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
                             \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
                         ]
                     );
                 } catch (PDOException $e){
                     if ( APP_ENV === "prod"){
-                    // Session::addFlash('error', "Une erreur est survenue");
                     echo "Une erreur est survenue";
                     die();
                     };
@@ -33,38 +33,40 @@ abstract class AbstractManager
             }
         }
 
-        /**
-         * Permet d'effectuer une requète à la base de données et d'en obtenir son résultat 
-         * 
-         * @param string $query - la requète SQL à exécuter
-         * @param array|null $params - les paramètres de la requète si besoin
-         * 
-         * @return \PDOStatement l'objet PDOStatement relatif à l'execution de la requète
-         */
+          /**
+            * Allows you to query the database and get its result
+            *
+            * @param string $query - the SQL query to execute
+            * @param array|null $params - query parameters if needed
+            *
+            * @return \PDOStatement|null the PDOStatement object related to the query execution
+           */
         private static function makeQuery($query, $params = null){
             if($params){
                 $statement = self::$db->prepare($query);
+                // execute return PDOStatement or null
                 $executeResult = $statement->execute($params);
-
-                if(!$executeResult) {
-                    throw new Exception('PDOStatement execute returns null');
-                }
             }
             else{
+                // query return PDOStatement or null
                 $statement = self::$db->query($query);
+                $executeResult = $statement;               
             }
 
+            if(!$executeResult) {
+                throw new Exception('PDOStatement execute returns null');
+            }
             return $statement;
         }
 
         /**
-         * récupère un tableau d'objets de l'entité voulue (1er paramètre) correspondant à la requête passée à la fonction (et éventuellement les paramètres nécessaires).
-         * 
-         * @param string $classname le nom de la classe des entités résultat
-         * @param string $query la requête SQL à executer
-         * @param array|null $params les paramètres optionnels de la requète 
-         * 
-         * @return array le tableau d'entités résultant de la requête (vide si la requête n'a rien renvoyée)
+          * retrieves an array of objects of the desired entity (1st parameter) corresponding to the request passed to the function (and possibly the necessary parameters).
+          *
+          * @param string $classname the class name of the result entities
+          * @param string $query the SQL query to execute
+          * @param array|null $params the optional query parameters
+          *
+          * @return array the array of entities resulting from the query (empty if the query returned nothing)
          */
         protected function getResults($classname, $query, $params = null){
             $stmt = self::makeQuery($query, $params);
@@ -76,13 +78,13 @@ abstract class AbstractManager
         }
 
         /**
-         * Récupère un objet de la classe spécifiée ou null 
-         * 
-         * @param string $classname - la classe de l'objet voulu
-         * @param string $query - la requète SQL à exécuter
-         * @param array|null $params - les paramètres de la requète si besoin
-         * 
-         * @return Object|null l'objet de la classe attendue ou null
+          * Retrieves an object of the specified class or null
+          *
+          * @param string $classname - the class of the desired object
+          * @param string $query - the SQL query to execute
+          * @param array|null $params - query parameters if needed
+          *
+          * @return Object|null the expected class object or null
          */
         protected function getOneOrNullResult($classname, $query, $params = null){
             $stmt = self::makeQuery($query, $params);
@@ -93,24 +95,24 @@ abstract class AbstractManager
         }
 
         /**
-         * exécute une requète SQL du type INSERT, UPDATE ou DELETE
-         * 
-         * @param string $query - la requète SQL à exécuter
-         * @param array|null $params - les paramètres de la requète si besoin
-         * 
-         * @return bool TRUE si la requète a réussi, FALSE sinon
+          * executes an INSERT, UPDATE or DELETE SQL query
+          *
+          * @param string $query - the SQL query to execute
+          * @param array|null $params - query parameters if needed
+          *
+          * @return bool TRUE if the request was successful, FALSE otherwise
          */
         protected function executeQuery($query, $params = null){
             return self::makeQuery($query, $params);
         }
 
         /**
-         * Récupère une seule valeur résultant de la requète SQL désirée
-         * 
-         * @param string $query - la requète SQL à exécuter
-         * @param array|null $params - les paramètres de la requète si besoin
-         * 
-         * @return mixed la valeur résultant de la requête
+          * Retrieves a single value resulting from the desired SQL query
+          *
+          * @param string $query - the SQL query to execute
+          * @param array|null $params - query parameters if needed
+          *
+          * @return mixed the value resulting from the query
          */
         protected function getOneValue($query, $params = null){
             $stmt = self::makeQuery($query, $params);

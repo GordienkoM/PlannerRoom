@@ -4,9 +4,9 @@
     abstract class Session
     {
         /**
-         * récupère tous les messages flash en session correspondant au type passé en paramètre
-         * 
-         * @param string $type - le type des messages à récupérer
+          * retrieves all flash messages in session corresponding to the type passed in parameter
+
+          * @param string $type - the type of messages to retrieve  
          */
         public static function getFlashes($type){
             $messages = [];
@@ -18,11 +18,11 @@
         }
 
         /**
-         * ajoute un message flash à la session
-         * 
-         * @param string $type - le type de message (ex: error, alert, success, notice...)
-         * @param string $message - le message
-         */
+          * adds a flash message to the session
+          *
+          * @param string $type - the message type (ex: error, alert, success, notice...)
+          * @param string $message - the message
+        */
         public static function addFlash($type, $message){
             if(!isset($_SESSION["messages"])){
                 $_SESSION["messages"] = [];
@@ -34,25 +34,25 @@
         }
 
         /**
-         * récupère le contenu de l'entrée en session voulue
-         * 
-         * @param string $key - la clé de l'entrée de session 
-         * 
-         * @return mixed|null la valeur de l'entrée demandée
-         */
+          * retrieves the contents of the desired session entry
+          *
+          * @param string $key - the key of the session entry
+          *
+          * @return mixed|null the value of the requested input
+        */
         public static function get($key){
             if(isset($_SESSION[$key])){
                 return $_SESSION[$key];
             }
             return null;
         }
-
+ 
         /**
-         * crée une entrée en session correspondant à la clé et la valeur données
-         * 
-         * @param string $key - la clé à créer en session
-         * @param mixed $value - la valeur à y associer
-         * @return void
+          * create a session entry corresponding to the given key and value
+          *
+          * @param string $key - the key to create in session
+          * @param mixed $value - the value to associate with it
+          * @return void
          */
         public static function set($key, $value){
             $_SESSION[$key] = $value;
@@ -61,6 +61,7 @@
         public static function remove($key){
             unset($_SESSION[$key]);
         }
+        
         /* CSRF PROTECTION */
         public static function generateKey(){
             if(!isset($_SESSION['key']) || $_SESSION['key'] === null){
