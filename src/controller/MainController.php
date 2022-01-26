@@ -23,8 +23,11 @@
             $this->colorManager = new ColorManager();
         }
 
-        //display page "Dashboard" 
-        
+        /**
+         * display page "Dashboard" 
+         * 
+         * @return array array with view dashboard.php and data
+         */ 
         public function index(){
             // check if user is logged in
             if(Session::get("user")){

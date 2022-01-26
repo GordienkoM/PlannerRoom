@@ -7,6 +7,9 @@
 
     class AdminController extends AC
     {
+        /**
+         *  instantiate UserManager
+         */
         public function __construct(){
             $this->userManager = new UserManager();
         }
@@ -33,6 +36,9 @@
             return $this->redirectToRoute("security");
         }
 
+        /** 
+         * allow user delete 
+         */ 
         public function delUser($id){
             // check if user is logged in
             if(Session::get("user")){ 
