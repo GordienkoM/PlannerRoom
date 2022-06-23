@@ -8,7 +8,7 @@ use App\Core\Session;
 
 //we generate a key specific to the session (if it is not already done)
 $key = Session::generateKey();
-//we generate a key specific to the session (if it is not already done)
+// we generate the CSRF token for THIS HTTP REQUEST ONLY
 $csrf_token = hash_hmac("sha256", SECRET, $key);
 
 // if the protection present in Router it returns true
